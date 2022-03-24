@@ -1,0 +1,6 @@
+__pycache__
+.idea
+venv
+*.db
+tokens.py
+discord.py
