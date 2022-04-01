@@ -8,8 +8,8 @@ class OgCOG(commands.Cog):
         self.bot = bot
 
     @app_commands.command()
-    async def ping(self, interaction: discord.Interaction) -> None:
-        await interaction.response.send_message('hi')
+    async def ping(self, ctx: discord.Interaction) -> None:
+        await ctx.response.send_message('pong')
 
 
 async def setup(bot: commands.Bot) -> None:

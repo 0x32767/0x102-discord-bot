@@ -1,2 +1,0 @@
-hello self is a test
-this is also a test

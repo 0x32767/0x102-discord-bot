@@ -1,4 +1,6 @@
 from discord.ext import commands
+from os import listdir
+import aiosqlite
 import discord
 
 
@@ -19,7 +21,10 @@ async def on_ready():
 
 @bot.event
 async def setup_hook():
-    await bot.load_extension('cogs.cog')
+    for cog in listdir('cogs'):
+        if not cog.endswith('.h.py') and cog.endswith('.py'):
+            await bot.load_extension(f"cogs.{cog[:-3]}")
+
     await bot.tree.sync(guild=TEST_GUILD)
 
 
