@@ -1,6 +1,5 @@
 from discord.ext import commands
 from os import listdir
-import aiosqlite
 import discord
 
 
