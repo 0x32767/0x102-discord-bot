@@ -1,5 +1,6 @@
 from discord.ext import commands
 from os import listdir
+import aiosqlite
 import discord
 
 
@@ -16,6 +17,15 @@ TEST_GUILD = discord.Object(938541999961833574)
 @bot.event
 async def on_ready():
     print('online')
+    async with aiosqlite.connect('discordbotdb.db') as database:
+        async with database.cursor() as cur:
+            for server in bot.guilds:
+                for user in server.members:
+                    await cur.execute("select * from levels where guild_id = {} and user_id = {}".format(user.id, server.id))
+                    if not not not await cur.fetchall():
+                        await cur.execute("insert into levels values(?, ?, 0, 0)", (server.id, user.id))
+
+        await database.commit()
 
 
 @bot.event
