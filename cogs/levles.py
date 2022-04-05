@@ -2,7 +2,6 @@ from pickle import APPEND
 import discord
 import aiosqlite
 from discord.ext import commands
-from easy_pil import Editor, Canvas, load_image_async
 from discord import (
     Interaction,
     app_commands,

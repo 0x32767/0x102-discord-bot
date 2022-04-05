@@ -71,7 +71,7 @@ class UtilsCog(commands.Cog):
         await ctx.response.send_message(f'date and time: {dt_string}')
 
     @app_commands.command(name='poke', description='you can send a private message to another user')
-    @app_commands.describe(user="The user you want to msg.")
+    @app_commands.describe(member="The user you want to msg.")
     @app_commands.describe(msg="The message you want to send.")
     async def poke(self, ctx: Interaction, member: discord.Member, *, msg: str):
         try:
