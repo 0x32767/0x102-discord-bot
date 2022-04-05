@@ -1,6 +1,8 @@
+from pickle import APPEND
 import discord
 import aiosqlite
 from discord.ext import commands
+from easy_pil import Editor, Canvas, load_image_async
 from discord import (
     Interaction,
     app_commands,
@@ -21,6 +23,7 @@ class LevelsCog(commands.Cog):
         self.bot = bot
 
     @app_commands.command()
+    @app_commands.describe()
     async def levleinfo(self, ctx: Interaction) -> None:
         async with aiosqlite.connect('discordbotdb.db') as data:
             async with data.cursor() as curr:

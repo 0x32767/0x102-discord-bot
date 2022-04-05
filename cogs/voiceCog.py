@@ -1,4 +1,5 @@
 import discord
+import wavelink
 from discord.ext import commands
 from discord import (
     Interaction,
@@ -24,9 +25,9 @@ class VoiceCog(commands.Cog):
             channel = ctx.user.voice.channel
             await channel.connect()
             await ctx.response.send_message('connected successfully!!!')
-            return
 
-        await ctx.response.send_message('you need to be in a vc for this to work')
+        else:
+            await ctx.response.send_message('you need to be in a vc for this command to work')
 
     @app_commands.command(description='leaves a voice channel')
     async def leave(self, ctx: Interaction):

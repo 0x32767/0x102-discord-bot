@@ -12,6 +12,8 @@ class Moderation(commands.Cog):
         self.bot = bot
 
     @app_commands.command()
+    @app_commands.describe(user="The user you want to kick.")
+    @app_commands.describe(reason="Why you want to kick the user.")
     async def kick(self, interaction: Interaction, user: Member, *, reason: str = "You  have been naughty") -> None:
         try:
             await user.kick(reason=reason)
@@ -21,6 +23,8 @@ class Moderation(commands.Cog):
             await interaction.response.send_message(f"error: {e}")
 
     @app_commands.command()
+    @app_commands.describe(user="The user you want to ban.")
+    @app_commands.describe(reason="Why you want to ban the user.")
     async def ban(self, interaction: Interaction, user: Member, *, reason: str = "you have been naughty"):
         try:
             await user.ban(reason=reason)

@@ -2,9 +2,7 @@ import aiohttp
 import discord
 from random import choice
 from discord.ext import commands
-from json import loads
 from datetime import datetime
-import requests
 from discord import (
     Interaction,
     app_commands,
@@ -73,6 +71,8 @@ class UtilsCog(commands.Cog):
         await ctx.response.send_message(f'date and time: {dt_string}')
 
     @app_commands.command(name='poke', description='you can send a private message to another user')
+    @app_commands.describe(user="The user you want to msg.")
+    @app_commands.describe(msg="The message you want to send.")
     async def poke(self, ctx: Interaction, member: discord.Member, *, msg: str):
         try:
             await member.send(f'`{ctx.user}` from `{ctx.channel.name}` says {msg}')
@@ -82,7 +82,7 @@ class UtilsCog(commands.Cog):
 
     @app_commands.command(name='sus')
     async def sus(self, ctx: Interaction):
-        await ctx.send('ඞ sus')
+        await ctx.response.send('ඞ sus')
 
     async def _get_quote(self) -> str:
         async with aiohttp.ClientSession() as session:
@@ -93,6 +93,7 @@ class UtilsCog(commands.Cog):
 
 
     @app_commands.command(name='enchant', description='you can enchant your text maybe with sharpness?')
+    @app_commands.describe(message="The text you want to enchant.")
     async def enchant(self, ctx: Interaction, *, message: str):
         enchant = ''
         for character in message:

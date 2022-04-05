@@ -19,15 +19,15 @@ class MinecraftCog(commands.Cog):
         self.bot = bot
 
     @app_commands.command()
-    async def idlookupblock(self, ctx: Interaction, id_: int) -> None:
+    @app_commands.describe(id="The id of the block you want to learn about.")
+    async def idlookupblock(self, ctx: Interaction, id: int) -> None:
         data = requests.get(
             'https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/bedrock/1.18.11/blocks.json'
         ).json()
 
         for block in data:
-            if block['id'] == id_:
-                em = Embed(title=f'learn more about `{block["displayName"]}`',
-                           description='use `/idlookupblock` and then the id of the block to get info about the block')
+            if block['id'] == id:
+                em = Embed(title=f'learn more about `{block["displayName"]}`', description='use `/idlookupblock` and then the id of the block to get info about the block')
                 em.add_field(name='mine able', value='yes' if block['diggable'] else 'no')
                 em.add_field(name='tool', value=block['material'])
                 em.add_field(name='stacks up to', value=f"{block['stackSize']}")
@@ -42,6 +42,7 @@ class MinecraftCog(commands.Cog):
         del data
 
     @app_commands.command()
+    @app_commands.describe(name="Give information about a minecraft block.")
     async def namelookupblock(self, ctx: Interaction, name: str) -> None:
         data = requests.get(
             'https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/bedrock/1.18.11/blocks.json'
@@ -65,6 +66,7 @@ class MinecraftCog(commands.Cog):
         del data
 
     @app_commands.command()
+    @app_commands.describe(item="The name of the item e.g. `stone_slab`")
     async def craft(self, ctx: Interaction, item: str) -> None:
         data = requests.get(
             'https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/bedrock/1.18.11/recipes.json'
