@@ -9,9 +9,10 @@ from discord import (
 
 
 async def setup(bot: commands.Bot) -> None:
-    await bot.add_cog(MinecraftCog(bot),
-                      guilds=[Object(id=938541999961833574)]
-                      )
+    await bot.add_cog(
+        MinecraftCog(bot),
+        guilds=[Object(id=938541999961833574)]
+    )
 
 
 class MinecraftCog(commands.Cog):
@@ -66,7 +67,7 @@ class MinecraftCog(commands.Cog):
         del data
 
     @app_commands.command()
-    @app_commands.describe(item="The name of the item e.g. `stone_slab`")
+    @app_commands.describe(item="The name of the item e.g. `campfire`")
     async def craft(self, ctx: Interaction, item: str) -> None:
         data = requests.get(
             'https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/bedrock/1.18.11/recipes.json'
@@ -86,3 +87,27 @@ class MinecraftCog(commands.Cog):
                 i += 1
 
         await ctx.response.send_message(embed=em)
+
+    @app_commands.command()
+    @app_commands.describe(enchantment="The name of the enchantment e.g. `Protection`")
+    async def findenchant(self, ctx: Interaction, enchantment: str) -> None:
+        data = requests.get(
+            'https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/pc/1.8/enchantments.json'
+        ).json()
+
+        for enchant in data:
+            if enchant['displayName'] == enchantment or enchant['name'] == enchantment:
+                em = Embed(title=f"{enchant['name']}", description='use `/findenchant` to learn more about the enchantment')
+                em.add_field(name='max level', value=f"{enchant['maxLevel']}")
+                em.add_field(name='does not go with', value='\n'.join([i for i in enchant['exclude']]))
+                em.add_field(name='catagory', value=f"{enchant['category']}")
+                em.add_field(name='tradeable', value=f"{enchant['tradeable']}")
+                em.add_field(name='discoverable', value=f"{enchant['discoverable']}")
+
+                await ctx.response.send_message(embed=em)
+                break
+
+            else:
+                continue
+
+        del data
