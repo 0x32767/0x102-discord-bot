@@ -1,7 +1,8 @@
-from discord.ext import commands
+from discord.ext import commands, ipc
 from os import listdir
 import aiosqlite
 import discord
+from private_api_keys_go_away import TOKEN
 
 
 intents = discord.Intents.default()
@@ -45,10 +46,10 @@ async def on_ready():
 @bot.event
 async def setup_hook():
     for cog in listdir('cogs'):
-        if not cog.endswith('.h.py') and cog.endswith('.py'):
+        if cog.endswith('.py') and not cog.startswith('_'):
             await bot.load_extension(f"cogs.{cog[:-3]}")
 
     await bot.tree.sync(guild=TEST_GUILD)
 
 
-bot.run('OTM3NDYxODUyMjgyMTY3MzM3.YfcFYg.D_neAXuzaltzXhLPqp9QZEJn-bI')
+bot.run(TOKEN)

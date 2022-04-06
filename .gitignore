@@ -4,3 +4,4 @@ venv
 *.db
 tokens.py
 discord.py
+private_api_keys_go_away.PY

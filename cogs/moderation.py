@@ -1,4 +1,5 @@
 from discord.ext import commands
+from ._comand_chache import register_commands
 from discord import (
     Interaction,
     app_commands,
@@ -9,6 +10,7 @@ from discord import (
 
 class Moderation(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
+        register_commands(self)
         self.bot = bot
 
     @app_commands.command()

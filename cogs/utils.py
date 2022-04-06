@@ -2,6 +2,7 @@ import aiohttp
 import discord
 from random import choice
 from discord.ext import commands
+from ._comand_chache import register_commands
 from datetime import datetime
 from discord import (
     Interaction,
@@ -19,6 +20,7 @@ async def setup(bot: commands.Bot) -> None:
 
 class UtilsCog(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
+        register_commands(self)
         self.bot = bot
 
     @app_commands.command(description='gives a classic 8ball response')

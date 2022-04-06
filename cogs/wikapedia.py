@@ -1,5 +1,5 @@
 import wikipedia as wiki
-import discord
+from ._comand_chache import register_commands
 from discord.ext import commands
 from discord import (
     Interaction,
@@ -17,6 +17,7 @@ async def setup(bot: commands.Bot) -> None:
 
 class WikiCog(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
+        register_commands(self)
         self.bot = bot
 
     @app_commands.command()
