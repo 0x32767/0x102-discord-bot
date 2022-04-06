@@ -113,3 +113,12 @@ class MinecraftCog(commands.Cog):
                 continue
 
         del data
+
+    def __cog_docs__(self) -> str:
+        return """
+        Ytou can view minecraft related information using the following commands:
+            - idlookupblock
+            - namelookupblock
+            - craft
+            - findenchant
+        """

@@ -116,3 +116,16 @@ class UtilsCog(commands.Cog):
                 enchant = enchant + character
 
         await ctx.response.send_message(enchant)
+
+    def __cog_docs__(self) -> str:
+        return """
+        This cog contains a collection of useful commands.
+        You can use the commands:
+            - ball
+            - coinflip
+            - time
+            - inspire
+            - poke
+            - sus
+            - enchant
+        """

@@ -109,3 +109,13 @@ class APICog(commands.Cog):
             uiEmbed.set_image(url=await get_meme())
 
         await interaction.response.send_message(embed=uiEmbed, view=view)
+
+    def __cog_docs__(self):
+        return '''
+        The cog is a wrapper for all the api related commands.
+        These include:
+            - fox
+            - dog
+            - cat
+            - meme
+        '''

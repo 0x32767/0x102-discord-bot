@@ -30,8 +30,15 @@ class HelpComand(commands.Cog):
             for cog in self.bot.cogs:
                 embed.add_field(
                     name=f'{cog}',
-                    value=f'{self.bot.cogs[cog].__doc__}',
+                    value=f'{self.bot.cogs[cog].__cog_docs__()}',
                     inline=False
                 )
 
             await ctx.response.send_message(embed=embed)
+
+    def __cog_docs__(self) -> str:
+        return '''
+        This cog is used to help you with the bot.
+        The commands are:
+         -help
+        '''

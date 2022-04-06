@@ -35,3 +35,10 @@ __**{query}**__
             )
         except Exception as e:
             await ctx.response.send_message(f"error: {e}")
+
+    def __cog_docs__(self) -> str:
+        return """
+        This cog is used to search wikipedia.
+        You can use the commands:
+            -wiki
+        """

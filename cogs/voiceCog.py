@@ -41,3 +41,12 @@ class VoiceCog(commands.Cog):
 
             else:
                 await ctx.response.send_message(f'{er}')
+
+    def __cog_docs__(self) -> str:
+        return """
+        This cog is used to join and leave voice channels.
+        You can use the commands:
+            -join
+            -leave
+        """
+

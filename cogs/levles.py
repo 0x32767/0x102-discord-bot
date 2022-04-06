@@ -104,3 +104,10 @@ class LevelsCog(commands.Cog):
         else:
             await self.update_exp(message.guild.id, message.author.id, 5)
             await self.update_level(message.guild.id, message.author.id, 0)
+
+    def __cog_docs__(self) -> str:
+        return """
+        The Cog that adds exp and levels to your account.
+        You can also see your current level and exp with:
+        -`levleinfo`
+        """

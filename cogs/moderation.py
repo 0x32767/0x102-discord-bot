@@ -35,6 +35,14 @@ class Moderation(commands.Cog):
         except Exception as e:
             await interaction.response.send_message(f"error: {e}")
 
+    def __cog_docs__(self) -> str:
+        return """
+        This cog is used to kick and ban users.
+        You can use the commands:
+            -kick
+            -ban
+        """
+
 
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(
