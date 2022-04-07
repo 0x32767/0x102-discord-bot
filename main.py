@@ -1,4 +1,4 @@
-from discord.ext import commands, ipc
+from discord.ext import commands
 from os import listdir
 import aiosqlite
 import discord
@@ -22,6 +22,7 @@ async def on_ready():
         async with database.cursor() as cur:
             for server in bot.guilds:
                 for user in server.members:
+                    #! if the user does not exist in the database, add them
                     await cur.execute(
                         "select * from levels where guild_id = {} and user_id = {}".format(
                             user.id,
@@ -36,8 +37,21 @@ async def on_ready():
                             )
                         )
 
-                    #if not not await cur.fetchall():
-                    #    await cur.execute("insert into levels values({}, {}, 0, 0)".format(server.id, user.id))
+                    #! if the user does exist in the database, we add them to the database
+                    #! the database is setup to have a default `false` value for the `whitelisted` column
+                    await cur.execute(
+                        'select * from whitelist where guild_id = {} and user_id = {}'.format(
+                            server.id,
+                            user.id
+                        )
+                    )
+                    if not await cur.fetchall():
+                        await cur.execute(
+                            'INSERT INTO whitelist VALUES({}, {}, false)'.format(
+                                server.id,
+                                user.id
+                            )
+                        )
 
         await database.commit()
     print('online')

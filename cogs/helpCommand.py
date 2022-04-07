@@ -20,21 +20,20 @@ class HelpComand(commands.Cog):
         self.bot = bot
 
     @app_commands.command(name='help', description='help command')
-    async def help(self, ctx: Interaction, *, command: str = None) -> None:
-        if command is None:
-            embed = discord.Embed(
-                title='Help',
-                description='Use `/help` and then the name of the command to learn more about it.'
+    async def help(self, ctx: Interaction) -> None:
+        embed = discord.Embed(
+            title='Help',
+            description='Use `/help` and then the name of the command to learn more about it.'
+        )
+
+        for cog in self.bot.cogs:
+            embed.add_field(
+                name=f'{cog}',
+                value=f'{self.bot.cogs[cog].__cog_docs__()}',
+                inline=False
             )
 
-            for cog in self.bot.cogs:
-                embed.add_field(
-                    name=f'{cog}',
-                    value=f'{self.bot.cogs[cog].__cog_docs__()}',
-                    inline=False
-                )
-
-            await ctx.response.send_message(embed=embed)
+        await ctx.response.send_message(embed=embed)
 
     def __cog_docs__(self) -> str:
         return '''
