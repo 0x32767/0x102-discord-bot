@@ -51,12 +51,60 @@ class EconomeyCog(commands.Cog):
                 )
 
                 await ctx.response.send_message(embed=em)
+    
+    @app_commands.command(name='topstonks', description='shows the top 20 stonks')
+    async def topstonks(self, ctx: Interaction) -> None:
+        async with aiosqlite.connect('stonks.db') as db:
+            async with db.cursor() as curr:
+                em = Embed(
+                    title='Top Stonks',
+                    description='Use `/stonks` and then the name of the command to learn more about it.'
+                )
+
+                await curr.execute(
+                    'SELECT guild_id, name, value FROM server_stonks ORDER BY value DESC LIMIT 20'
+                )
+                data = await curr.fetchall()
+                
+                for top_stonk in data:
+                    em.add_field(
+                        name=top_stonk[1],
+                        value=f'is worth {top_stonk[2]} $'
+                    )
+
+                await ctx.response.send_message(embed=em)
+
+    @app_commands.command(name='botttomstonks', description='shows the bottom 20 stonks')
+    async def botttomstonks(self, ctx: Interaction) -> None:
+        async with aiosqlite.connect('stonks.db') as db:
+            async with db.cursor() as curr:
+                em = Embed(
+                    title='Bottom Stonks',
+                    description='Use `/stonks` and then the name of the command to learn more about it.'
+                )
+
+                await curr.execute(
+                    'SELECT guild_id, name, value FROM server_stonks ORDER BY value ASC LIMIT 20'
+                )
+                data = await curr.fetchall()
+                
+                for botttom_stonk in data:
+                    em.add_field(
+                        name=botttom_stonk[1],
+                        value=f'is worth {botttom_stonk[2]} $'
+                    )
+
+                await ctx.response.send_message(embed=em)
 
     @tasks.loop(hours=1)
     async def update_stonks(self):
         async with aiosqlite.connect('stonks.db') as db:
             async with db.cursor() as curr:
                 for guild in self.bot.guilds:
+                    """My server value should always stay at 1.00"""
+                    if guild.id == 938541999961833574:
+                        continue
+
                     await curr.execute(
                         'SELECT * FROM server_stonks WHERE guild_id = {}'.format(
                             guild.id
