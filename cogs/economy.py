@@ -120,3 +120,12 @@ class EconomeyCog(commands.Cog):
                     )
 
             await db.commit()
+    
+    def __cog_docs__(self) -> str:
+        return '''
+        This cog is used to manage the economy of the server.
+        The commands are:
+         - stonks
+         - topstonks
+         - botttomstonks
+        '''
