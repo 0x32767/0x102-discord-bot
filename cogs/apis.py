@@ -4,6 +4,7 @@ import requests
 from discord.ext import commands
 from ._comand_chache import register_commands
 from discord import (
+    Embed,
     Interaction,
     app_commands,
     Object
@@ -61,7 +62,7 @@ class APICog(commands.Cog):
 
             view.add_item(next_btn)
 
-            uiEmbed = discord.Embed(title='A Fox')
+            uiEmbed = discord.Embed(title='A Dog')
             uiEmbed.set_image(url=await get_dog())
 
             await interaction.response.send_message(embed=uiEmbed, view=view)
@@ -110,6 +111,28 @@ class APICog(commands.Cog):
 
         await interaction.response.send_message(embed=uiEmbed, view=view)
 
+    @app_commands.command(description='sends a random fact about a cat')
+    async def catfact(self, interaction: Interaction):
+        async with interaction.channel.typing():
+            em = Embed(title='A cat fact', description='learn more about cats here: https://www.catster.com/')
+            em.add_field(
+                name='Did you know...',
+                value=json.loads(requests.get('https://catfact.ninja/fact').text)['fact']
+            )
+
+        await interaction.response.send_message(embed=em)
+
+    @app_commands.command(description='sends a random fact about a dog')
+    async def dogfact(self, interaction: Interaction):
+        async with interaction.channel.typing():
+            em = Embed(title='A dog fact', description='learn more about cats here: https://dog-api.kinduff.com/')
+            em.add_field(
+                name='Did you know...',
+                value=json.loads(requests.get('https://dog-api.kinduff.com/api/facts').text)['facts'][0]
+            )
+
+        await interaction.response.send_message(embed=em)
+
     def __cog_docs__(self):
         return '''
         The cog is a wrapper for all the api related commands.
@@ -118,4 +141,6 @@ class APICog(commands.Cog):
             - dog
             - cat
             - meme
+            - catfact
+            - dogfact
         '''
