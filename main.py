@@ -88,8 +88,13 @@ async def on_ready():
 
     for cog in listdir('cogs'):
         if cog.endswith('.py') and not cog.startswith('_'):
-            print('loading {}'.format(cog))
-            await bot.load_extension(f"cogs.{cog[:-3]}")
+    
+            try:
+                await bot.load_extension(f"cogs.{cog[:-3]}")
+                print(f"Loaded {cog}")
+
+            except Exception as e:
+                print(f'Failed to load extension {cog}. [{e}]')
 
     await bot.tree.sync(guild=TEST_GUILD)
 
