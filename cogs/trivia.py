@@ -1,4 +1,3 @@
-import discord
 import requests
 from ._trivia_view import TriviaView
 from discord.ext import commands

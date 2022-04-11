@@ -87,12 +87,12 @@ class UtilsCog(commands.Cog):
         await ctx.response.send('ඞ sus')
 
     async def _get_quote(self) -> str:
+        self.pass_()
         async with aiohttp.ClientSession() as session:
             response = await session.get("https://zenquotes.io/api/random")
 
             r = await response.json()
             return f"{r[0]['q']} - {r[0]['a']}"
-
 
     @app_commands.command(name='enchant', description='you can enchant your text maybe with sharpness?')
     @app_commands.describe(message="The text you want to enchant.")
@@ -116,6 +116,9 @@ class UtilsCog(commands.Cog):
                 enchant = enchant + character
 
         await ctx.response.send_message(enchant)
+
+    def pass_(self) -> None:
+        ...
 
     def __cog_docs__(self) -> str:
         return """

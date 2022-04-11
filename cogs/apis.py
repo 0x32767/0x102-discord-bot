@@ -40,10 +40,10 @@ class APICog(commands.Cog):
 
             view.add_item(next_btn)
 
-            uiEmbed = discord.Embed(title='A Fox')
-            uiEmbed.set_image(url=await get_fox())
+            ui_embed = discord.Embed(title='A Fox')
+            ui_embed.set_image(url=await get_fox())
 
-            await interaction.response.send_message(embed=uiEmbed, view=view)
+            await interaction.response.send_message(embed=ui_embed, view=view)
 
     @app_commands.command(description='sends a random image of a dog')
     async def dog(self, interaction: Interaction):
@@ -62,10 +62,10 @@ class APICog(commands.Cog):
 
             view.add_item(next_btn)
 
-            uiEmbed = discord.Embed(title='A Dog')
-            uiEmbed.set_image(url=await get_dog())
+            ui_embed = discord.Embed(title='A Dog')
+            ui_embed.set_image(url=await get_dog())
 
-            await interaction.response.send_message(embed=uiEmbed, view=view)
+            await interaction.response.send_message(embed=ui_embed, view=view)
 
     @app_commands.command(description='sends a random image of a cat')
     async def cat(self, interaction: Interaction):
@@ -106,10 +106,10 @@ class APICog(commands.Cog):
 
             view.add_item(next_btn)
 
-            uiEmbed = discord.Embed(title='A meme')
-            uiEmbed.set_image(url=await get_meme())
+            ui_embed = discord.Embed(title='A meme')
+            ui_embed.set_image(url=await get_meme())
 
-        await interaction.response.send_message(embed=uiEmbed, view=view)
+        await interaction.response.send_message(embed=ui_embed, view=view)
 
     @app_commands.command(description='sends a random fact about a cat')
     async def catfact(self, interaction: Interaction):
@@ -133,7 +133,11 @@ class APICog(commands.Cog):
 
         await interaction.response.send_message(embed=em)
 
+    def pass_(self) -> None:
+        ...
+
     def __cog_docs__(self):
+        self.pass_()
         return '''
         The cog is a wrapper for all the api related commands.
         These include:

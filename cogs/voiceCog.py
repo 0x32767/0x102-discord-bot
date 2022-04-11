@@ -49,4 +49,3 @@ class VoiceCog(commands.Cog):
             -join
             -leave
         """
-

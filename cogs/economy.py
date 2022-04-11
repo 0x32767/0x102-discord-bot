@@ -1,6 +1,6 @@
-import discord
 import aiosqlite
 from random import uniform
+from ._comand_chache import register_commands
 from discord.ext import commands, tasks
 from discord import (
     Embed,
@@ -19,6 +19,7 @@ async def setup(bot: commands.Bot) -> None:
 
 class EconomeyCog(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
+        register_commands(self)
         self.bot = bot
 
     @app_commands.command(name='stonks', description='shows the value of the server an your account')
@@ -120,8 +121,12 @@ class EconomeyCog(commands.Cog):
                     )
 
             await db.commit()
-    
+
+    def pass_(self) -> None:
+        ...
+
     def __cog_docs__(self) -> str:
+        self.pass_()
         return '''
         This cog is used to manage the economy of the server.
         The commands are:

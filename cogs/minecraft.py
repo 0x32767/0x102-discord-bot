@@ -30,7 +30,11 @@ class MinecraftCog(commands.Cog):
 
         for block in data:
             if block['id'] == id:
-                em = Embed(title=f'learn more about `{block["displayName"]}`', description='use `/idlookupblock` and then the id of the block to get info about the block')
+                em = Embed(
+                    title=f'learn more about `{block["displayName"]}`',
+                    description='use `/idlookupblock` and then the id of the block to get info about the block'
+                )
+
                 em.add_field(name='mine able', value='yes' if block['diggable'] else 'no')
                 em.add_field(name='tool', value=block['material'])
                 em.add_field(name='stacks up to', value=f"{block['stackSize']}")

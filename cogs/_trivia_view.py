@@ -7,7 +7,6 @@ from discord.ui import (
 from discord import SelectOption, Embed
 
 
-
 class TriviaQuestionDropdown(Select):
     def __init__(self, question: str, questions: list[str], correct: str) -> None:
         """
@@ -19,11 +18,14 @@ class TriviaQuestionDropdown(Select):
         super().__init__(
             max_values=1,
             min_values=1,
-            options=[SelectOption(label=f'{i}', value=f'{i}', description=i) for idx, i in enumerate(self.shuffle(questions))],
+            options=[
+                SelectOption(label=f'{i}', value=f'{i}', description=i) for idx, i in enumerate(self.shuffle(questions))
+            ],
             placeholder=question
         )
 
     def shuffle(self, arr: list) -> list:
+        self.pass_()
         shuffle(arr)
         return arr
 
@@ -49,6 +51,9 @@ class TriviaQuestionDropdown(Select):
                     color=0xFF0000
                 )
             )
+
+    def pass_(self) -> None:
+        ...
 
 
 class TriviaView(View):

@@ -25,13 +25,13 @@ class WikiCog(commands.Cog):
         try:
             summary = wiki.summary(query, sentences=3)
             await ctx.response.send_message(
-f"""
+                f"""
 __**{query}**__
 
 ```
 {summary}
 ```
-"""
+            """
             )
         except Exception as e:
             await ctx.response.send_message(f"error: {e}")

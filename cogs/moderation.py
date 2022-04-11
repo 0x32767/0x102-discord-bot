@@ -45,8 +45,8 @@ class Moderation(commands.Cog):
                 description='gives the stats of the server'
             )
             for key, stat in zip(
-                ['name', 'owner', 'members', 'region'],
-                [f'{ctx.guild.name}', f'{ctx.guild.owner.name}', f'{ctx.guild.member_count}', f'{ctx.guild.region}']
+                    ['name', 'owner', 'members', 'region'],
+                    [f'{ctx.guild.name}', f'{ctx.guild.owner.name}', f'{ctx.guild.member_count}', f'{ctx.guild.region}']
             ):
                 embed.add_field(
                     name=key,
@@ -63,10 +63,10 @@ class Moderation(commands.Cog):
                 async with db.cursor() as curr:
                     await curr.execute(
                         'update whitelist set whitelisted = True where guild_id = {} and user_id = {}'.format(
-                        ctx.guild.id,
-                        member.id
+                            ctx.guild.id,
+                            member.id
+                        )
                     )
-                )
 
                 await db.commit()
 
@@ -80,10 +80,10 @@ class Moderation(commands.Cog):
                 async with db.cursor() as curr:
                     await curr.execute(
                         'update whitelist set whitelisted = False where guild_id = {} and user_id = {}'.format(
-                        ctx.guild.id,
-                        member.id
+                            ctx.guild.id,
+                            member.id
+                        )
                     )
-                )
 
             await db.commit()
 
@@ -96,10 +96,10 @@ class Moderation(commands.Cog):
                 async with db.cursor() as curr:
                     await curr.execute(
                         'select whitelisted from whitelist where guild_id = {} and user_id = {}'.format(
-                        ctx.guild.id,
-                        member.id
+                            ctx.guild.id,
+                            member.id
+                        )
                     )
-                )
                     whitelisted = await curr.fetchone()
 
             await db.commit()
@@ -126,8 +126,9 @@ class Moderation(commands.Cog):
                             continue
 
                         else:
-                            await member.kick(reason='You are not whitelisted in the `{}` server'.format(ctx.guild.name))
-        
+                            await member.kick(
+                                reason='You are not whitelisted in the `{}` server'.format(ctx.guild.name))
+
             await ctx.response.send_message('ok, done')
 
     def __cog_docs__(self) -> str:
@@ -138,6 +139,7 @@ class Moderation(commands.Cog):
             -ban
             -stats
         """
+
 
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(

@@ -27,7 +27,8 @@ class LevelsCog(commands.Cog):
     async def levleinfo(self, ctx: Interaction) -> None:
         async with aiosqlite.connect('discordbotdb.db') as data:
             async with data.cursor() as curr:
-                await curr.execute("select * from levels where guild_id = {} and user_id = {}".format(ctx.user.id, ctx.guild.id))
+                await curr.execute(
+                    "select * from levels where guild_id = {} and user_id = {}".format(ctx.user.id, ctx.guild.id))
                 em = Embed(title=f'{ctx.user.name}\'s progress')
                 # the `_` are the user and guild's ids, we don't need these in the mebed
                 for val, key in zip(list(await curr.fetchall())[0], ['_', '_', 'levle', 'exp']):
@@ -45,14 +46,16 @@ class LevelsCog(commands.Cog):
     async def get_attr(self, guild_id, user_id, attr) -> int:
         async with aiosqlite.connect("discordbotdb.db") as database:
             async with database.cursor() as curr:
-                await curr.execute('select * from levels where user_id = {} and guild_id = {}'.format(guild_id, user_id))
+                await curr.execute(
+                    'select * from levels where user_id = {} and guild_id = {}'.format(guild_id, user_id))
                 data = await curr.fetchall()
                 return int(data[0][attr])
 
     async def update_exp(self, guild_id, user_id, exp_g):
         async with aiosqlite.connect("discordbotdb.db") as database:
             async with database.cursor() as curr:
-                await curr.execute('select * from levels where user_id = {} and guild_id = {}'.format(guild_id, user_id))
+                await curr.execute(
+                    'select * from levels where user_id = {} and guild_id = {}'.format(guild_id, user_id))
                 data = await curr.fetchone()
                 exp = data[3] + exp_g
 
@@ -90,7 +93,7 @@ class LevelsCog(commands.Cog):
             return
 
         level = await self.get_attr(message.guild.id, message.author.id, 2)
-        exp   = await self.get_attr(message.guild.id, message.author.id, 3)
+        exp = await self.get_attr(message.guild.id, message.author.id, 3)
 
         if level * 4 <= exp:
             await self.reset_exp(message.guild.id, message.author.id)
@@ -98,7 +101,7 @@ class LevelsCog(commands.Cog):
                 guild_id=message.guild.id,
                 user_id=message.author.id,
                 # increments the level by 1
-                lev_g=level+1
+                lev_g=level + 1
             )
 
         else:

@@ -1,5 +1,4 @@
 import discord
-from ._comand_chache import commands
 from discord.ext import commands
 from discord import (
     Interaction,
@@ -35,7 +34,11 @@ class HelpComand(commands.Cog):
 
         await ctx.response.send_message(embed=embed)
 
+    def pass_(self) -> None:
+        ...
+
     def __cog_docs__(self) -> str:
+        self.pass_()
         return '''
         This cog is used to help you with the bot.
         The commands are:
