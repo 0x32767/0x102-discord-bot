@@ -2,6 +2,10 @@ commands = {"helpCog": ["help"]}
 
 
 def register_commands(cog):
+    """
+    :paramiter: the `cog` peramiter is the `self` peramiter of the class
+    :return:
+    """
     commands_list = []
     for method in dir(cog):
         if method in [

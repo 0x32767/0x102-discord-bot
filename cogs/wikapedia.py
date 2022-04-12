@@ -22,6 +22,10 @@ class WikiCog(commands.Cog):
 
     @app_commands.command()
     async def wiki(self, ctx: Interaction, *, query: str) -> None:
+        """
+        :param ctx: The `ctx` peramiter is passed by default by the discord.py lib when executed
+        :param query: The `query` peram is passes by the command user and is used to search wikipedia
+        """
         try:
             summary = wiki.summary(query, sentences=3)
             await ctx.response.send_message(

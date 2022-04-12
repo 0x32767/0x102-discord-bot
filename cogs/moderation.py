@@ -19,6 +19,12 @@ class Moderation(commands.Cog):
     @app_commands.describe(user="The user you want to kick.")
     @app_commands.describe(reason="Why you want to kick the user.")
     async def kick(self, ctx: Interaction, user: Member, *, reason: str = "You  have been naughty") -> None:
+        """
+        :param ctx:
+        :param user:
+        :param reason:
+        :return:
+        """
         try:
             await user.kick(reason=reason)
             await ctx.response.send_message(f"successfully kicked {user.name} for \"{reason}\"")

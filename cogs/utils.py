@@ -97,6 +97,11 @@ class UtilsCog(commands.Cog):
     @app_commands.command(name='enchant', description='you can enchant your text maybe with sharpness?')
     @app_commands.describe(message="The text you want to enchant.")
     async def enchant(self, ctx: Interaction, *, message: str):
+        """
+        :param ctx: The `ctx` peramiter is passed by default by discord.py when executed
+        :param message: The `message` peramiter is passed by the user of the command
+        :return:
+        """
         enchant = ''
         for character in message:
             try:

@@ -24,6 +24,11 @@ class MinecraftCog(commands.Cog):
     @app_commands.command()
     @app_commands.describe(id="The id of the block you want to learn about.")
     async def idlookupblock(self, ctx: Interaction, id: int) -> None:
+        """
+        :param ctx: `ctx` param is passed by the discord.pt library when executed
+        :param id:  `id` param is of class integer that should correspond to a minecraft block id
+        :return:
+        """
         data = requests.get(
             'https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/bedrock/1.18.11/blocks.json'
         ).json()
@@ -50,7 +55,12 @@ class MinecraftCog(commands.Cog):
 
     @app_commands.command()
     @app_commands.describe(name="Give information about a minecraft block.")
-    async def namelookupblock(self, ctx: Interaction, name: str) -> None:
+    async def namelookupblock(self, ctx: Interaction, *, name: str) -> None:
+        """
+        :param ctx: The `ctx` is passed by default when the command is executed
+        :param name:  The name param is class string and is the display name for the minecraft item/block
+        :return:
+        """
         data = requests.get(
             'https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/bedrock/1.18.11/blocks.json'
         ).json()
@@ -75,6 +85,11 @@ class MinecraftCog(commands.Cog):
     @app_commands.command()
     @app_commands.describe(item="The name of the item e.g. `campfire`")
     async def craft(self, ctx: Interaction, item: str) -> None:
+        """
+        :param ctx: The `ctx` argument is passed by default when the command is executed
+        :param item: The `item` argument is the name of the item e.g 'cooked_mutton'
+        :return:
+        """
         data = requests.get(
             'https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/bedrock/1.18.11/recipes.json'
         ).json()
