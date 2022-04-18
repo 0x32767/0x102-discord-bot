@@ -2,6 +2,8 @@ from discord.ext import commands
 from os import listdir
 import aiosqlite
 import discord
+from asyncio import sleep
+from rich.progress import track
 from private_api_keys_go_away import TOKEN
 
 
@@ -28,35 +30,18 @@ async def on_ready():
                 """
                 for user in server.members:
                     #! if the user does not exist in the database, add them
-                    await cur.execute(
-                        "select * from levels where guild_id = {} and user_id = {}".format(
-                            user.id,
-                            server.id
-                        )
-                    )
+                    await cur.execute(f"select * from levels where guild_id = {user.id} and user_id = {server.id}")
+
                     if not await cur.fetchall():
-                        await cur.execute(
-                            'INSERT INTO levels VALUES({}, {}, 0, 0)'.format(
-                                server.id,
-                                user.id
-                            )
-                        )
+                        await cur.execute(f'INSERT INTO levels VALUES({server.id}, {user.id}, 0, 0)')
 
                     #! if the user does exist in the database, we add them to the database
                     #! the database is setup to have a default `false` value for the `whitelisted` column
-                    await cur.execute(
-                        'select * from whitelist where guild_id = {} and user_id = {}'.format(
-                            server.id,
-                            user.id
-                        )
-                    )
+                    await cur.execute(f'select * from whitelist where guild_id = {server.id} and user_id = {user.id}')
+
                     if not await cur.fetchall():
-                        await cur.execute(
-                            'INSERT INTO whitelist VALUES({}, {}, false)'.format(
-                                server.id,
-                                user.id
-                            )
-                        )
+                        await cur.execute(f'INSERT INTO whitelist VALUES({server.id}, {user.id}, false)')
+
 
         await database.commit()
 
@@ -77,24 +62,21 @@ async def on_ready():
                  | server.
                 """
                 if server.id not in servers:
-                    await cur.execute(
-                        'INSERT INTO server_stonks VALUES({}, "${}$", 1)'.format(
-                            server.id,
-                            server.name
-                        )
-                    )
+                    await cur.execute(f'INSERT INTO server_stonks VALUES({server.id}, "${server.name}$", 1)')
+
 
         await database.commit()
 
-    for cog in listdir('cogs'):
+    for cog in track(listdir('cogs')):
         if cog.endswith('.py') and not cog.startswith('_'):
-    
             try:
                 await bot.load_extension(f"cogs.{cog[:-3]}")
                 print(f"Loaded {cog}")
 
             except Exception as e:
                 print(f'Failed to load extension {cog}. [{e}]')
+
+    print('Successfully loaded all cogs')
 
     await bot.tree.sync(guild=TEST_GUILD)
 

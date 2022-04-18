@@ -34,22 +34,21 @@ class MinecraftCog(commands.Cog):
         ).json()
 
         for block in data:
-            if block['id'] == id:
-                em = Embed(
-                    title=f'learn more about `{block["displayName"]}`',
-                    description='use `/idlookupblock` and then the id of the block to get info about the block'
-                )
-
-                em.add_field(name='mine able', value='yes' if block['diggable'] else 'no')
-                em.add_field(name='tool', value=block['material'])
-                em.add_field(name='stacks up to', value=f"{block['stackSize']}")
-                em.add_field(name='transparent', value='yes' if block['transparent'] else 'no')
-                em.add_field(name='emits light', value=f"emits `{block['emitLight']}` light")
-                await ctx.response.send_message(embed=em)
-                break
-
-            else:
+            if block['id'] != id:
                 continue
+
+            em = Embed(
+                title=f'learn more about `{block["displayName"]}`',
+                description='use `/idlookupblock` and then the id of the block to get info about the block'
+            )
+
+            em.add_field(name='mine able', value='yes' if block['diggable'] else 'no')
+            em.add_field(name='tool', value=block['material'])
+            em.add_field(name='stacks up to', value=f"{block['stackSize']}")
+            em.add_field(name='transparent', value='yes' if block['transparent'] else 'no')
+            em.add_field(name='emits light', value=f"emits `{block['emitLight']}` light")
+            await ctx.response.send_message(embed=em)
+            break
 
         del data
 
@@ -66,19 +65,17 @@ class MinecraftCog(commands.Cog):
         ).json()
 
         for block in data:
-            if block['name'] == name or block['displayName'] == name:
-                em = Embed(title=f'learn more about `{block["displayName"]}`',
-                           description='use `/namelookupblock` and then the id of the block to learn about it')
-                em.add_field(name='mine able', value='yes' if block['diggable'] else 'no')
-                em.add_field(name='tool', value=block['material'])
-                em.add_field(name='stacks up to', value=f"{block['stackSize']}")
-                em.add_field(name='transparent', value='yes' if block['transparent'] else 'no')
-                em.add_field(name='emits light', value=f"emits `{block['emitLight']}` light")
-                await ctx.response.send_message(embed=em)
-                break
-
-            else:
+            if block['name'] != name and block['displayName'] != name:
                 continue
+
+            em = Embed(title=f'learn more about `{block["displayName"]}`', description='use `/namelookupblock` and then the id of the block to learn about it')
+            em.add_field(name='mine able', value='yes' if block['diggable'] else 'no')
+            em.add_field(name='tool', value=block['material'])
+            em.add_field(name='stacks up to', value=f"{block['stackSize']}")
+            em.add_field(name='transparent', value='yes' if block['transparent'] else 'no')
+            em.add_field(name='emits light', value=f"emits `{block['emitLight']}` light")
+            await ctx.response.send_message(embed=em)
+            break
 
         del data
 
@@ -120,7 +117,8 @@ class MinecraftCog(commands.Cog):
             if enchant['displayName'] == enchantment or enchant['name'] == enchantment:
                 em = Embed(title=f"{enchant['name']}", description='use `/findenchant` to learn more about the enchantment')
                 em.add_field(name='max level', value=f"{enchant['maxLevel']}")
-                em.add_field(name='does not go with', value='\n'.join([i for i in enchant['exclude']]))
+                em.add_field(name='does not go with', value='\n'.join(list(enchant['exclude'])))
+
                 em.add_field(name='catagory', value=f"{enchant['category']}")
                 em.add_field(name='tradeable', value=f"{enchant['tradeable']}")
                 em.add_field(name='discoverable', value=f"{enchant['discoverable']}")

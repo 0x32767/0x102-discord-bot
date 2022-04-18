@@ -67,12 +67,8 @@ class Moderation(commands.Cog):
         async with ctx.channel.typing():
             async with aiosqlite.connect('discordbotdb.db') as db:
                 async with db.cursor() as curr:
-                    await curr.execute(
-                        'update whitelist set whitelisted = True where guild_id = {} and user_id = {}'.format(
-                            ctx.guild.id,
-                            member.id
-                        )
-                    )
+                    await curr.execute(f'update whitelist set whitelisted = True where guild_id = {ctx.guild.id} and user_id = {member.id}')
+
 
                 await db.commit()
 
@@ -84,12 +80,8 @@ class Moderation(commands.Cog):
         async with ctx.channel.typing():
             async with aiosqlite.connect('discordbotdb.db') as db:
                 async with db.cursor() as curr:
-                    await curr.execute(
-                        'update whitelist set whitelisted = False where guild_id = {} and user_id = {}'.format(
-                            ctx.guild.id,
-                            member.id
-                        )
-                    )
+                    await curr.execute(f'update whitelist set whitelisted = False where guild_id = {ctx.guild.id} and user_id = {member.id}')
+
 
             await db.commit()
 
@@ -100,12 +92,8 @@ class Moderation(commands.Cog):
         async with ctx.channel.typing():
             async with aiosqlite.connect('discordbotdb.db') as db:
                 async with db.cursor() as curr:
-                    await curr.execute(
-                        'select whitelisted from whitelist where guild_id = {} and user_id = {}'.format(
-                            ctx.guild.id,
-                            member.id
-                        )
-                    )
+                    await curr.execute(f'select whitelisted from whitelist where guild_id = {ctx.guild.id} and user_id = {member.id}')
+
                     whitelisted = await curr.fetchone()
 
             await db.commit()
@@ -121,19 +109,15 @@ class Moderation(commands.Cog):
             async with aiosqlite.connect('discordbotdb.db') as db:
                 async with db.cursor() as curr:
                     for member in ctx.guild.members:
-                        await curr.execute(
-                            'select whitelisted from whitelist where guild_id = {} and user_id = {}'.format(
-                                ctx.guild.id,
-                                member.id
-                            )
-                        )
+                        await curr.execute(f'select whitelisted from whitelist where guild_id = {ctx.guild.id} and user_id = {member.id}')
+
                         whitelisted = await curr.fetchone()
                         if whitelisted == 1:
                             continue
 
                         else:
-                            await member.kick(
-                                reason='You are not whitelisted in the `{}` server'.format(ctx.guild.name))
+                            await member.kick(reason=f'You are not whitelisted in the `{ctx.guild.name}` server')
+
 
             await ctx.response.send_message('ok, done')
 

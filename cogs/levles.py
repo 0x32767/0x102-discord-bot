@@ -27,8 +27,8 @@ class LevelsCog(commands.Cog):
     async def levleinfo(self, ctx: Interaction) -> None:
         async with aiosqlite.connect('discordbotdb.db') as data:
             async with data.cursor() as curr:
-                await curr.execute(
-                    "select * from levels where guild_id = {} and user_id = {}".format(ctx.user.id, ctx.guild.id))
+                await curr.execute(f"select * from levels where guild_id = {ctx.user.id} and user_id = {ctx.guild.id}")
+
                 em = Embed(title=f'{ctx.user.name}\'s progress')
                 # the `_` are the user and guild's ids, we don't need these in the mebed
                 for val, key in zip(list(await curr.fetchall())[0], ['_', '_', 'levle', 'exp']):
@@ -46,22 +46,21 @@ class LevelsCog(commands.Cog):
     async def get_attr(self, guild_id, user_id, attr) -> int:
         async with aiosqlite.connect("discordbotdb.db") as database:
             async with database.cursor() as curr:
-                await curr.execute(
-                    'select * from levels where user_id = {} and guild_id = {}'.format(guild_id, user_id))
+                await curr.execute(f'select * from levels where user_id = {guild_id} and guild_id = {user_id}')
+
                 data = await curr.fetchall()
                 return int(data[0][attr])
 
     async def update_exp(self, guild_id, user_id, exp_g):
         async with aiosqlite.connect("discordbotdb.db") as database:
             async with database.cursor() as curr:
-                await curr.execute(
-                    'select * from levels where user_id = {} and guild_id = {}'.format(guild_id, user_id))
+                await curr.execute(f'select * from levels where user_id = {guild_id} and guild_id = {user_id}')
+
                 data = await curr.fetchone()
                 exp = data[3] + exp_g
 
-                await curr.execute(
-                    'update levels set exp = {} where user_id = {} and guild_id = {}'.format(exp, guild_id, user_id)
-                )
+                await curr.execute(f'update levels set exp = {exp} where user_id = {guild_id} and guild_id = {user_id}')
+
 
             await database.commit()
 
@@ -70,9 +69,8 @@ class LevelsCog(commands.Cog):
     async def reset_exp(self, guild_id, user_id):
         async with aiosqlite.connect("discordbotdb.db") as database:
             async with database.cursor() as curr:
-                await curr.execute(
-                    'update levels set exp = 0 where guild_id = {} and user_id = {}'.format(guild_id, user_id)
-                )
+                await curr.execute(f'update levels set exp = 0 where guild_id = {guild_id} and user_id = {user_id}')
+
 
             await database.commit()
 
@@ -80,10 +78,7 @@ class LevelsCog(commands.Cog):
         async with aiosqlite.connect("discordbotdb.db") as database:
             async with database.cursor() as curr:
                 lev = await self.get_attr(guild_id, user_id, 2) + lev_g
-
-                await curr.execute(
-                    'update levels set level = {} where user_id = {} and guild_id = {}'.format(lev, guild_id, user_id)
-                )
+                await curr.execute(f'update levels set level = {lev} where user_id = {guild_id} and guild_id = {user_id}')
 
             await database.commit()
 

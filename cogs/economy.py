@@ -31,11 +31,8 @@ class EconomeyCog(commands.Cog):
                     description='Use `/stonks` and then the name of the command to learn more about it.'
                 )
 
-                await curr.execute(
-                    'SELECT * FROM server_stonks WHERE guild_id = {}'.format(
-                        ctx.guild.id
-                    )
-                )
+                await curr.execute(f'SELECT * FROM server_stonks WHERE guild_id = {ctx.guild.id}')
+
                 data = await curr.fetchone()
 
                 em.add_field(
@@ -106,19 +103,11 @@ class EconomeyCog(commands.Cog):
                     if guild.id == 938541999961833574:
                         continue
 
-                    await curr.execute(
-                        'SELECT * FROM server_stonks WHERE guild_id = {}'.format(
-                            guild.id
-                        )
-                    )
+                    await curr.execute(f'SELECT * FROM server_stonks WHERE guild_id = {guild.id}')
                     data = await curr.fetchone()
 
-                    await curr.execute(
-                        'UPDATE server_stonks SET stonks = {} WHERE guild_id = {}'.format(
-                            data[2] * round(uniform(0.1, 1.5)),
-                            guild.id
-                        )
-                    )
+                    await curr.execute(f'UPDATE server_stonks SET stonks = {data[2] * round(uniform(0.1, 1.5))} WHERE guild_id = {guild.id}')
+
 
             await db.commit()
 
