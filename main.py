@@ -2,9 +2,9 @@ from discord.ext import commands
 from os import listdir
 import aiosqlite
 import discord
-from asyncio import sleep
 from rich.progress import track
-from private_api_keys_go_away import TOKEN
+from rich.console import Console
+from _tokens import TOKEN
 
 
 intents = discord.Intents.default()
@@ -15,11 +15,14 @@ bot = commands.Bot(
     application_id=937461852282167337
 )
 
+console = Console()
 TEST_GUILD = discord.Object(938541999961833574)
 
 
 @bot.event
 async def on_ready():
+    console.clear()
+
     async with aiosqlite.connect('discordbotdb.db') as database:
         async with database.cursor() as cur:
             for server in bot.guilds:
@@ -67,20 +70,27 @@ async def on_ready():
 
         await database.commit()
 
-    for cog in track(listdir('cogs')):
+    num_cogs = 0
+    idl_cogs = 0
+
+    for cog in track(listdir('cogs'), console=console, description="[bald][bright_red]Loading cogs...[/bright_red][/bald]", total=len(listdir('cogs'))):
         if cog.endswith('.py') and not cog.startswith('_'):
             try:
                 await bot.load_extension(f"cogs.{cog[:-3]}")
-                print(f"Loaded {cog}")
+                console.print(f"  [green]Successfully loaded: [/green][bright_yellow][underline]{cog}[/underline][/bright_yellow]")
+                num_cogs += 1
 
             except Exception as e:
-                print(f'Failed to load extension {cog}. [{e}]')
+                console.print(f'[red]Failed loading  cog: [/red][orange_red1]{cog}[/orange_red1] [{e}]')
 
-    print('Successfully loaded all cogs')
+            finally:
+                idl_cogs += 1
+
+    console.print(f'\nSuccessfully loaded [bald][dark_orange3][{num_cogs}/{idl_cogs}][/dark_orange3][bals] cogs')
 
     await bot.tree.sync(guild=TEST_GUILD)
 
-    print('online')
+    console.print('[green1]online[/green1]')
 
 
 bot.run(TOKEN)
