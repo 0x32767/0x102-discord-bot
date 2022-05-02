@@ -3,8 +3,6 @@ __pycache__
 venv
 *.db
 tokens.py
-discord.py
 _tokens.PY
-stackoverflow
 *.pyc
 *.pyo
