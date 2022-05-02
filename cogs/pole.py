@@ -88,7 +88,7 @@ class PoleCog(commands.Cog):
         await ctx.send("Your vote has been registered.", ephemeral=True)
 
     @app_commands.command(name="closepoll")
-    @app_commands.describe(close="show the results of the poll")
+    @app_commands.describe(show="show the results of the poll")
     async def close_poll(self, ctx: Interaction, show: bool=False) -> None:
         """
         :param ctx: The ctx param is passes by the discord.py libruary
@@ -104,7 +104,10 @@ class PoleCog(commands.Cog):
 
         pole["closed"] = True
 
-        await ctx.send("The poll has been closed.", ephemeral=True)
+        await ctx.response.send_message(
+            embed=Embed(title="The pole has been closed", description="The poll is closed, you can not vote anymore.", color=discord.Color.red()),
+            ephemeral=show
+        )
 
     @app_commands.command(name="showpoll")
     @app_commands.describe(public="do you want the poll to be public (can be seen by everyone)")

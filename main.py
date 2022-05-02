@@ -90,7 +90,7 @@ async def on_ready():
 
     await bot.tree.sync(guild=TEST_GUILD)
 
-    console.print('[green1]online[/green1]')
+    console.print(f'[green]Logged in as: [/green][bright_yellow][underline]{bot.user.name}[/underline][/bright_yellow]')
 
 
 bot.run(TOKEN)

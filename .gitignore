@@ -6,3 +6,5 @@ tokens.py
 discord.py
 _tokens.PY
 stackoverflow
+*.pyc
+*.pyo

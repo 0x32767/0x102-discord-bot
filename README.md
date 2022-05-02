@@ -23,10 +23,6 @@ Most of these fetures have been largely complete, however the bot will hopefully
 
 The fetures will hopefully be added when the bot is recontinued.
 
-># Resons for discontinuing
+># Resons for less activity
 
 The programer is still in school and has dedicated much of his day to other activities. The school has also blocked discord making it impossible to test the bot for bugs and other problems.
-
-># Will I ever be able to use the bot?
-
-As of now The bot is **not** availible for use. The point of the github repo is to show that the bot is not dangerous to use in server.
