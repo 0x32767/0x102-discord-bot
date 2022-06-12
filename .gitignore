@@ -3,6 +3,6 @@ __pycache__
 venv
 *.db
 tokens.py
-_tokens.PY
+_tokens.py
 *.pyc
 *.pyo

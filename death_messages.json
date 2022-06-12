@@ -19,6 +19,7 @@
         "{player} was attacked by a skeleton.",
         "{player} was discovered by the FBI.",
         "{player} was discovered by the CIA.",
+        "{player} was discovered by the FBI and the CIA.",
         "{player} was removed from the world.",
         "{player} was removed from the game.",
         "{player} was removed from the server.",
@@ -68,7 +69,15 @@
         "{player} was to happy",
         "{player} was killed by a pizza.",
         "{player} was killed by a wumpus.",
-        "{player} discovered that `Birds arn't real`."
+        "{player} discovered that `Birds arn't real`.",
+        "{player} was killed by a bird.",
+        "{player} did not do their homework",
+        "{player} experienced a black hole.",
+        "{player} was killed by a black hole.",
+        "{player} was killed by steven he.",
+        "{player} joined the dark side.",
+        "{player} was killed by the dark side.",
+        "{player} experienced kenetic energy."
     ],
     "other": [
         "{player} lost a kahoot to {killer}.",
@@ -83,6 +92,22 @@
         "{player} was sent to the sun by {killer}.",
         "{player} was forced to surrender to {killer}.",
         "{player} was forced to worship to {killer}.",
-        "{player} was set off by {killer}."
+        "{player} was set off by {killer}.",
+        "{player} was ricke roll by {killer}.",
+        "{player} was eaten by {killer}",
+        "{player} was crystaled by {killer}",
+        "{player} did not get first aid from {killer}",
+        "{player} was slain by {killer}",
+        "{player} needed to go to the toilet, but {killer} did not let them.",
+        "{player} was set homework by {killer}",
+        "{player} was sqished by {killer}",
+        "{player} was in a tik tok with {killer}",
+        "{player} became {killer}'s worst enemy",
+        "{player} was made in china by {killer}",
+        "{player} was tiger mommed to death by {killer}",
+        "{player} did  not get an A+, and was slain by {killer}",
+        "{player} lot a dule to {killer}",
+        "{player} was no mach for {killer}",
+        "{player} was procked to death while escaping {killer}"
     ]
 }
