@@ -16,9 +16,9 @@ async def setup(bot: commands.Bot) -> None:
 
 
 class PoleCog(commands.Cog):
-    def __init__(self, bot: commands.Bot) -> None:
-        self.bot = bot
-        self.votes = {}
+    def __init__(self: commands.Bot, bot: commands.Bot) -> None:
+        self.bot: commands.Bot = bot
+        self.votes: commands.Bot = {}
         """
         :votes: format:
             {
@@ -34,7 +34,7 @@ class PoleCog(commands.Cog):
         """
 
     @app_commands.command(name="newpoll")
-    async def new_poll(self, ctx: Interaction, *, question: str) -> None:
+    async def new_poll(self: 'PoleCog', ctx: Interaction, *, question: str) -> None:
         """
         :param ctx: The ctx param is passes by the discord.py libruary
         :param question: The question that is created by the user
@@ -56,7 +56,8 @@ class PoleCog(commands.Cog):
             "author": ctx.author.id
         }
 
-        await ctx.response.send_message(embed=Embed(
+        await ctx.response.send_message(
+            embed=Embed(
                 title="Poll created",
                 description="use `/newpole` to create a new poll in this channel",
                 color=discord.Color.green()
@@ -68,14 +69,14 @@ class PoleCog(commands.Cog):
 
     @app_commands.command(name="vote")
     @app_commands.describe(vote="true: yes, false: no")
-    async def vote(self, ctx: Interaction, vote: bool) -> None:
+    async def vote(self: 'PoleCog', ctx: Interaction, vote: bool) -> None:
         """
         :param ctx: The ctx param is passes by the discord.py libruary
         :param vote: The vote that is created by the user
         :return:
         """
         try:
-            pole = self.votes[ctx.channel.id]
+            pole: dict = self.votes[ctx.channel.id]
         except KeyError:
             return await ctx.send("There is no poll in this channel.", ephemeral=True)
 
@@ -95,7 +96,7 @@ class PoleCog(commands.Cog):
         :return:
         """
         try:
-            pole = self.votes[ctx.channel.id]
+            pole: dict = self.votes[ctx.channel.id]
         except KeyError:
             return await ctx.send("There is no poll in this channel.", ephemeral=True)
 
@@ -121,17 +122,18 @@ class PoleCog(commands.Cog):
         :return:
         """
         try:
-            pole = self.votes[ctx.channel.id]
+            pole: dict = self.votes[ctx.channel.id]
         except KeyError:
             return await ctx.send("There is no poll in this channel.", ephemeral=True)
 
         if pole["closed"] is True:
             return await ctx.send("The poll is closed.", ephemeral=True)
 
-        await ctx.send(embed=Embed(
-            title=pole["question"],
-            description="yes: {}\nno: {}".format(pole["options"]["yes"], pole["options"]["no"]),
-            color=discord.Color.green()
+        await ctx.send(
+            embed=Embed(
+                title=pole["question"],
+                description="yes: {}\nno: {}".format(pole["options"]["yes"], pole["options"]["no"]),
+                color=discord.Color.green()
             ).add_field(
                 name="yes", value=f'{pole["options"]["yes"] / (pole["options"]["yes"] + pole["options"]["no"]) * 100}%'
             ).add_field(

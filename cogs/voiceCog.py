@@ -3,7 +3,8 @@ from ._comand_chache import register_commands
 from discord import (
     Interaction,
     app_commands,
-    Object
+    Object,
+    VoiceChannel
 )
 
 
@@ -15,14 +16,14 @@ async def setup(bot: commands.Bot) -> None:
 
 
 class VoiceCog(commands.Cog):
-    def __init__(self, bot: commands.Bot) -> None:
+    def __init__(self: 'VoiceCog', bot: commands.Bot) -> None:
         register_commands(self)
-        self.bot = bot
+        self.bot: commands.Bot = bot
 
     @app_commands.command()
-    async def join(self, ctx: Interaction) -> None:
+    async def join(self: commands.Bot, ctx: Interaction) -> None:
         if ctx.user.voice:
-            channel = ctx.user.voice.channel
+            channel: VoiceChannel = ctx.user.voice.channel
             await channel.connect()
             await ctx.response.send_message('connected successfully!!!')
 
@@ -30,7 +31,7 @@ class VoiceCog(commands.Cog):
             await ctx.response.send_message('you need to be in a vc for this command to work')
 
     @app_commands.command(description='leaves a voice channel')
-    async def leave(self, ctx: Interaction):
+    async def leave(self: 'VoiceCog', ctx: Interaction):
         try:
             await ctx.guild.voice_client.disconnect(force=True)
             await ctx.response.send_message('left vc')

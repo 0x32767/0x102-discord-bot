@@ -1,12 +1,15 @@
-commands = {"helpCog": ["help"]}
+from discord.ext.commands import Cog
 
 
-def register_commands(cog):
+commands: dict[list[str]] = {"helpCog": ["help"]}
+
+
+def register_commands(cog: Cog) -> None:
     """
     :paramiter: the `cog` peramiter is the `self` peramiter of the class
     :return:
     """
-    commands_list = []
+    commands_list: list[str] = []
     for method in dir(cog):
         if method in [
             'bot', 'bot_check', 'bot_check_once', 'cog_after_invoke', 'cog_before_invoke', 'cog_check',

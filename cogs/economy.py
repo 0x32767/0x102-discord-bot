@@ -18,22 +18,22 @@ async def setup(bot: commands.Bot) -> None:
 
 
 class EconomeyCog(commands.Cog):
-    def __init__(self, bot: commands.Bot) -> None:
+    def __init__(self: 'EconomeyCog', bot: commands.Bot) -> None:
         register_commands(self)
-        self.bot = bot
+        self.bot: commands.Bot = bot
 
     @app_commands.command(name='stonks', description='shows the value of the server an your account')
-    async def stonks(self, ctx: Interaction) -> None:
+    async def stonks(self: 'EconomeyCog', ctx: Interaction) -> None:
         async with aiosqlite.connect('stonks.db') as db:
             async with db.cursor() as curr:
-                em = Embed(
+                em: Embed = Embed(
                     title='Stonks',
                     description='Use `/stonks` and then the name of the command to learn more about it.'
                 )
 
                 await curr.execute(f'SELECT * FROM server_stonks WHERE guild_id = {ctx.guild.id}')
 
-                data = await curr.fetchone()
+                data: tuple = await curr.fetchone()
 
                 em.add_field(
                     name='Server Currency',
@@ -51,10 +51,10 @@ class EconomeyCog(commands.Cog):
                 await ctx.response.send_message(embed=em)
 
     @app_commands.command(name='topstonks', description='shows the top 20 stonks')
-    async def topstonks(self, ctx: Interaction) -> None:
+    async def topstonks(self: 'EconomeyCog', ctx: Interaction) -> None:
         async with aiosqlite.connect('stonks.db') as db:
             async with db.cursor() as curr:
-                em = Embed(
+                em: Embed = Embed(
                     title='Top Stonks',
                     description='Use `/stonks` and then the name of the command to learn more about it.'
                 )
@@ -62,7 +62,7 @@ class EconomeyCog(commands.Cog):
                 await curr.execute(
                     'SELECT guild_id, name, value FROM server_stonks ORDER BY value DESC LIMIT 20'
                 )
-                data = await curr.fetchall()
+                data: tuple = await curr.fetchall()
 
                 for top_stonk in data:
                     em.add_field(
@@ -73,10 +73,10 @@ class EconomeyCog(commands.Cog):
                 await ctx.response.send_message(embed=em)
 
     @app_commands.command(name='botttomstonks', description='shows the bottom 20 stonks')
-    async def botttomstonks(self, ctx: Interaction) -> None:
+    async def botttomstonks(self: 'EconomeyCog', ctx: Interaction) -> None:
         async with aiosqlite.connect('stonks.db') as db:
             async with db.cursor() as curr:
-                em = Embed(
+                em: Embed = Embed(
                     title='Bottom Stonks',
                     description='Use `/stonks` and then the name of the command to learn more about it.'
                 )
@@ -84,7 +84,7 @@ class EconomeyCog(commands.Cog):
                 await curr.execute(
                     'SELECT guild_id, name, value FROM server_stonks ORDER BY value ASC LIMIT 20'
                 )
-                data = await curr.fetchall()
+                data: tuple = await curr.fetchall()
 
                 for botttom_stonk in data:
                     em.add_field(
@@ -95,7 +95,7 @@ class EconomeyCog(commands.Cog):
                 await ctx.response.send_message(embed=em)
 
     @tasks.loop(hours=1)
-    async def update_stonks(self):
+    async def update_stonks(self) -> None:
         async with aiosqlite.connect('stonks.db') as db:
             async with db.cursor() as curr:
                 for guild in self.bot.guilds:
@@ -104,7 +104,7 @@ class EconomeyCog(commands.Cog):
                         continue
 
                     await curr.execute(f'SELECT * FROM server_stonks WHERE guild_id = {guild.id}')
-                    data = await curr.fetchone()
+                    data: tuple = await curr.fetchone()
 
                     await curr.execute(
                         f'UPDATE server_stonks SET stonks = {data[2] * round(uniform(0.1, 1.5))} WHERE guild_id = {guild.id}'
@@ -112,8 +112,7 @@ class EconomeyCog(commands.Cog):
 
             await db.commit()
 
-    def pass_(self) -> None:
-        ...
+    def pass_(self) -> None:...
 
     def __cog_docs__(self) -> str:
         self.pass_()

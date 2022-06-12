@@ -1,22 +1,23 @@
+from rich.progress import track
+from rich.console import Console
 from discord.ext import commands
+from _tokens import TOKEN
 from os import listdir
 import aiosqlite
 import discord
-from rich.progress import track
-from rich.console import Console
-from _tokens import TOKEN
 
 
-intents = discord.Intents.default()
+intents: discord.Intents = discord.Intents.default()
 intents.members = True
-bot = commands.Bot(
+
+bot: commands.Bot = commands.Bot(
     command_prefix='~',
     intents=intents,
     application_id=937461852282167337
 )
 
-console = Console()
-TEST_GUILD = discord.Object(938541999961833574)
+console: Console = Console()
+TEST_GUILD: discord.Object = discord.Object(938541999961833574)
 
 
 @bot.event
@@ -50,10 +51,10 @@ async def on_ready():
     async with aiosqlite.connect('stonks.db') as database:
         async with database.cursor() as cur:
             await cur.execute("SELECT guild_id FROM server_stonks")
-            data = await cur.fetchall()
+            data: list[tuple] = await cur.fetchall()
 
             # ! by default the `data` variable is a list of tuples
-            servers = [x[0] for x in data]
+            servers: list[int] = [x[0] for x in data]
             for server in bot.guilds:
                 """
                  | adds the guild to the `stonks.db` database,
@@ -67,8 +68,8 @@ async def on_ready():
 
         await database.commit()
 
-    num_cogs = 0
-    idl_cogs = 0
+    num_cogs: int = 0
+    idl_cogs: int = 0
 
     for cog in track(
         listdir('cogs'),

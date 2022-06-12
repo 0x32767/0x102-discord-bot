@@ -1,20 +1,20 @@
-from random import shuffle
+from random import shuffle as shuffle_list
 from discord import Interaction
+from discord import SelectOption, Embed
 from discord.ui import (
     View,
     Select,
 )
-from discord import SelectOption, Embed
 
 
 class TriviaQuestionDropdown(Select):
-    def __init__(self, question: str, questions: list[str], correct: str) -> None:
+    def __init__(self: 'TriviaQuestionDropdown', question: str, questions: list[str], correct: str) -> None:
         """
          | this constructs a dropdown of the question
          | as the placeholder and the answers as the
          | options.
         """
-        self.correct = correct
+        self.correct: str = correct
         super().__init__(
             max_values=1,
             min_values=1,
@@ -22,12 +22,12 @@ class TriviaQuestionDropdown(Select):
             placeholder=question
         )
 
-    def shuffle(self, arr: list) -> list:
+    def shuffle(self: 'TriviaQuestionDropdown', arr: list[str]) -> list[str]:
         self.pass_()
-        shuffle(arr)
+        shuffle_list(arr)
         return arr
 
-    async def callback(self, ctx: Interaction) -> None:
+    async def callback(self: 'TriviaQuestionDropdown', ctx: Interaction) -> None:
         """
          | This is the callback function
          | that is called when the user
@@ -50,12 +50,11 @@ class TriviaQuestionDropdown(Select):
                 )
             )
 
-    def pass_(self) -> None:
-        ...
+    def pass_(self: 'TriviaQuestionDropdown') -> None:...
 
 
 class TriviaView(View):
-    def __init__(self, data: dict) -> None:
+    def __init__(self: 'TriviaView', data: dict) -> None:
         super().__init__()
         self.add_item(
             TriviaQuestionDropdown(

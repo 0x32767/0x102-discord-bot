@@ -17,19 +17,19 @@ async def setup(bot: commands.Bot) -> None:
 
 
 class MinecraftCog(commands.Cog):
-    def __init__(self, bot: commands.Bot) -> None:
+    def __init__(self: 'MinecraftCog', bot: commands.Bot) -> None:
         register_commands(self)
-        self.bot = bot
+        self.bot: commands.Bot = bot
 
     @app_commands.command()
     @app_commands.describe(id="The id of the block you want to learn about.")
-    async def idlookupblock(self, ctx: Interaction, id: int) -> None:
+    async def idlookupblock(self: 'MinecraftCog', ctx: Interaction, id: int) -> None:
         """
         :param ctx: `ctx` param is passed by the discord.pt library when executed
         :param id:  `id` param is of class integer that should correspond to a minecraft block id
         :return:
         """
-        data = requests.get(
+        data: list[dict] = requests.get(
             'https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/bedrock/1.18.11/blocks.json'
         ).json()
 
@@ -37,7 +37,7 @@ class MinecraftCog(commands.Cog):
             if block['id'] != id:
                 continue
 
-            em = Embed(
+            em: Embed = Embed(
                 title=f'learn more about `{block["displayName"]}`',
                 description='use `/idlookupblock` and then the id of the block to get info about the block'
             )
@@ -54,13 +54,13 @@ class MinecraftCog(commands.Cog):
 
     @app_commands.command()
     @app_commands.describe(name="Give information about a minecraft block.")
-    async def namelookupblock(self, ctx: Interaction, *, name: str) -> None:
+    async def namelookupblock(self: 'MinecraftCog', ctx: Interaction, *, name: str) -> None:
         """
         :param ctx: The `ctx` is passed by default when the command is executed
         :param name:  The name param is class string and is the display name for the minecraft item/block
         :return:
         """
-        data = requests.get(
+        data: list[dict] = requests.get(
             'https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/bedrock/1.18.11/blocks.json'
         ).json()
 
@@ -68,7 +68,7 @@ class MinecraftCog(commands.Cog):
             if block['name'] != name and block['displayName'] != name:
                 continue
 
-            em = Embed(
+            em: Embed = Embed(
                 title=f'learn more about `{block["displayName"]}`',
                 description='use `/namelookupblock` and then the id of the block to learn about it'
             )
@@ -85,18 +85,18 @@ class MinecraftCog(commands.Cog):
 
     @app_commands.command()
     @app_commands.describe(item="The name of the item e.g. `campfire`")
-    async def craft(self, ctx: Interaction, item: str) -> None:
+    async def craft(self: 'MinecraftCog', ctx: Interaction, item: str) -> None:
         """
         :param ctx: The `ctx` argument is passed by default when the command is executed
         :param item: The `item` argument is the name of the item e.g 'cooked_mutton'
         :return:
         """
-        data = requests.get(
+        data: dict[dict] = requests.get(
             'https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/bedrock/1.18.11/recipes.json'
         ).json()
 
-        em = Embed(title=f"How to craft {item}", description='use `/craft` to learn the ways to make something')
-        i = 0
+        em: Embed = Embed(title=f"How to craft {item}", description='use `/craft` to learn the ways to make something')
+        i: int = 0
 
         for key, recipe in data.items():
             if recipe['output'][0]['name'] == item:
@@ -113,13 +113,17 @@ class MinecraftCog(commands.Cog):
     @app_commands.command()
     @app_commands.describe(enchantment="The name of the enchantment e.g. `Protection`")
     async def findenchant(self, ctx: Interaction, enchantment: str) -> None:
-        data = requests.get(
+        data: list[dict] = requests.get(
             'https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/pc/1.8/enchantments.json'
         ).json()
 
         for enchant in data:
             if enchant['displayName'] == enchantment or enchant['name'] == enchantment:
-                em = Embed(title=f"{enchant['name']}", description='use `/findenchant` to learn more about the enchantment')
+                em: Embed = Embed(
+                    title=f"{enchant['name']}",
+                    description='use `/findenchant` to learn more about the enchantment'
+                )
+
                 em.add_field(name='max level', value=f"{enchant['maxLevel']}")
                 em.add_field(name='does not go with', value='\n'.join(list(enchant['exclude'])))
 

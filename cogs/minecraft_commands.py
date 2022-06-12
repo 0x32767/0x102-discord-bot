@@ -17,18 +17,18 @@ async def setup(bot: commands.Bot) -> None:
 
 
 class MinecrtaftCog(commands.Cog):
-    def __init__(self, bot: commands.Bot) -> None:
-        self.bot = bot
+    def __init__(self: 'MinecrtaftCog', bot: commands.Bot) -> None:
+        self.bot: commands.Bot = bot
 
     @app_commands.command()
-    async def kill(self, ctx: Interaction, player: Member = None) -> None:
+    async def kill(self: 'MinecrtaftCog', ctx: Interaction, player: Member = None) -> None:
         """
         :param ctx: The ctx param is passes by the discord.py libruary
         :param player: The player that is killed
         :return:
         """
         with open("death_messages.json", "r") as f:
-            data = json.load(f)
+            data: dict[list[str]] = json.load(f)
 
         if player is None:
             await ctx.response.send_message(random.choice(data["self"]).replace("{player}", ctx.user.mention))

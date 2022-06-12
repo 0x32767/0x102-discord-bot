@@ -19,12 +19,12 @@ async def setup(bot: commands.Bot) -> None:
 
 
 class UtilsCog(commands.Cog):
-    def __init__(self, bot: commands.Bot) -> None:
+    def __init__(self: 'UtilsCog', bot: commands.Bot) -> None:
         register_commands(self)
-        self.bot = bot
+        self.bot: commands.Bot = bot
 
     @app_commands.command(description='gives a classic 8ball response')
-    async def ball(self, ctx: discord.Interaction):
+    async def ball(self: 'UtilsCog', ctx: discord.Interaction):
         await ctx.response.send_message(choice([
             # yes responses
             'my sources say yes',
@@ -58,24 +58,24 @@ class UtilsCog(commands.Cog):
         ]))
 
     @app_commands.command(name='inspire', description='sends an inspiring message')
-    async def inspire(self, ctx: Interaction):
-        quote = await self._get_quote()
+    async def inspire(self: 'UtilsCog', ctx: Interaction):
+        quote: str = await self._get_quote()
         await ctx.response.send_message(quote)
 
     @app_commands.command(description='does a coin flip so heads or tails')
-    async def coinflip(self, ctx: Interaction):
+    async def coinflip(self: 'UtilsCog', ctx: Interaction):
         await ctx.response.send_message(f'you have {choice(["heads", "tails"])}')
 
     @app_commands.command(name='time', description='sends the current time')
-    async def time(self, ctx: Interaction):
+    async def time(self: 'UtilsCog', ctx: Interaction):
         now = datetime.now()
-        dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+        dt_string: str = now.strftime("%d/%m/%Y %H:%M:%S")
         await ctx.response.send_message(f'date and time: {dt_string}')
 
     @app_commands.command(name='poke', description='you can send a private message to another user')
     @app_commands.describe(member="The user you want to msg.")
     @app_commands.describe(msg="The message you want to send.")
-    async def poke(self, ctx: Interaction, member: discord.Member, *, msg: str):
+    async def poke(self: 'UtilsCog', ctx: Interaction, member: discord.Member, *, msg: str):
         try:
             await member.send(f'`{ctx.user}` from `{ctx.channel.name}` says {msg}')
             await ctx.response.send_message(f'sent {msg}')
@@ -83,26 +83,26 @@ class UtilsCog(commands.Cog):
             await ctx.response.send_message(f'member {member} was not found')
 
     @app_commands.command(name='sus')
-    async def sus(self, ctx: Interaction):
-        await ctx.response.send('ඞ sus')
+    async def sus(self: 'UtilsCog', ctx: Interaction):
+        await ctx.response.send_message('ඞ sus')
 
-    async def _get_quote(self) -> str:
+    async def _get_quote(self: 'UtilsCog') -> str:
         self.pass_()
         async with aiohttp.ClientSession() as session:
             response = await session.get("https://zenquotes.io/api/random")
 
-            r = await response.json()
+            r: dict = await response.json()
             return f"{r[0]['q']} - {r[0]['a']}"
 
     @app_commands.command(name='enchant', description='you can enchant your text maybe with sharpness?')
     @app_commands.describe(message="The text you want to enchant.")
-    async def enchant(self, ctx: Interaction, *, message: str):
+    async def enchant(self: 'UtilsCog', ctx: Interaction, *, message: str):
         """
         :param ctx: The `ctx` peramiter is passed by default by discord.py when executed
         :param message: The `message` peramiter is passed by the user of the command
         :return:
         """
-        enchant = ''
+        enchant: str = ''
         for character in message:
             try:
                 enchant = enchant + {
@@ -118,7 +118,7 @@ class UtilsCog(commands.Cog):
                 }[character]
 
             except KeyError:
-                enchant = enchant + character
+                enchant += character
 
         await ctx.response.send_message(enchant)
 

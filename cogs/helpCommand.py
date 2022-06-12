@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from discord import (
+    Embed,
     Interaction,
     app_commands,
     Object
@@ -15,12 +16,12 @@ async def setup(bot: commands.Bot) -> None:
 
 
 class HelpComand(commands.Cog):
-    def __init__(self, bot: commands.Bot) -> None:
-        self.bot = bot
+    def __init__(self: 'HelpComand', bot: commands.Bot) -> None:
+        self.bot: commands.Bot = bot
 
     @app_commands.command(name='help', description='help command')
-    async def help(self, ctx: Interaction) -> None:
-        embed = discord.Embed(
+    async def help(self: 'HelpComand', ctx: Interaction) -> None:
+        embed: Embed = discord.Embed(
             title='Help',
             description='Use `/help` and then the name of the command to learn more about it.'
         )
@@ -34,8 +35,7 @@ class HelpComand(commands.Cog):
 
         await ctx.response.send_message(embed=embed)
 
-    def pass_(self) -> None:
-        ...
+    def pass_(self) -> None:...
 
     def __cog_docs__(self) -> str:
         self.pass_()
