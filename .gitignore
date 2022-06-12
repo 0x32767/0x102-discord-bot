@@ -6,3 +6,5 @@ tokens.py
 _tokens.py
 *.pyc
 *.pyo
+.vscode
+*.bat

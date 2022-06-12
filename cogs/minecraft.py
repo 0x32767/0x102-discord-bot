@@ -68,7 +68,11 @@ class MinecraftCog(commands.Cog):
             if block['name'] != name and block['displayName'] != name:
                 continue
 
-            em = Embed(title=f'learn more about `{block["displayName"]}`', description='use `/namelookupblock` and then the id of the block to learn about it')
+            em = Embed(
+                title=f'learn more about `{block["displayName"]}`',
+                description='use `/namelookupblock` and then the id of the block to learn about it'
+            )
+
             em.add_field(name='mine able', value='yes' if block['diggable'] else 'no')
             em.add_field(name='tool', value=block['material'])
             em.add_field(name='stacks up to', value=f"{block['stackSize']}")

@@ -1,7 +1,6 @@
-import discord
 import json
 import random
-from discord.ext import commands, menus
+from discord.ext import commands
 from discord import (
     Interaction,
     app_commands,
@@ -22,19 +21,30 @@ class MinecrtaftCog(commands.Cog):
         self.bot = bot
 
     @app_commands.command()
-    async def kill(self, ctx: Interaction, player: Member=None) -> None:
+    async def kill(self, ctx: Interaction, player: Member = None) -> None:
         """
         :param ctx: The ctx param is passes by the discord.py libruary
         :param player: The player that is killed
         :return:
         """
-        with open("C:\\Users\\Han\\programing\\Boo2 discord bot\\death_messages.json", "r") as f:
+        with open("death_messages.json", "r") as f:
             data = json.load(f)
 
         if player is None:
             await ctx.response.send_message(random.choice(data["self"]).replace("{player}", ctx.user.mention))
 
         else:
-            await ctx.response.send_message(random.choice(data["other"]).replace("{player}", player.mention).replace("{killer}", ctx.user.mention))
+            await ctx.response.send_message(
+                random.choice(
+                    data["other"]
+                ).replace(
+                    "{player}", player.mention
+                ).replace(
+                    "{killer}", ctx.user.mention
+                )
+            )
 
         del data
+
+    def __cog_docs__(self) -> str:
+        return "This is the minecrtaft cog."

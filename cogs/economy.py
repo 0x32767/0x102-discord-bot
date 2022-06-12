@@ -49,7 +49,7 @@ class EconomeyCog(commands.Cog):
                 )
 
                 await ctx.response.send_message(embed=em)
-    
+
     @app_commands.command(name='topstonks', description='shows the top 20 stonks')
     async def topstonks(self, ctx: Interaction) -> None:
         async with aiosqlite.connect('stonks.db') as db:
@@ -63,7 +63,7 @@ class EconomeyCog(commands.Cog):
                     'SELECT guild_id, name, value FROM server_stonks ORDER BY value DESC LIMIT 20'
                 )
                 data = await curr.fetchall()
-                
+
                 for top_stonk in data:
                     em.add_field(
                         name=top_stonk[1],
@@ -85,7 +85,7 @@ class EconomeyCog(commands.Cog):
                     'SELECT guild_id, name, value FROM server_stonks ORDER BY value ASC LIMIT 20'
                 )
                 data = await curr.fetchall()
-                
+
                 for botttom_stonk in data:
                     em.add_field(
                         name=botttom_stonk[1],
@@ -106,8 +106,9 @@ class EconomeyCog(commands.Cog):
                     await curr.execute(f'SELECT * FROM server_stonks WHERE guild_id = {guild.id}')
                     data = await curr.fetchone()
 
-                    await curr.execute(f'UPDATE server_stonks SET stonks = {data[2] * round(uniform(0.1, 1.5))} WHERE guild_id = {guild.id}')
-
+                    await curr.execute(
+                        f'UPDATE server_stonks SET stonks = {data[2] * round(uniform(0.1, 1.5))} WHERE guild_id = {guild.id}'
+                    )
 
             await db.commit()
 

@@ -15,7 +15,12 @@ class TriviaQuestionDropdown(Select):
          | options.
         """
         self.correct = correct
-        super().__init__(max_values=1, min_values=1, options=[SelectOption(label=f'{i}', value=f'{i}', description=i) for i in self.shuffle(questions)], placeholder=question)
+        super().__init__(
+            max_values=1,
+            min_values=1,
+            options=[SelectOption(label=f'{i}', value=f'{i}', description=i) for i in self.shuffle(questions)],
+            placeholder=question
+        )
 
     def shuffle(self, arr: list) -> list:
         self.pass_()

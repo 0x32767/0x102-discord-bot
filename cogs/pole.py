@@ -42,7 +42,7 @@ class PoleCog(commands.Cog):
         """
 
         # checks if there is still a non-closed pole in the channel
-        if ctx.channel.id in self.votes and self.votes[ctx.channel.id]["closed"] == False:
+        if ctx.channel.id in self.votes and self.votes[ctx.channel.id]["closed"] is False:
             await ctx.send("There is already a poll in this channel.")
             return
 
@@ -79,7 +79,7 @@ class PoleCog(commands.Cog):
         except KeyError:
             return await ctx.send("There is no poll in this channel.", ephemeral=True)
 
-        if pole["closed"] == True:
+        if pole["closed"] is True:
             return await ctx.send("The poll is closed, you can not vote in a colsed pole.", ephemeral=True)
 
         pole["options"]["yes"] += 1 if vote else 0
@@ -89,7 +89,7 @@ class PoleCog(commands.Cog):
 
     @app_commands.command(name="closepoll")
     @app_commands.describe(show="show the results of the poll")
-    async def close_poll(self, ctx: Interaction, show: bool=False) -> None:
+    async def close_poll(self, ctx: Interaction, show: bool = False) -> None:
         """
         :param ctx: The ctx param is passes by the discord.py libruary
         :return:
@@ -99,13 +99,17 @@ class PoleCog(commands.Cog):
         except KeyError:
             return await ctx.send("There is no poll in this channel.", ephemeral=True)
 
-        if pole["closed"] == True:
+        if pole["closed"] is True:
             return await ctx.send("The poll is already closed.", ephemeral=True)
 
         pole["closed"] = True
 
         await ctx.response.send_message(
-            embed=Embed(title="The pole has been closed", description="The poll is closed, you can not vote anymore.", color=discord.Color.red()),
+            embed=Embed(
+                title="The pole has been closed",
+                description="The poll is closed, you can not vote anymore.",
+                color=discord.Color.red()
+            ),
             ephemeral=show
         )
 
@@ -121,7 +125,7 @@ class PoleCog(commands.Cog):
         except KeyError:
             return await ctx.send("There is no poll in this channel.", ephemeral=True)
 
-        if pole["closed"] == True:
+        if pole["closed"] is True:
             return await ctx.send("The poll is closed.", ephemeral=True)
 
         await ctx.send(embed=Embed(

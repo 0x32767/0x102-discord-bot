@@ -61,7 +61,6 @@ class LevelsCog(commands.Cog):
 
                 await curr.execute(f'update levels set exp = {exp} where user_id = {guild_id} and guild_id = {user_id}')
 
-
             await database.commit()
 
             return exp
@@ -70,7 +69,6 @@ class LevelsCog(commands.Cog):
         async with aiosqlite.connect("discordbotdb.db") as database:
             async with database.cursor() as curr:
                 await curr.execute(f'update levels set exp = 0 where guild_id = {guild_id} and user_id = {user_id}')
-
 
             await database.commit()
 
