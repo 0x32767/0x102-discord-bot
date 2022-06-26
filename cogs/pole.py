@@ -132,12 +132,14 @@ class PoleCog(commands.Cog):
         await ctx.send(
             embed=Embed(
                 title=pole["question"],
-                description="yes: {}\nno: {}".format(pole["options"]["yes"], pole["options"]["no"]),
+                description=f'yes: {pole["options"]["yes"]}\nno: {pole["options"]["no"]}',
                 color=discord.Color.green()
             ).add_field(
-                name="yes", value=f'{pole["options"]["yes"] / (pole["options"]["yes"] + pole["options"]["no"]) * 100}%'
+                name="yes",
+                value=f'{pole["options"]["yes"] / (pole["options"]["yes"] + pole["options"]["no"]) * 100}%'
             ).add_field(
-                name="no", value=f'{pole["options"]["no"] / (pole["options"]["yes"] + pole["options"]["no"]) * 100}%'
+                name="no",
+                value=f'{pole["options"]["no"] / (pole["options"]["yes"] + pole["options"]["no"]) * 100}%'
             ),
             ephemeral=public
         )

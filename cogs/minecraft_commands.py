@@ -1,5 +1,6 @@
 import json
 import random
+from cache import cacheGet
 from discord.ext import commands
 from discord import (
     Interaction,
@@ -12,7 +13,7 @@ from discord import (
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(
         MinecrtaftCog(bot),
-        guilds=[Object(id=938541999961833574)]
+        guilds=[Object(id=cacheGet("id"))]
     )
 
 

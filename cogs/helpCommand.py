@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from cache import cacheGet
 from discord import (
     Embed,
     Interaction,
@@ -11,7 +12,7 @@ from discord import (
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(
         HelpComand(bot),
-        guilds=[Object(id=938541999961833574)]
+        guilds=[Object(id=cacheGet("id"))]
     )
 
 

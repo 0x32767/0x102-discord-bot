@@ -1,10 +1,10 @@
-># The system69 Discord bot
+># The 0x102 Discord bot
 
 <br>
 
 ># Overview
 
-The system 69 Discord bot is a discord bot written with the discord.py api wrapper. The bot is written in python and has been a project for the last year. The discord bot has now largely been discontinued due to lack of ideas and atention.
+The 0x102 Discord bot is a discord bot written with the discord.py api wrapper. The bot is written in python and has been a project for the last year. The discord bot has now largely been discontinued due to lack of ideas and atention.
 
 ># Fetures
 

@@ -1,10 +1,12 @@
 from rich.progress import track
+from configparser import ConfigParser
 from rich.console import Console
 from discord.ext import commands
 from _tokens import TOKEN
 from os import listdir
 import aiosqlite
 import discord
+from cache import cacheSet, cacheGet
 
 
 intents: discord.Intents = discord.Intents.default()
@@ -17,7 +19,12 @@ bot: commands.Bot = commands.Bot(
 )
 
 console: Console = Console()
-TEST_GUILD: discord.Object = discord.Object(938541999961833574)
+
+conf: ConfigParser = ConfigParser()
+conf.read("constants.conf")
+cacheSet("id", conf["bot"]["serverId"])
+
+TEST_GUILD: discord.Object = discord.Object(cacheGet("id"))
 
 
 @bot.event

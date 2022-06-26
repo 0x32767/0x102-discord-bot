@@ -1,4 +1,5 @@
 from discord.ext import commands
+from cache import cacheGet
 from ._comand_chache import register_commands
 import aiosqlite
 from discord import (
@@ -139,5 +140,5 @@ class Moderation(commands.Cog):
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(
         Moderation(bot),
-        guilds=[Object(id=938541999961833574)]
+        guilds=[Object(id=cacheGet('id'))]
     )

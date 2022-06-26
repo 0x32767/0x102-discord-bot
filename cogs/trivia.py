@@ -1,4 +1,6 @@
 import requests
+
+from cache import cacheGet
 from ._trivia_view import TriviaView
 from discord.ext import commands
 from discord import (
@@ -12,7 +14,7 @@ from discord import (
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(
         TriviaCog(bot),
-        guilds=[Object(id=938541999961833574)]
+        guilds=[Object(id=cacheGet("id"))]
     )
 
 

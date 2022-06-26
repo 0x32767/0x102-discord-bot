@@ -1,7 +1,7 @@
 from discord.ext.commands import Cog
 
 
-commands: dict[list[str]] = {"helpCog": ["help"]}
+commands: dict[str, list[str]] = {"helpCog": ["help"]}
 
 
 def register_commands(cog: Cog) -> None:

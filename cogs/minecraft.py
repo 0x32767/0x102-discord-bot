@@ -1,5 +1,6 @@
 import requests
 from discord.ext import commands
+from cache import cacheGet
 from ._comand_chache import register_commands
 from discord import (
     Interaction,
@@ -12,7 +13,7 @@ from discord import (
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(
         MinecraftCog(bot),
-        guilds=[Object(id=938541999961833574)]
+        guilds=[Object(id=cacheGet("id"))]
     )
 
 
@@ -141,7 +142,7 @@ class MinecraftCog(commands.Cog):
 
     def __cog_docs__(self) -> str:
         return """
-        Ytou can view minecraft related information using the following commands:
+        You can view minecraft related information using the following commands:
             - idlookupblock
             - namelookupblock
             - craft

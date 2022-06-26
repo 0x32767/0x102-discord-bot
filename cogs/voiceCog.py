@@ -1,4 +1,6 @@
 from discord.ext import commands
+
+from cache import cacheGet
 from ._comand_chache import register_commands
 from discord import (
     Interaction,
@@ -11,7 +13,7 @@ from discord import (
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(
         VoiceCog(bot),
-        guilds=[Object(id=938541999961833574)]
+        guilds=[Object(id=cacheGet("id"))]
     )
 
 
