@@ -1,3 +1,6 @@
+# I have excluded these from my repo because they are not directely modifiyed by me.
+# These files can also be massive.
+
 __pycache__
 .idea
 venv
@@ -8,3 +11,6 @@ _tokens.py
 *.pyo
 .vscode
 *.bat
+node_modules
+package-lock.json
+package.json
