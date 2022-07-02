@@ -8,7 +8,7 @@
 </head>
 <body>
     <script>
-        fetch(`<%= info.link %>web-info/bot.html`)
+        fetch(`<%= info.link %>/web-info/bot.html`)
             .then(res => res.text())
             .then(data => {
                 document.getElementById("bot-txt").innerHTML = data;
