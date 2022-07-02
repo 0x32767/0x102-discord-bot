@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DBC -bot</title>
+</head>
+<body>
+    <script>
+        fetch(`<%= info.link %>web-info/bot.html`)
+            .then(res => res.text())
+            .then(data => {
+                document.getElementById("bot-txt").innerHTML = data;
+            });
+    </script>
+    <div id="bot-txt"></div>
+</body>
+</html>

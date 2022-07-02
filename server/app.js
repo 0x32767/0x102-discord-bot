@@ -1,5 +1,4 @@
 const express = require("express");
-const fs = require("fs");
 
 
 let app = express();
@@ -9,12 +8,27 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 
-data = {}
+const links = {
+    0: "https://raw.githubusercontent.com/0x32767/0x102-discord-bot/master/",
+}
+let data = {}
 
 
 app.get("/", function(req, res)
 {
-    res.redirect("https://github.com/0x32767/0x102-discord-bot");
+    res.render("index", cards=[
+        {
+            title: "0x102",
+            text: "A general purpose discord bot",
+            id: 0
+        }
+    ])
+});
+
+
+app.get("/card/:id", function(req, res)
+{
+    res.render("card", info={link: links[req.params.id]});
 });
 
 
