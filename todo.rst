@@ -2,15 +2,8 @@
 The list of what to do
 ======================
 
-[$] 1. Github api
-[-] 2. Add possible communications between servers
-[$] 3. Spam detection
-[-] 4. Message logs
-[-] 5. reputation system
-[-] 6. some sort of gambling system
-[$] 7. Profanity detection
-[|] 9. api call to sync data with another bot
-[|] 10. dynamic website for bots
+What means what
+===============
 
  * [-] means I need to do
  * [|] means I am working on it
@@ -21,3 +14,16 @@ The list of what to do
  * [%] I don't know
  * [^] I don't want to do it
  * [&] planning to do it
+
+The list
+========
+
+- [$] [#0001]. Github api
+- [-] [#0002]. Add possible communications between servers
+- [$] [#0003]. Spam detection
+- [-] [#0004]. Message logs
+- [-] [#0005]. reputation system
+- [-] [#0006]. some sort of gambling system
+- [$] [#0007]. Profanity detection
+- [|] [#0008]. api call to sync data with another bot
+- [|] [#0009]. dynamic website for bots
