@@ -3,8 +3,6 @@ from discord.ext import commands
 from discord.ext import tasks
 from cache import cacheGet
 from discord import (
-    Interaction,
-    app_commands,
     Object
 )
 

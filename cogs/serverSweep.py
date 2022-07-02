@@ -1,9 +1,6 @@
-import discord
 from discord.ext import commands
 from cache import cacheGet
 from discord import (
-    Interaction,
-    app_commands,
     Object,
     Message
 )
@@ -22,6 +19,5 @@ class ServerCleanupCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self: "ServerCleanupCog", msg: Message) -> None:
-        if msg.author.bot: return
-
-        ...
+        if msg.author.bot:
+            return

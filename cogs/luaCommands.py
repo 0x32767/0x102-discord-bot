@@ -1,5 +1,6 @@
-from cache import cacheGet
 from cogs._luaTextModal import LuaTextEditorModal
+
+from cache import cacheGet
 from discord.ext import commands
 from discord import (
     Interaction,
@@ -22,3 +23,7 @@ class LuaCog(commands.Cog):
     @app_commands.command()
     async def newcommand(self: "LuaCog", ctx: Interaction) -> None:
         await ctx.response.send_modal(LuaTextEditorModal())
+
+    @app_commands.command()
+    async def runcommand(self: "LuaCog", ctx: Interaction) -> None:
+        ...

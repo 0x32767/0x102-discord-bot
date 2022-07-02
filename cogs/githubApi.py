@@ -1,4 +1,3 @@
-from optparse import Values
 from discord.ext import commands
 from cache import cacheGet
 import requests
@@ -40,10 +39,12 @@ class githubApiCog(commands.Cog):
 
         em.set_thumbnail(url=f"{data['avatar_url']}")
 
-
         for key, value in zip(
                 ["name", "blog", "location", "email", "public repos", "followers", "following"],
-                [data["name"], data["blog"], data["location"], data["email"], data["public_repos"], data["followers"], data["following"]]
+                [
+                    data["name"], data["blog"], data["location"], data["email"],
+                    data["public_repos"], data["followers"], data["following"]
+                ]
         ):
             em.add_field(name=key, value=value or "None")
 

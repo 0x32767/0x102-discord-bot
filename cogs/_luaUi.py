@@ -3,8 +3,6 @@ import aiosqlite
 import discord
 from discord import (
     Interaction,
-    SelectOption,
-    SelectMenu,
     Embed,
     Colour
 )
@@ -46,6 +44,7 @@ class LuaCommandBin(discord.ui.Button):
                 colour=Colour.red()
             )
         )
+
 
 class LuaCommandView(View):
     def __init__(self: "LuaCommandView", cls) -> None:
