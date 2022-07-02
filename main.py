@@ -13,7 +13,7 @@ intents: discord.Intents = discord.Intents.default()
 intents.members = True
 
 bot: commands.Bot = commands.Bot(
-    command_prefix='~',
+    command_prefix="~",
     intents=intents,
     application_id=937461852282167337
 )
@@ -31,7 +31,7 @@ TEST_GUILD: discord.Object = discord.Object(cacheGet("id"))
 async def on_ready():
     console.clear()
 
-    async with aiosqlite.connect('discordbotdb.db') as database:
+    async with aiosqlite.connect("discordbotdb.db") as database:
         async with database.cursor() as cur:
             for server in bot.guilds:
                 """
@@ -44,18 +44,18 @@ async def on_ready():
                     await cur.execute(f"select * from levels where guild_id = {user.id} and user_id = {server.id}")
 
                     if not await cur.fetchall():
-                        await cur.execute(f'INSERT INTO levels VALUES({server.id}, {user.id}, 0, 0)')
+                        await cur.execute(f"INSERT INTO levels VALUES({server.id}, {user.id}, 0, 0)")
 
                     # ! if the user does exist in the database, we add them to the database
                     # ! the database is setup to have a default `false` value for the `whitelisted` column
-                    await cur.execute(f'select * from whitelist where guild_id = {server.id} and user_id = {user.id}')
+                    await cur.execute(f"select * from whitelist where guild_id = {server.id} and user_id = {user.id}")
 
                     if not await cur.fetchall():
-                        await cur.execute(f'INSERT INTO whitelist VALUES({server.id}, {user.id}, false)')
+                        await cur.execute(f"INSERT INTO whitelist VALUES({server.id}, {user.id}, false)")
 
         await database.commit()
 
-    async with aiosqlite.connect('stonks.db') as database:
+    async with aiosqlite.connect("stonks.db") as database:
         async with database.cursor() as cur:
             await cur.execute("SELECT guild_id FROM server_stonks")
             data: list[tuple] = await cur.fetchall()
@@ -67,11 +67,11 @@ async def on_ready():
                  | adds the guild to the `stonks.db` database,
                  | if it doesn't exist already. This database
                  | is used to keep track of the value o0f the
-                 | currancy that has been assighned to the
+                 | currency that has been assigned to the
                  | server.
                 """
                 if server.id not in servers:
-                    await cur.execute(f'INSERT INTO server_stonks VALUES({server.id}, "${server.name}$", 1)')
+                    await cur.execute(f"INSERT INTO server_stonks VALUES({server.id}, '${server.name}$', 1)")
 
         await database.commit()
 
@@ -79,30 +79,31 @@ async def on_ready():
     idl_cogs: int = 0
 
     for cog in track(
-        listdir('cogs'),
+        listdir("cogs"),
         console=console,
         description="[bald][bright_red]Loading cogs...[/bright_red][/bald]",
-        total=len(listdir('cogs'))
+        total=len(listdir("cogs"))
     ):
-        if cog.endswith('.py') and not cog.startswith('_'):
-            try:
+        if cog.endswith(".py") and not cog.startswith("_"):
+#            try:
                 await bot.load_extension(f"cogs.{cog[:-3]}")
                 console.print(
                     f"  [green]Successfully loaded: [/green][bright_yellow][underline]{cog}[/underline][/bright_yellow]"
                 )
                 num_cogs += 1
 
-            except Exception as e:
-                console.print(f'[red]Failed loading  cog: [/red][orange_red1]{cog}[/orange_red1] [{e}]')
+#            except Exception as e:
+#                raise e from e
+#                console.print(f"[red]Failed loading  cog: [/red][orange_red1]{cog}[/orange_red1] [{e}]")
 
-            finally:
+#            finally:
                 idl_cogs += 1
 
-    console.print(f'\nSuccessfully loaded [bald][dark_orange3][{num_cogs}/{idl_cogs}][/dark_orange3][bals] cogs')
+    console.print(f"\nSuccessfully loaded [bald][dark_orange3][{num_cogs}/{idl_cogs}][/dark_orange3][bals] cogs")
 
     await bot.tree.sync(guild=TEST_GUILD)
 
-    console.print(f'[green]Logged in as: [/green][bright_yellow][underline]{bot.user.name}[/underline][/bright_yellow]')
+    console.print(f"[green]Logged in as: [/green][bright_yellow][underline]{bot.user.name}[/underline][/bright_yellow]")
 
 
 bot.run(TOKEN)

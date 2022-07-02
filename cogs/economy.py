@@ -19,96 +19,96 @@ async def setup(bot: commands.Bot) -> None:
 
 
 class EconomeyCog(commands.Cog):
-    def __init__(self: 'EconomeyCog', bot: commands.Bot) -> None:
+    def __init__(self: "EconomeyCog", bot: commands.Bot) -> None:
         register_commands(self)
         self.bot: commands.Bot = bot
 
-    @app_commands.command(name='stonks', description='shows the value of the server an your account')
-    async def stonks(self: 'EconomeyCog', ctx: Interaction) -> None:
-        async with aiosqlite.connect('stonks.db') as db:
+    @app_commands.command(name="stonks", description="shows the value of the server an your account")
+    async def stonks(self: "EconomeyCog", ctx: Interaction) -> None:
+        async with aiosqlite.connect("stonks.db") as db:
             async with db.cursor() as curr:
                 em: Embed = Embed(
-                    title='Stonks',
-                    description='Use `/stonks` and then the name of the command to learn more about it.'
+                    title="Stonks",
+                    description="Use `/stonks` and then the name of the command to learn more about it."
                 )
 
-                await curr.execute(f'SELECT * FROM server_stonks WHERE guild_id = {ctx.guild.id}')
+                await curr.execute(f"SELECT * FROM server_stonks WHERE guild_id = {ctx.guild.id}")
 
                 data: tuple = await curr.fetchone()
 
                 em.add_field(
-                    name='Server Currency',
+                    name="Server Currency",
                     value=data[1]
                 )
                 em.add_field(
-                    name='worth',
+                    name="worth",
                     value=f"{data[2]}"
                 )
                 em.add_field(
-                    name='Your Stonks',
+                    name="Your Stonks",
                     value=0
                 )
 
                 await ctx.response.send_message(embed=em)
 
-    @app_commands.command(name='topstonks', description='shows the top 20 stonks')
-    async def topstonks(self: 'EconomeyCog', ctx: Interaction) -> None:
-        async with aiosqlite.connect('stonks.db') as db:
+    @app_commands.command(name="topstonks", description="shows the top 20 stonks")
+    async def topstonks(self: "EconomeyCog", ctx: Interaction) -> None:
+        async with aiosqlite.connect("stonks.db") as db:
             async with db.cursor() as curr:
                 em: Embed = Embed(
-                    title='Top Stonks',
-                    description='Use `/stonks` and then the name of the command to learn more about it.'
+                    title="Top Stonks",
+                    description="Use `/stonks` and then the name of the command to learn more about it."
                 )
 
                 await curr.execute(
-                    'SELECT guild_id, name, value FROM server_stonks ORDER BY value DESC LIMIT 20'
+                    "SELECT guild_id, name, value FROM server_stonks ORDER BY value DESC LIMIT 20"
                 )
                 data: tuple = await curr.fetchall()
 
                 for top_stonk in data:
                     em.add_field(
                         name=top_stonk[1],
-                        value=f'is worth {top_stonk[2]} $'
+                        value=f"is worth {top_stonk[2]} $"
                     )
 
                 await ctx.response.send_message(embed=em)
 
-    @app_commands.command(name='botttomstonks', description='shows the bottom 20 stonks')
-    async def botttomstonks(self: 'EconomeyCog', ctx: Interaction) -> None:
-        async with aiosqlite.connect('stonks.db') as db:
+    @app_commands.command(name="botttomstonks", description="shows the bottom 20 stonks")
+    async def botttomstonks(self: "EconomeyCog", ctx: Interaction) -> None:
+        async with aiosqlite.connect("stonks.db") as db:
             async with db.cursor() as curr:
                 em: Embed = Embed(
-                    title='Bottom Stonks',
-                    description='Use `/stonks` and then the name of the command to learn more about it.'
+                    title="Bottom Stonks",
+                    description="Use `/stonks` and then the name of the command to learn more about it."
                 )
 
                 await curr.execute(
-                    'SELECT guild_id, name, value FROM server_stonks ORDER BY value ASC LIMIT 20'
+                    "SELECT guild_id, name, value FROM server_stonks ORDER BY value ASC LIMIT 20"
                 )
                 data: tuple = await curr.fetchall()
 
                 for botttom_stonk in data:
                     em.add_field(
                         name=botttom_stonk[1],
-                        value=f'is worth {botttom_stonk[2]} $'
+                        value=f"is worth {botttom_stonk[2]} $"
                     )
 
                 await ctx.response.send_message(embed=em)
 
     @tasks.loop(hours=1)
     async def update_stonks(self) -> None:
-        async with aiosqlite.connect('stonks.db') as db:
+        async with aiosqlite.connect("stonks.db") as db:
             async with db.cursor() as curr:
                 for guild in self.bot.guilds:
                     """My server value should always stay at 1.00"""
                     if guild.id == 938541999961833574:
                         continue
 
-                    await curr.execute(f'SELECT * FROM server_stonks WHERE guild_id = {guild.id}')
+                    await curr.execute(f"SELECT * FROM server_stonks WHERE guild_id = {guild.id}")
                     data: tuple = await curr.fetchone()
 
                     await curr.execute(
-                        f'UPDATE server_stonks SET stonks = {data[2] * round(uniform(0.1, 1.5))} WHERE guild_id = {guild.id}'
+                        f"UPDATE server_stonks SET stonks = {data[2] * round(uniform(0.1, 1.5))} WHERE guild_id = {guild.id}"
                     )
 
             await db.commit()
@@ -117,10 +117,10 @@ class EconomeyCog(commands.Cog):
 
     def __cog_docs__(self) -> str:
         self.pass_()
-        return '''
+        return """
         This cog is used to manage the economy of the server.
         The commands are:
          - stonks
          - topstonks
          - botttomstonks
-        '''
+        """

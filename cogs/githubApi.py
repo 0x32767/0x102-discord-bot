@@ -30,22 +30,22 @@ class githubApiCog(commands.Cog):
         :return:
         """
         data: dict = requests.get(
-            f'https://api.github.com/users/{username}'
+            f"https://api.github.com/users/{username}"
         ).json()
 
         em: Embed = Embed(
-            title=f'{username}',
-            description=f'{data["bio"]}'
+            title=f"{username}",
+            description=f"{data['bio']}"
         )
 
-        em.set_thumbnail(url=f'{data["avatar_url"]}')
+        em.set_thumbnail(url=f"{data['avatar_url']}")
 
 
         for key, value in zip(
-                ['name', 'blog', 'location', 'email', 'public repos', 'followers', 'following'],
+                ["name", "blog", "location", "email", "public repos", "followers", "following"],
                 [data["name"], data["blog"], data["location"], data["email"], data["public_repos"], data["followers"], data["following"]]
         ):
-            em.add_field(name=key, value=value or 'None')
+            em.add_field(name=key, value=value or "None")
 
         await ctx.response.send_message(embed=em)
 
@@ -60,16 +60,16 @@ class githubApiCog(commands.Cog):
         :return:
         """
         data: dict = requests.get(
-            f'https://api.github.com/users/{username}/repos'
+            f"https://api.github.com/users/{username}/repos"
         ).json()
 
         em: Embed = Embed(
-            title=f'{username}\'s repos',
-            description=f'{len(data)} repos'
+            title=f"{username}\"s repos",
+            description=f"{len(data)} repos"
         )
 
         for repo in data:
-            em.add_field(name=repo["name"], value=repo["description"] or 'None')
+            em.add_field(name=repo["name"], value=repo["description"] or "None")
 
         await ctx.response.send_message(embed=em)
 
