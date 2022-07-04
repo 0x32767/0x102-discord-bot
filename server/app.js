@@ -1,4 +1,5 @@
 const express = require("express");
+const sqlite3 = require("sqlite3");
 
 
 let app = express();
@@ -13,7 +14,6 @@ const links = {
 }
 let data = {}
 
-
 app.get("/", function(req, res)
 {
     res.render("index", cards=[
@@ -26,9 +26,26 @@ app.get("/", function(req, res)
 });
 
 
+app.get("/lua/form", function(req, res)
+{
+    res.render("lua-form.ejs");
+});
+
+
 app.get("/card/:id", function(req, res)
 {
     res.render("card", info={link: links[req.params.id]});
+});
+
+
+app.post("/lua/code/", function(req, res)
+{
+    let code = req.body.code;
+    let id = req.body.id;
+    let db = new sqlite3.Database("D:\\programing\\0x102-discord-bot\\commands.db");
+    db.run("INSERT INTO lua_code (id, code) VALUES (?, ?)", [id, code]);
+    db.close();
+    res.send({success: true});
 });
 
 

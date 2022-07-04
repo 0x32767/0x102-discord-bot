@@ -1,7 +1,6 @@
-from cogs._luaTextModal import LuaTextEditorModal
-
 from cache import cacheGet
 from discord.ext import commands
+import aiosqlite
 from discord import (
     Interaction,
     app_commands,
@@ -21,9 +20,10 @@ class LuaCog(commands.Cog):
         self.bot = bot
 
     @app_commands.command()
-    async def newcommand(self: "LuaCog", ctx: Interaction) -> None:
-        await ctx.response.send_modal(LuaTextEditorModal())
+    async def runcommand(self: "LuaCog", ctx: Interaction) -> None:
+        async with aiosqlite.connect("D:\\programing\\0x102-discord-bot\\commands.db") as db:
+            async with db.cursor() as curr:
+                await curr.execute("SELECT ",)
 
     @app_commands.command()
-    async def runcommand(self: "LuaCog", ctx: Interaction) -> None:
-        ...
+    async def seecommand(self: "LuaCog", ctx: Interaction) -> None:...

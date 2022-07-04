@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>lua code uploader</title>
+</head>
+<body>
+    <div id="root">
+        <form enctype="multipart/form-data" id="form">
+            <input id="upload" type="file" accept="lua" name="files[]" size=30>
+            <input type="submit" value="done">
+        </form>
+        <textarea class="form-control" rows=35 cols=120 id="preview" readonly></textarea>
+        <script>
+            let d;
+            function handleFileSelect(evt)
+            {
+                let files = evt.target.files; // FileList object
+
+                // use the 1st file from the list
+                let f = files[0];
+
+                let reader = new FileReader();
+
+                // Closure to capture the file information.
+                reader.onload = (function(theFile)
+                {
+                    return function(e)
+                    {
+                        d=e;
+                        document.getElementById('preview').innerHTML = e.target.result;
+                    };
+                })(f);
+
+                // Read in the image file as a data URL.
+                reader.readAsText(f);
+            }
+
+            document.getElementById('upload').addEventListener('change', handleFileSelect, false);
+            document.getElementById('form').addEventListener("submit", function(ev)
+            {
+                ev.preventDefault();
+                document.getElementById('preview').innerHTML = d.target.result;
+                fetch('/lua-form', {
+                    method: 'POST',
+                    body: d.target.result
+                });
+            });
+        </script>
+    </div>
+</body>
+</html>

@@ -1,4 +1,5 @@
-discord = require("discord-lib")
+local discord = require("discord-lib")
+
 
 discord.on("/test", function(ctx)
     ctx:send{embed=discord.newEmbed{
@@ -6,6 +7,7 @@ discord.on("/test", function(ctx)
         description="This is a test"
     }}
 end)
+
 
 discord.on("/echo", function (ctx, arg)
     ctx:send(arg)
