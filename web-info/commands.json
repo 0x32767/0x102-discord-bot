@@ -1,0 +1,250 @@
+[
+    {
+        "name": "api commands",
+        "description": "All api related commands",
+        "commands":
+        [
+            {
+                "name": "/fox",
+                "description": "Get a random fox image",
+                "usage": "/fox",
+                "arguments":
+                []
+            },
+            {
+                "name": "/dog",
+                "description": "Get a random dog image",
+                "usage": "/dog",
+                "arguments":
+                []
+            },
+            {
+                "name": "/cat",
+                "description": "Get a random cat image",
+                "usage": "/cat",
+                "arguments":
+                []
+            },
+            {
+                "name": "/meme",
+                "description": "Get a random meme image",
+                "usage": "/meme",
+                "arguments":
+                []
+            },
+            {
+                "name": "/catfact",
+                "description": "Get a random cat fact",
+                "usage": "/catfact",
+                "arguments":
+                []
+            },
+            {
+                "name": "/dogfact",
+                "description": "Get a random dog fact",
+                "usage": "/dogfact",
+                "arguments":
+                []
+            }
+        ]
+    },
+    {
+        "name": "github api",
+        "description": "All github api related commands",
+        "commands":
+        [
+            {
+                "name": "/getuser",
+                "description": "Get a user from github",
+                "usage": "/getuser <username>",
+                "arguments":
+                [
+                    {
+                        "name": "username",
+                        "description": "The username of the user you want to get",
+                        "type": "word"
+                    }
+                ]
+            },
+            {
+                "name": "/getrepos",
+                "description": "Get a user's repos from github",
+                "usage": "/getrepos <username>",
+                "arguments":
+                [
+                    {
+                        "name": "username",
+                        "description": "The username of the user you want to get repos from",
+                        "type": "word"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "help command",
+        "description": "help command",
+        "commands":
+        [
+            {
+                "name": "/help",
+                "description": "Get help",
+                "usage": "/help",
+                "arguments":
+                []
+            }
+        ]
+    },
+    {
+        "name": "custom commands",
+        "description": "running and inspecting custom commands",
+        "commands":
+        [
+            {
+                "name": "/runcommand",
+                "description": "Run a custom command",
+                "usage": "/runcommand <command>",
+                "arguments":
+                [
+                    {
+                        "name": "command",
+                        "description": "The command you want to run",
+                        "type": "word"
+                    }
+                ]
+            },
+            {
+                "name": "/inspectcommand",
+                "description": "Inspect a custom command",
+                "usage": "/inspectcommand <command>",
+                "arguments":
+                [
+                    {
+                        "name": "command",
+                        "description": "The command you want to inspect",
+                        "type": "word"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "minecraft commands",
+        "description": "All minecraft related commands",
+        "commands":
+        [
+            {
+                "name": "/idlookupblock",
+                "description": "Lookup a block with the id",
+                "usage": "/idlookupblock <id>",
+                "arguments":
+                [
+                    {
+                        "name": "id",
+                        "description": "The id of the block you want to lookup",
+                        "type": "number"
+                    }
+                ]
+            },
+            {
+                "name": "/namelookupblock",
+                "description": "Lookup a block with the name",
+                "usage": "/namelookupblock <name>",
+                "arguments":
+                [
+                    {
+                        "name": "name",
+                        "description": "The name of the block you want to lookup",
+                        "type": "word"
+                    }
+                ]
+            },
+            {
+                "name": "/craft",
+                "description": "see what materials are needed to craft an item",
+                "usage": "/craft <item>",
+                "arguments":
+                [
+                    {
+                        "name": "item",
+                        "description": "The item you want to craft",
+                        "type": "word"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "more minecraft commands",
+        "description": "All minecraft related commands",
+        "commands":
+        [
+            {
+                "name": "/kill",
+                "description": "Kill yourself or other people",
+                "usage": "/kill (person)",
+                "arguments":
+                [
+                    {
+                        "name": "person",
+                        "description": "This is an optional argument which is a user (use @someone)",
+                        "type": "person"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "moderation commands",
+        "description": "Moderation commands that only the admin has access to",
+        "commands":
+        [
+            {
+                "name": "/kick",
+                "description": "kicks a user from your server",
+                "usage": "/kick <person>",
+                "arguments":
+                [
+                    {
+                        "name": "person",
+                        "description": "the person you want to kick",
+                        "type": "person"
+                    }
+                ]
+            },
+            {
+                "name": "/ban",
+                "description": "bans a user from your server",
+                "usage": "/ban <person>",
+                "arguments":
+                [
+                    {
+                        "name": "person",
+                        "description": "the person you want to ban",
+                        "type": "person"
+                    }
+                ]
+            },
+            {
+                "name": "/stats",
+                "description": "shows the server stats",
+                "usage": "/stats",
+                "arguments":
+                []
+            },
+            {
+                "name": "/whitelist",
+                "description": "whitelists a user",
+                "usage": "/whitelist <person>",
+                "arguments":
+                [
+                    {
+                        "name": "person",
+                        "description": "the person you want to whitelist",
+                        "type": "person"
+                    }
+                ]
+            }
+        ]
+    }
+]

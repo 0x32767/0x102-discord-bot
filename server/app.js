@@ -16,15 +16,26 @@ let data = {}
 
 app.get("/", function(req, res)
 {
-    res.render("index", cards=[
+    res.render("index.ejs", cards=[
         {
             title: "0x102",
             text: "A general purpose discord bot",
             id: 0
         }
-    ])
+    ]);
 });
 
+
+app.get("/about", function(req, res)
+{
+    res.render("about.ejs");
+});
+
+
+app.get("/home/", function(req, res)
+{
+    res.render("home-page.ejs");
+});
 
 app.get("/lua/form", function(req, res)
 {

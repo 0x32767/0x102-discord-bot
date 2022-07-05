@@ -7,16 +7,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <title>DBC</title>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <div id="app">
         <div id="content">
             <div class="container">
                 <div id="top">
-                    <div id="navbar">
-                        <div id="searchbar">
-                            <input type="text" placeholder="Search...">
-                        </div>
-                    </div>
+                    <%- include("navbar"); -%>
                 </div>
                 <br>
                 <div id="middle">

@@ -55,26 +55,6 @@ async def on_ready():
 
         await database.commit()
 
-    async with aiosqlite.connect("stonks.db") as database:
-        async with database.cursor() as cur:
-            await cur.execute("SELECT guild_id FROM server_stonks")
-            data: list[tuple] = await cur.fetchall()
-
-            # ! by default the `data` variable is a list of tuples
-            servers: list[int] = [x[0] for x in data]
-            for server in bot.guilds:
-                """
-                 | adds the guild to the `stonks.db` database,
-                 | if it doesn't exist already. This database
-                 | is used to keep track of the value o0f the
-                 | currency that has been assigned to the
-                 | server.
-                """
-                if server.id not in servers:
-                    await cur.execute(f"INSERT INTO server_stonks VALUES({server.id}, '${server.name}$', 1)")
-
-        await database.commit()
-
     num_cogs: int = 0
     idl_cogs: int = 0
 

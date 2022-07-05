@@ -11,17 +11,17 @@ from discord import (
 
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(
-        HelpComand(bot),
+        HelpCommand(bot),
         guilds=[Object(id=cacheGet("id"))]
     )
 
 
-class HelpComand(commands.Cog):
-    def __init__(self: "HelpComand", bot: commands.Bot) -> None:
+class HelpCommand(commands.Cog):
+    def __init__(self: "HelpCommand", bot: commands.Bot) -> None:
         self.bot: commands.Bot = bot
 
     @app_commands.command(name="help", description="help command")
-    async def help(self: "HelpComand", ctx: Interaction) -> None:
+    async def help(self: "HelpCommand", ctx: Interaction) -> None:
         embed: Embed = discord.Embed(
             title="Help",
             description="Use `/help` and then the name of the command to learn more about it."
