@@ -1,21 +1,19 @@
 from discord import Interaction
-from cogs._luaCtx import luaCtx
+from cache import cacheSet, cacheGet, cacheExist
 from lupa import LuaRuntime
 
 
 class LuaDiscordRuntimeEnvironment:
     def __init__(self: "LuaDiscordRuntimeEnvironment") -> None:
         self.lua: LuaRuntime = LuaRuntime(unpack_returned_tuples=True)
-        self.functions: dict[str, callable] = {}
 
-    async def register_function(self: "LuaDiscordRuntimeEnvironment", name: str, function: callable) -> None:
-        if not callable(function):
-            raise TypeError("function must be callable")
 
-        if name in self.functions:
-            raise ValueError("function already registered")
+async def run(code: str, ctx: Interaction) -> None:
+    if not code:
+        return
 
-        self.functions[name]: callable = self.lua.eval(function)
+    if not cacheExist("lua"):
+        cacheSet("lua", LuaDiscordRuntimeEnvironment())
 
-    async def invoke(self: "LuaDiscordRuntimeEnvironment", name: str, ctx: Interaction, args: dict) -> None:
-        self.functions[name](luaCtx(ctx), args)
+    func: callable = cacheGet("lua").lua.eval(code)
+    await ctx.response.send_message(func())

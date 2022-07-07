@@ -29,7 +29,7 @@ TEST_GUILD: discord.Object = discord.Object(cacheGet("id"))
 
 @bot.event
 async def on_ready():
-    console.clear()
+    # console.clear()
 
     async with aiosqlite.connect("discordbotdb.db") as database:
         async with database.cursor() as cur:

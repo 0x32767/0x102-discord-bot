@@ -35,3 +35,10 @@ def cacheClear() -> None:
     :return:
     """
     cache.clear()
+
+def cacheExist(key: str) -> bool:
+    """
+    :param key: The `key` is the key of the cache
+    :return:
+    """
+    return key in cache

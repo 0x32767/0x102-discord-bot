@@ -1,7 +1,9 @@
 from cache import cacheGet
 from discord.ext import commands
+from cogs._lua import run
 import aiosqlite
 from discord import (
+    Embed,
     Interaction,
     app_commands,
     Object
@@ -20,10 +22,20 @@ class LuaCog(commands.Cog):
         self.bot = bot
 
     @app_commands.command()
-    async def runcommand(self: "LuaCog", ctx: Interaction) -> None:
+    async def runcommand(self: "LuaCog", ctx: Interaction, name: str = "test") -> None:
+        if not name:
+            return await ctx.response.send_message("Please provide a command name.")
+
         async with aiosqlite.connect("D:\\programing\\0x102-discord-bot\\commands.db") as db:
             async with db.cursor() as curr:
-                await curr.execute("SELECT ",)
+                await curr.execute(f"SELECT code FROM commands WHERE name = \"{name}\"")
+                result = await curr.fetchone()
+                await run(result[0], ctx)
 
     @app_commands.command()
-    async def inspectcommand(self: "LuaCog", ctx: Interaction) -> None:...
+    async def inspectcommand(self: "LuaCog", ctx: Interaction, name: str) -> None:
+        async with aiosqlite.connect("D:\\programing\\0x102-discord-bot\\commands.db") as db:
+            async with db.cursor() as curr:
+                await curr.execute(f"SELECT code FROM commands where name = \"{name}\"")
+                result = await curr.fetchall()
+                return await ctx.response.send_message(f"```lua\n{result[0][0]}\n```")
