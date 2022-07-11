@@ -22,7 +22,7 @@ class LuaCog(commands.Cog):
         self.bot = bot
 
     @app_commands.command()
-    async def runcommand(self: "LuaCog", ctx: Interaction, name: str = "test") -> None:
+    async def runcommand(self: "LuaCog", ctx: Interaction, name: str = "echo") -> None:
         if not name:
             return await ctx.response.send_message("Please provide a command name.")
 
@@ -33,7 +33,7 @@ class LuaCog(commands.Cog):
                 await run(result[0], ctx)
 
     @app_commands.command()
-    async def inspectcommand(self: "LuaCog", ctx: Interaction, name: str) -> None:
+    async def inspectcommand(self: "LuaCog", ctx: Interaction, name: str = "echo") -> None:
         async with aiosqlite.connect("D:\\programing\\0x102-discord-bot\\commands.db") as db:
             async with db.cursor() as curr:
                 await curr.execute(f"SELECT code FROM commands where name = \"{name}\"")
