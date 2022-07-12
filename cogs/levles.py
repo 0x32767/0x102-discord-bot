@@ -2,7 +2,7 @@ import discord
 import aiosqlite
 from discord.ext import commands
 from cache import cacheGet
-from ._comand_chache import register_commands
+from ._comandChache import register_commands
 from discord import (
     Interaction,
     app_commands,

@@ -1,6 +1,6 @@
 import wikipedia as wiki
 from cache import cacheGet
-from ._comand_chache import register_commands
+from ._comandChache import register_commands
 from discord.ext import commands
 from discord import (
     Interaction,

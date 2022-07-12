@@ -1,6 +1,6 @@
 from requests import get as get_request
 from json import loads as js_loads
-from cogs._comand_chache import register_commands
+from cogs._comandChache import register_commands
 from discord.ext import commands
 from cache import cacheGet
 from discord import (

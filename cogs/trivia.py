@@ -1,7 +1,7 @@
 import requests
 
 from cache import cacheGet
-from ._trivia_view import TriviaView
+from ._triviaView import TriviaView
 from discord.ext import commands
 from discord import (
     Embed,

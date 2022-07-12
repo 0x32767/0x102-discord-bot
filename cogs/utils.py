@@ -4,7 +4,7 @@ from random import choice
 from discord.ext import commands
 
 from cache import cacheGet
-from ._comand_chache import register_commands
+from ._comandChache import register_commands
 from datetime import datetime
 from discord import (
     Interaction,
