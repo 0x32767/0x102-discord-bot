@@ -20,11 +20,27 @@ class MaxEmbedFieldsExceeded(Exception):
      | 
      | ::In-code use::
      | if len(embed["fields"]) >= 26:
-     |     raise MaxEmbedFieldsExceeded({
+     |     return MaxEmbedFieldsExceeded({
      |          "message": f"the maximum amount of embeds has been reached got {len(embed['fields'])} >= 26",
      |          "ErrorUrl": "https://github.com/0x32767/0x102-discord-bot/..."
      | })
     """
+
+
+    @property
+    def embed(self):
+        import discord
+
+        return discord.Embed(
+            title="Embed Field Overflow",
+            description="The maximum amount of embed fields has been reached.",
+            color=0xFF0000,
+            url=self.args[0]["ErrorUrl"]
+        ).add_field(
+            name="Error Name",
+            value=self.__class__.__name__,
+        )
+
 
 class EmbedInitializeError(Exception):
     """
@@ -57,8 +73,110 @@ class EmbedInitializeError(Exception):
      |          color=embed["color"]
      |      )
      | except KeyError:
-     |    raise EmbedInitializeError({
+     |    return EmbedInitializeError({
      |          "message": "The embed was not initialized correctly",
      |          "ErrorUrl": ""
      | })
     """
+
+
+    @property
+    def embed(self):
+        import discord
+
+        return discord.Embed(
+            title="Embed Initialization Error",
+            description="The embed was not initialized correctly.",
+            color=0xFF0000,
+            url=self.args[0]["ErrorUrl"]
+        ).add_field(
+            name="Error Name",
+            value=self.__class__.__name__,
+        )
+
+
+class FieldInitializeError(Exception):
+    """
+     | ::context::
+     | discord.py requires three paramiters when initializing an embed field: name, value and inline.
+     |
+     | ::use::
+     | The exception is raised when a keyError is thrown. This can be caused if the key is not found in the lua table.
+     | This can also be caused if the value is not of the expected type.
+     |
+     | ::example::
+     | function test()
+     |      return newEmbed{title="...", description="..."}.addField(
+     |          name="...", -- the value argument is missing
+     |          inline=true
+     |      )
+     | end
+     |
+     | ::in-code use::
+     | try:
+     |    em.addField(
+     |          name=field["name"],
+     |          value=field["value"],
+     |          inline=field["inline"]
+     |      )
+     | except KeyError:
+     |    return FieldInitializeError({
+     |          "message": "The field was not initialized correctly",
+     |          "ErrorUrl": ""
+     | })
+    """
+
+    @property
+    def embed(self):
+        import discord
+
+        return discord.Embed(
+            title="Embed Field Initialization Error",
+            description="An embedField was not initialized properly.",
+            color=0xFF0000,
+            url=self.args[0]["ErrorUrl"]
+        ).add_field(
+            name="Error Name",
+            value=self.__class__.__name__,
+        )
+
+
+class FooterInitializeError(Exception):
+    """
+     | ::context::
+     | discord.py requires a paramiter when initializing an embed footer text.
+     |
+     | ::use::
+     | The exception is raised when a keyError is thrown. This can be caused if the key is not found in the lua table.
+     | This can also be caused if the value is not of the expected type.
+     |
+     | ::example::
+     | function test()
+     |      return newEmbed{title="...", description="..."}.addFooter() -- the text argument is missing
+     | end
+     |
+     | ::in-code use::
+     | try:
+     |     em.set_footer(text=embed["footer"]["text"])
+     |
+     | except KeyError:
+     |    return FieldInitializeError({
+     |        "message": "the embed was not initialized correctly, the following keys were not found: footer",
+     |        "ErrorUrl": ""
+     |    })
+    """
+
+
+    @property
+    def embed(self):
+        import discord
+
+        return discord.Embed(
+            title="Embed Footer Initialization Error",
+            description="The embed footer was not initialized correctly.",
+            color=0xFF0000,
+            url=self.args[0]["ErrorUrl"]
+        ).add_field(
+            name="Error Name",
+            value=self.__class__.__name__,
+        )

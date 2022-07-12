@@ -38,6 +38,9 @@ The list
  - [$] [#0007]. Profanity detection
  - [$] [#0008]. api call to sync data with another bot
  - [$] [#0009]. dynamic website for bots
- - [6] [#0010]. Custom commands
- - [6] [#0011]. implement a way to make custom commands
- - [6] [#0011]. implement a way to run custom commands
+ - [6] [#000a]. Custom commands
+ - [6] [#000b]. implement a way to make custom commands
+ - [6] [#000c]. implement a way to run custom commands
+ - [-] [#000d]. implement a way to delete custom commands
+ - [-] [#000e]. implement a way to edit custom commands
+ - [9] [#000f]. errors for custom commands
