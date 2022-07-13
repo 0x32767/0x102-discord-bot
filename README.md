@@ -1,28 +1,34 @@
-># The 0x102 Discord bot
+# 0x102 discord bot
 
-<br>
 
-># Overview
+> Overview
 
-The 0x102 Discord bot is a discord bot written with the discord.py api wrapper. The bot is written in python and has been a project for the last year. The discord bot has now largely been discontinued due to lack of ideas and atention.
+0x102 is a discord bot packed with manny features, It is made with the discord.py libruary (which has resumbed developement). The discord bot is still under developement and is being frequantly updated.
 
-># Fetures
+## public use
 
-The bot is desighned to be a utility bot with fetures such as:
- * Trivia
- * Moderation
- * Economy
- * APIs
- * Minecraft
- * Wikapedia
+The bot is currentely not availible for public use yet, if you want it to relese then star the project. When the bot will launch for public use the bot (0x102) will be 0z012, that way the 0x102 bot can still be used for developement. (There will be two versions of the bot, one for use, one for testing).
 
-Most of these fetures have been largely complete, however the bot will hopefully include:
- * Kahoot-like trivia quizes
- * The ability to trade a server spicific curency betwene servers
- * Todo function
+## updates
 
-The fetures will hopefully be added when the bot is recontinued.
+The bot is being frequantley updated, progress graph can be found here: https://github.com/0x32767/0x102-discord-bot/graphs/contributors.
 
-># Resons for less activity
+## contributing
 
-The programer is still in school and has dedicated much of his day to other activities. The school has also blocked discord making it impossible to test the bot for bugs and other problems.
+Pull requests will be accepted by the author, these pull requests can range from spleeing errors to refactoring the whole project (if you are crazy enough to :) ). Another feature of this bot is custom commands, these commands will need to be verifiyed and can be submitted via the bot or a pull request to the repo (thse will need to be approved of though).
+
+## features
+
+* API interaction
+* Fun message encryption
+* Help command (duh :))
+* leveling (depricated for now)
+* moderation
+* whitelisting
+* trivia questions
+* Wikapedia intergration
+* pole
+* utils
+* general fun
+* Memes
+* running, making, editing customm commands
