@@ -24,10 +24,9 @@ async def create_embed(embed) -> Embed or tuple[str, str]:
 
     except KeyError:
         return err.EmbedInitializeError({
-            "message": f"the embed was not initialized correctly, the following keys were not found: {', '.join(embed.keys())}",
+            "message": "the embed was not initialized correctly",
             "ErrorUrl": ""
         })
-
 
     for field in embed["fields"]:
         try:
@@ -54,17 +53,9 @@ async def create_embed(embed) -> Embed or tuple[str, str]:
 
     return em
 
-# this function will validate out embed and check for errors.
-async def check_embed(
-        embed: Embed or any([
-            err.MaxEmbedFieldsExceeded,
-            err.FooterInitializeError,
-            err.EmbedInitializeError,
-            err.FieldInitializeError,
-        ]),
-        ctx: Interaction
-    ) -> bool:
 
+# this function will validate out embed and check for errors.
+async def check_embed(embed: Embed or any(inspect.getmembers(err)), ctx: Interaction) -> bool:
     # check if the embed inherits from the Embed class.
     if not issubclass(embed.__class__.__base__, Exception):
         return await ctx.response.send_message(embed=embed)
@@ -73,6 +64,7 @@ async def check_embed(
     for cls in inspect.getmembers(err):
         if isinstance(embed, cls):
             return await ctx.response.send_message(embed=cls.embed)
+
 
 async def run(code: str, ctx: Interaction) -> None:
     if not code:
@@ -96,6 +88,5 @@ async def run(code: str, ctx: Interaction) -> None:
         case "embed":
             await ctx.response.send_message(await create_embed(res["embed"]))
 
-
-    del lua, func, table
+    del lua, func
     return

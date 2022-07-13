@@ -34,7 +34,7 @@ class PoleCog(commands.Cog):
         """
 
     @app_commands.command(name="newpoll")
-    async def new_poll(self: 'PoleCog', ctx: Interaction, *, question: str) -> None:
+    async def new_poll(self: "PoleCog", ctx: Interaction, *, question: str) -> None:
         """
         :param ctx: The ctx param is passes by the discord.py libruary
         :param question: The question that is created by the user
@@ -69,7 +69,7 @@ class PoleCog(commands.Cog):
 
     @app_commands.command(name="vote")
     @app_commands.describe(vote="true: yes, false: no")
-    async def vote(self: 'PoleCog', ctx: Interaction, vote: bool) -> None:
+    async def vote(self: "PoleCog", ctx: Interaction, vote: bool) -> None:
         """
         :param ctx: The ctx param is passes by the discord.py libruary
         :param vote: The vote that is created by the user

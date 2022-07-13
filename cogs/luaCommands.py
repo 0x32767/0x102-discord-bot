@@ -3,7 +3,6 @@ from discord.ext import commands
 from cogs._lua import run
 import aiosqlite
 from discord import (
-    Embed,
     Interaction,
     app_commands,
     Object

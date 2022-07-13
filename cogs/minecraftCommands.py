@@ -18,11 +18,11 @@ async def setup(bot: commands.Bot) -> None:
 
 
 class MinecrtaftCog(commands.Cog):
-    def __init__(self: 'MinecrtaftCog', bot: commands.Bot) -> None:
+    def __init__(self: "MinecrtaftCog", bot: commands.Bot) -> None:
         self.bot: commands.Bot = bot
 
     @app_commands.command()
-    async def kill(self: 'MinecrtaftCog', ctx: Interaction, player: Member = None) -> None:
+    async def kill(self: "MinecrtaftCog", ctx: Interaction, player: Member = None) -> None:
         """
         :param ctx: The ctx param is passes by the discord.py libruary
         :param player: The player that is killed

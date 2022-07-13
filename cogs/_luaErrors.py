@@ -8,7 +8,7 @@ class MaxEmbedFieldsExceeded(Exception):
      | many fields can be added to the embed.
      |
      | ::example::
-     | 
+     |
      |  -- btw this embed would have 26 fields
      | function test(cotext)
      |     return createEmbed{title="Field overflow", description="..."}.addField(
@@ -17,7 +17,7 @@ class MaxEmbedFieldsExceeded(Exception):
      |       ).addField().addField().addField().addField().addField().addField(
      |       ).addField().addField().addField().addField().addField().addField().addField()
      | end
-     | 
+     |
      | ::In-code use::
      | if len(embed["fields"]) >= 26:
      |     return MaxEmbedFieldsExceeded({
@@ -25,7 +25,6 @@ class MaxEmbedFieldsExceeded(Exception):
      |          "ErrorUrl": "https://github.com/0x32767/0x102-discord-bot/..."
      | })
     """
-
 
     @property
     def embed(self):
@@ -46,7 +45,7 @@ class EmbedInitializeError(Exception):
     """
      | ::context::
      | discord.py requires embeds to created with the following syntax:
-     | 
+     |
      | embed: Embed = Embed(
      |      title=">>INSERT TITLE HERE<<",
      |      description=">>INSERT DESCRIPTION HERE<<",
@@ -78,7 +77,6 @@ class EmbedInitializeError(Exception):
      |          "ErrorUrl": ""
      | })
     """
-
 
     @property
     def embed(self):
@@ -165,7 +163,6 @@ class FooterInitializeError(Exception):
      |        "ErrorUrl": ""
      |    })
     """
-
 
     @property
     def embed(self):

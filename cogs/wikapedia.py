@@ -17,12 +17,12 @@ async def setup(bot: commands.Bot) -> None:
 
 
 class WikiCog(commands.Cog):
-    def __init__(self: 'WikiCog', bot: commands.Bot) -> None:
+    def __init__(self: "WikiCog", bot: commands.Bot) -> None:
         register_commands(self)
         self.bot: commands.Bot = bot
 
     @app_commands.command()
-    async def wiki(self: 'WikiCog', ctx: Interaction, *, query: str) -> None:
+    async def wiki(self: "WikiCog", ctx: Interaction, *, query: str) -> None:
         """
         :param ctx: The `ctx` peramiter is passed by default by the discord.py lib when executed
         :param query: The `query` peram is passes by the command user and is used to search wikipedia

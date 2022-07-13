@@ -12,14 +12,14 @@ from discord import (
 
 
 class Moderation(commands.Cog):
-    def __init__(self: 'Moderation', bot: commands.Bot) -> None:
+    def __init__(self: "Moderation", bot: commands.Bot) -> None:
         register_commands(self)
         self.bot: commands.Bot = bot
 
     @app_commands.command()
     @app_commands.describe(user="The user you want to kick.")
     @app_commands.describe(reason="Why you want to kick the user.")
-    async def kick(self: 'Moderation', ctx: Interaction, user: Member, *, reason: str = "You  have been naughty") -> None:
+    async def kick(self: "Moderation", ctx: Interaction, user: Member, *, reason: str = "You  have been naughty") -> None:
         """
         :param ctx:
         :param user:
@@ -36,7 +36,7 @@ class Moderation(commands.Cog):
     @app_commands.command()
     @app_commands.describe(user="The user you want to ban.")
     @app_commands.describe(reason="Why you want to ban the user.")
-    async def ban(self: 'Moderation', ctx: Interaction, user: Member, *, reason: str = "you have been naughty") -> None:
+    async def ban(self: "Moderation", ctx: Interaction, user: Member, *, reason: str = "you have been naughty") -> None:
         try:
             await user.ban(reason=reason)
             await ctx.response.send_message(f"successfully kicked {user.name} for \"{reason}\"")
@@ -44,59 +44,59 @@ class Moderation(commands.Cog):
         except Exception as e:
             await ctx.response.send_message(f"error: {e}")
 
-    @app_commands.command(name='stats', description='you can see server statistics')
-    async def stats(self: 'Moderation', ctx: Interaction) -> None:
+    @app_commands.command(name="stats", description="you can see server statistics")
+    async def stats(self: "Moderation", ctx: Interaction) -> None:
         async with ctx.channel.typing():
             embed: Embed = Embed(
-                title=f'{ctx.guild.name}\'s stats',
-                description='gives the stats of the server'
+                title=f"{ctx.guild.name}'s stats",
+                description="gives the stats of the server"
             )
             for key, stat in zip(
-                    ['name', 'owner', 'members', 'region'],
-                    [f'{ctx.guild.name}', f'{ctx.guild.owner.name}', f'{ctx.guild.member_count}', f'{ctx.guild.region}']
+                    ["name", "owner", "members", "region"],
+                    [str(ctx.guild.name), str(ctx.guild.owner.name), str(ctx.guild.member_count), str(ctx.guild.region)]
             ):
                 embed.add_field(
                     name=key,
                     value=stat
                 )
 
-        await ctx.response.send('ok', embed=embed)
+        await ctx.response.send("ok", embed=embed)
 
-    @app_commands.command(description='whitelist a user and bots')
+    @app_commands.command(description="whitelist a user and bots")
     @commands.is_owner()
-    async def whitelist(self: 'Moderation', ctx: Interaction, member: Member) -> None:
+    async def whitelist(self: "Moderation", ctx: Interaction, member: Member) -> None:
         async with ctx.channel.typing():
-            async with aiosqlite.connect('discordbotdb.db') as db:
+            async with aiosqlite.connect("discordbotdb.db") as db:
                 async with db.cursor() as curr:
                     await curr.execute(
-                        f'update whitelist set whitelisted = True where guild_id = {ctx.guild.id} and user_id = {member.id}'
+                        f"update whitelist set whitelisted = True where guild_id = {ctx.guild.id} and user_id = {member.id}"
                     )
 
                 await db.commit()
 
-            await ctx.response.send_message(f'{ctx.user.mention} has now been whitelisted!!!')
+            await ctx.response.send_message(f"{ctx.user.mention} has now been whitelisted!!!")
 
-    @app_commands.command(description='unwhitelist a user and bots')
+    @app_commands.command(description="unwhitelist a user and bots")
     @commands.is_owner()
-    async def unwhitelist(self: 'Moderation', ctx: Interaction, member: Member) -> None:
+    async def unwhitelist(self: "Moderation", ctx: Interaction, member: Member) -> None:
         async with ctx.channel.typing():
-            async with aiosqlite.connect('discordbotdb.db') as db:
+            async with aiosqlite.connect("discordbotdb.db") as db:
                 async with db.cursor() as curr:
                     await curr.execute(
-                        f'update whitelist set whitelisted = False where guild_id = {ctx.guild.id} and user_id = {member.id}'
+                        f"update whitelist set whitelisted = False where guild_id = {ctx.guild.id} and user_id = {member.id}"
                     )
 
             await db.commit()
 
-            await ctx.response.send_message(f'{ctx.user.mention} has now been unwhitelisted!!!')
+            await ctx.response.send_message(f"{ctx.user.mention} has now been unwhitelisted!!!")
 
-    @app_commands.command(description='check if a user is whitelisted')
-    async def whitelisted(self: 'Moderation', ctx: Interaction, member: Member) -> None:
+    @app_commands.command(description="check if a user is whitelisted")
+    async def whitelisted(self: "Moderation", ctx: Interaction, member: Member) -> None:
         async with ctx.channel.typing():
-            async with aiosqlite.connect('discordbotdb.db') as db:
+            async with aiosqlite.connect("discordbotdb.db") as db:
                 async with db.cursor() as curr:
                     await curr.execute(
-                        f'select whitelisted from whitelist where guild_id = {ctx.guild.id} and user_id = {member.id}'
+                        f"select whitelisted from whitelist where guild_id = {ctx.guild.id} and user_id = {member.id}"
                     )
 
                     whitelisted: tuple = await curr.fetchone()
@@ -104,18 +104,18 @@ class Moderation(commands.Cog):
             await db.commit()
 
             if whitelisted[0] == 1:
-                await ctx.response.send_message(f'{member.mention} is whitelisted')
+                await ctx.response.send_message(f"{member.mention} is whitelisted")
             else:
-                await ctx.response.send_message(f'{member.mention} is not whitelisted')
+                await ctx.response.send_message(f"{member.mention} is not whitelisted")
 
-    @app_commands.command(description='check if a user is banned')
-    async def antiraid(self: 'Moderation', ctx: Interaction) -> None:
+    @app_commands.command(description="check if a user is banned")
+    async def antiraid(self: "Moderation", ctx: Interaction) -> None:
         async with ctx.channel.typing():
-            async with aiosqlite.connect('discordbotdb.db') as db:
+            async with aiosqlite.connect("discordbotdb.db") as db:
                 async with db.cursor() as curr:
                     for member in ctx.guild.members:
                         await curr.execute(
-                            f'select whitelisted from whitelist where guild_id = {ctx.guild.id} and user_id = {member.id}'
+                            f"select whitelisted from whitelist where guild_id = {ctx.guild.id} and user_id = {member.id}"
                         )
 
                         whitelisted: tuple = await curr.fetchone()
@@ -123,9 +123,9 @@ class Moderation(commands.Cog):
                             continue
 
                         else:
-                            await member.kick(reason=f'You are not whitelisted in the `{ctx.guild.name}` server')
+                            await member.kick(reason=f"You are not whitelisted in the `{ctx.guild.name}` server")
 
-            await ctx.response.send_message('ok, done')
+            await ctx.response.send_message("ok, done")
 
     def __cog_docs__(self) -> str:
         return """
