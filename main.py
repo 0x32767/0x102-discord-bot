@@ -2,7 +2,6 @@ from rich.progress import track
 from configparser import ConfigParser
 from rich.console import Console
 from discord.ext import commands
-from _tokens import TOKEN
 from os import listdir
 import aiosqlite
 import discord
@@ -23,6 +22,9 @@ console: Console = Console()
 conf: ConfigParser = ConfigParser()
 conf.read("constants.conf")
 cacheSet("id", conf["bot"]["serverId"])
+
+# we don't want to store the token in the code or in the constants.conf file
+conf.read("vars.ini")
 
 TEST_GUILD: discord.Object = discord.Object(cacheGet("id"))
 
@@ -85,4 +87,4 @@ async def on_ready():
     console.print(f"[green]Logged in as: [/green][bright_yellow][underline]{bot.user.name}[/underline][/bright_yellow]")
 
 
-bot.run(TOKEN)
+bot.run(conf["bot"]["token"])

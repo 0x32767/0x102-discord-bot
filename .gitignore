@@ -5,8 +5,6 @@ __pycache__
 .idea
 venv
 *.db
-tokens.py
-_tokens.py
 *.pyc
 *.pyo
 .vscode
@@ -15,3 +13,4 @@ node_modules
 package-lock.json
 package.json
 *.o
+vars.ini
