@@ -24,6 +24,9 @@ class MaxEmbedFieldsExceeded(Exception):
      |          "message": f"the maximum amount of embeds has been reached got {len(embed['fields'])} >= 26",
      |          "ErrorUrl": "https://github.com/0x32767/0x102-discord-bot/..."
      | })
+     |
+     | ::Documentation::
+     | https://github.com/0x32767/0x102-discord-bot/blob/master/docs/lua-errors.md#maxembedfieldsexceeded-or-embed-field-overflow
     """
 
     @property
@@ -74,8 +77,11 @@ class EmbedInitializeError(Exception):
      | except KeyError:
      |    return EmbedInitializeError({
      |          "message": "The embed was not initialized correctly",
-     |          "ErrorUrl": ""
+     |          "ErrorUrl": "..."
      | })
+     |
+     | ::Documentation::
+     | https://github.com/0x32767/0x102-discord-bot/blob/master/docs/lua-errors.md#embedinitializeerror-or-embed-initialize-error
     """
 
     @property
@@ -120,8 +126,11 @@ class FieldInitializeError(Exception):
      | except KeyError:
      |    return FieldInitializeError({
      |          "message": "The field was not initialized correctly",
-     |          "ErrorUrl": ""
+     |          "ErrorUrl": "..."
      | })
+     |
+     | ::Documentation::
+     | https://github.com/0x32767/0x102-discord-bot/blob/master/docs/lua-errors.md#fieldinitializeerror
     """
 
     @property
@@ -160,8 +169,11 @@ class FooterInitializeError(Exception):
      | except KeyError:
      |    return FieldInitializeError({
      |        "message": "the embed was not initialized correctly, the following keys were not found: footer",
-     |        "ErrorUrl": ""
+     |        "ErrorUrl": "..."
      |    })
+     |
+     | ::Documentation::
+     | https://github.com/0x32767/0x102-discord-bot/blob/master/docs/lua-errors.md#footerinitializeerror
     """
 
     @property

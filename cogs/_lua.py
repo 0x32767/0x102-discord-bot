@@ -12,7 +12,7 @@ async def create_embed(embed) -> Embed or tuple[str, str]:
     if len(embed["fields"]) >= 26:
         return err.MaxEmbedFieldsExceeded({
             "message": f"the maximum amount of embeds has been reached got {len(embed['fields'])} >= 26",
-            "ErrorUrl": ""
+            "ErrorUrl": "https://github.com/0x32767/0x102-discord-bot/blob/master/cogs/_luaErrors.py#L1"
         })
 
     try:
@@ -25,7 +25,7 @@ async def create_embed(embed) -> Embed or tuple[str, str]:
     except KeyError:
         return err.EmbedInitializeError({
             "message": "the embed was not initialized correctly",
-            "ErrorUrl": ""
+            "ErrorUrl": "https://github.com/0x32767/0x102-discord-bot/blob/master/cogs/_luaErrors.py#L44"
         })
 
     for field in embed["fields"]:
@@ -37,18 +37,18 @@ async def create_embed(embed) -> Embed or tuple[str, str]:
             )
 
         except KeyError:
-            return err.EmbedInitializeError({
+            return err.FieldInitializeError({
                 "message": "the embed was not initialized correctly, the following keys were not found: footer",
-                "ErrorUrl": ""
+                "ErrorUrl": "https://github.com/0x32767/0x102-discord-bot/blob/master/cogs/_luaErrors.py#L96"
             })
 
     try:
-        em.set_footer(text=embed["footer"]["text"])
+        em.set_footer(text=embed["footer"])
 
     except KeyError:
         return err.FieldInitializeError({
             "message": "the embed was not initialized correctly, the following keys were not found: footer",
-            "ErrorUrl": ""
+            "ErrorUrl": "https://github.com/0x32767/0x102-discord-bot/blob/master/cogs/_luaErrors.py#L142"
         })
 
     return em
@@ -83,10 +83,10 @@ async def run(code: str, ctx: Interaction) -> None:
     func: callable = lua.eval(code)
     match (res := func(iMaker(ctx)))["type"]:
         case "message":
-            await ctx.response.send_message(res["content"])
+            await ctx.response.send_message(res["object"]["content"])
 
         case "embed":
-            await ctx.response.send_message(await create_embed(res["embed"]))
+            await ctx.response.send_message(await create_embed(res["object"]))
 
     del lua, func
     return
