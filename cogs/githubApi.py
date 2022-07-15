@@ -65,7 +65,7 @@ class githubApiCog(commands.Cog):
         ).json()
 
         em: Embed = Embed(
-            title=f"{username}\"s repos",
+            title=f"{username}`s repos",
             description=f"{len(data)} repos"
         )
 
