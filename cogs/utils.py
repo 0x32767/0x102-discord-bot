@@ -1,9 +1,9 @@
-import aiohttp
-import discord
-from random import choice
+import cogs._helpCommandSetup
 from discord.ext import commands
 from cache import cacheGet
-from ._comandChache import register_commands
+from random import choice
+import discord
+import aiohttp
 from datetime import datetime
 from discord import (
     Interaction,
@@ -21,9 +21,9 @@ async def setup(bot: commands.Bot) -> None:
 
 class UtilsCog(commands.Cog):
     def __init__(self: 'UtilsCog', bot: commands.Bot) -> None:
-        register_commands(self)
         self.bot: commands.Bot = bot
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command(description='gives a classic 8ball response')
     async def ball(self: 'UtilsCog', ctx: discord.Interaction):
         await ctx.response.send_message(choice([
@@ -58,21 +58,25 @@ class UtilsCog(commands.Cog):
             "Concentrate and ask again.",
         ]))
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command(name='inspire', description='sends an inspiring message')
     async def inspire(self: 'UtilsCog', ctx: Interaction):
         quote: str = await self._get_quote()
         await ctx.response.send_message(quote)
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command(description='does a coin flip so heads or tails')
     async def coinflip(self: 'UtilsCog', ctx: Interaction):
         await ctx.response.send_message(f'you have {choice(["heads", "tails"])}')
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command(name='time', description='sends the current time')
     async def time(self: 'UtilsCog', ctx: Interaction):
         now = datetime.now()
         dt_string: str = now.strftime("%d/%m/%Y %H:%M:%S")
         await ctx.response.send_message(f'date and time: {dt_string}')
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command(name='poke', description='you can send a private message to another user')
     @app_commands.describe(member="The user you want to msg.")
     @app_commands.describe(msg="The message you want to send.")
@@ -83,6 +87,7 @@ class UtilsCog(commands.Cog):
         except discord.ext.commands.errors.MemberNotFound:
             await ctx.response.send_message(f'member {member} was not found')
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command(name='sus')
     async def sus(self: 'UtilsCog', ctx: Interaction):
         await ctx.response.send_message('ඞ sus')
@@ -95,6 +100,7 @@ class UtilsCog(commands.Cog):
             r: dict = await response.json()
             return f"{r[0]['q']} - {r[0]['a']}"
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command(name='enchant', description='you can enchant your text maybe with sharpness?')
     @app_commands.describe(message="The text you want to enchant.")
     async def enchant(self: 'UtilsCog', ctx: Interaction, *, message: str):
@@ -125,16 +131,3 @@ class UtilsCog(commands.Cog):
 
     def pass_(self) -> None:
         ...
-
-    def __cog_docs__(self) -> str:
-        return """
-        This cog contains a collection of useful commands.
-        You can use the commands:
-            - ball
-            - coinflip
-            - time
-            - inspire
-            - poke
-            - sus
-            - enchant
-        """

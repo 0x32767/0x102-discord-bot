@@ -1,6 +1,6 @@
 from discord.ext import commands
+import cogs._helpCommandSetup
 from cache import cacheGet
-from ._comandChache import register_commands
 import aiosqlite
 from discord import (
     Interaction,
@@ -13,10 +13,10 @@ from discord import (
 
 class Moderation(commands.Cog):
     def __init__(self: "Moderation", bot: commands.Bot) -> None:
-        register_commands(self)
         self.bot: commands.Bot = bot
 
     @app_commands.command()
+    @cogs._helpCommandSetup.record()
     @app_commands.describe(user="The user you want to kick.")
     @app_commands.describe(reason="Why you want to kick the user.")
     async def kick(self: "Moderation", ctx: Interaction, user: Member, *, reason: str = "You  have been naughty") -> None:
@@ -33,6 +33,7 @@ class Moderation(commands.Cog):
         except Exception as e:
             await ctx.response.send_message(f"error: {e}")
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command()
     @app_commands.describe(user="The user you want to ban.")
     @app_commands.describe(reason="Why you want to ban the user.")
@@ -44,6 +45,7 @@ class Moderation(commands.Cog):
         except Exception as e:
             await ctx.response.send_message(f"error: {e}")
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command(name="stats", description="you can see server statistics")
     async def stats(self: "Moderation", ctx: Interaction) -> None:
         async with ctx.channel.typing():
@@ -62,6 +64,7 @@ class Moderation(commands.Cog):
 
         await ctx.response.send("ok", embed=embed)
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command(description="whitelist a user and bots")
     @commands.is_owner()
     async def whitelist(self: "Moderation", ctx: Interaction, member: Member) -> None:
@@ -76,6 +79,7 @@ class Moderation(commands.Cog):
 
             await ctx.response.send_message(f"{ctx.user.mention} has now been whitelisted!!!")
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command(description="unwhitelist a user and bots")
     @commands.is_owner()
     async def unwhitelist(self: "Moderation", ctx: Interaction, member: Member) -> None:
@@ -90,6 +94,7 @@ class Moderation(commands.Cog):
 
             await ctx.response.send_message(f"{ctx.user.mention} has now been unwhitelisted!!!")
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command(description="check if a user is whitelisted")
     async def whitelisted(self: "Moderation", ctx: Interaction, member: Member) -> None:
         async with ctx.channel.typing():
@@ -108,6 +113,7 @@ class Moderation(commands.Cog):
             else:
                 await ctx.response.send_message(f"{member.mention} is not whitelisted")
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command(description="check if a user is banned")
     async def antiraid(self: "Moderation", ctx: Interaction) -> None:
         async with ctx.channel.typing():
@@ -126,15 +132,6 @@ class Moderation(commands.Cog):
                             await member.kick(reason=f"You are not whitelisted in the `{ctx.guild.name}` server")
 
             await ctx.response.send_message("ok, done")
-
-    def __cog_docs__(self) -> str:
-        return """
-        This cog is used to moderate your server.
-        You can use the commands:
-            -kick
-            -ban
-            -stats
-        """
 
 
 async def setup(bot: commands.Bot) -> None:

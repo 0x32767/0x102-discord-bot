@@ -1,8 +1,8 @@
-import requests
-
-from cache import cacheGet
+import cogs._helpCommandSetup
 from ._triviaView import TriviaView
 from discord.ext import commands
+from cache import cacheGet
+import requests
 from discord import (
     Embed,
     Interaction,
@@ -22,6 +22,7 @@ class TriviaCog(commands.Cog):
     def __init__(self: "TriviaCog", bot: commands.Bot) -> None:
         self.bot = bot
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command(name="trivia", description="starts a trivia game")
     async def trivia(self: "TriviaCog", ctx: Interaction) -> None:
         """
@@ -39,10 +40,3 @@ class TriviaCog(commands.Cog):
                 color=0x00ff00
             )
         )
-
-    def __cog_docs__(self):
-        return """
-        This cog is used to play trivia games.
-        The commands are:
-         - trivia
-        """

@@ -1,7 +1,8 @@
-import json
-import random
-from cache import cacheGet
+import cogs._helpCommandSetup
 from discord.ext import commands
+from cache import cacheGet
+import random
+import json
 from discord import (
     Interaction,
     app_commands,
@@ -21,6 +22,7 @@ class MinecrtaftCog(commands.Cog):
     def __init__(self: "MinecrtaftCog", bot: commands.Bot) -> None:
         self.bot: commands.Bot = bot
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command()
     async def kill(self: "MinecrtaftCog", ctx: Interaction, player: Member = None) -> None:
         """
@@ -46,6 +48,3 @@ class MinecrtaftCog(commands.Cog):
             )
 
         del data
-
-    def __cog_docs__(self) -> str:
-        return "This is the minecrtaft cog."

@@ -1,7 +1,7 @@
-import wikipedia as wiki
-from cache import cacheGet
-from ._comandChache import register_commands
+import cogs._helpCommandSetup
 from discord.ext import commands
+from cache import cacheGet
+import wikipedia as wiki
 from discord import (
     Interaction,
     app_commands,
@@ -18,9 +18,9 @@ async def setup(bot: commands.Bot) -> None:
 
 class WikiCog(commands.Cog):
     def __init__(self: "WikiCog", bot: commands.Bot) -> None:
-        register_commands(self)
         self.bot: commands.Bot = bot
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command()
     async def wiki(self: "WikiCog", ctx: Interaction, *, query: str) -> None:
         """
@@ -40,10 +40,3 @@ __**{query}**__
             )
         except Exception as e:
             await ctx.response.send_message(f"error: {e}")
-
-    def __cog_docs__(self) -> str:
-        return """
-        This cog is used to search wikipedia.
-        You can use the commands:
-            -wiki
-        """

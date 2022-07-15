@@ -1,7 +1,6 @@
+import cogs._helpCommandSetup
 from discord.ext import commands
-
 from cache import cacheGet
-from ._comandChache import register_commands
 from discord import (
     Interaction,
     app_commands,
@@ -19,9 +18,9 @@ async def setup(bot: commands.Bot) -> None:
 
 class VoiceCog(commands.Cog):
     def __init__(self: "VoiceCog", bot: commands.Bot) -> None:
-        register_commands(self)
         self.bot: commands.Bot = bot
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command()
     async def join(self: "VoiceCog", ctx: Interaction) -> None:
         if ctx.user.voice:
@@ -32,6 +31,7 @@ class VoiceCog(commands.Cog):
         else:
             await ctx.response.send_message("you need to be in a vc for this command to work")
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command(description="leaves a voice channel")
     async def leave(self: "VoiceCog", ctx: Interaction):
         try:
@@ -44,11 +44,3 @@ class VoiceCog(commands.Cog):
 
             else:
                 await ctx.response.send_message(str(er))
-
-    def __cog_docs__(self) -> str:
-        return """
-        This cog is used to join and leave voice channels.
-        You can use the commands:
-            -join
-            -leave
-        """

@@ -1,7 +1,7 @@
-import requests
+import cogs._helpCommandSetup
 from discord.ext import commands
 from cache import cacheGet
-from ._comandChache import register_commands
+import requests
 from discord import (
     Interaction,
     app_commands,
@@ -19,9 +19,9 @@ async def setup(bot: commands.Bot) -> None:
 
 class MinecraftCog(commands.Cog):
     def __init__(self: "MinecraftCog", bot: commands.Bot) -> None:
-        register_commands(self)
         self.bot: commands.Bot = bot
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command()
     @app_commands.describe(id="The id of the block you want to learn about.")
     async def idlookupblock(self: "MinecraftCog", ctx: Interaction, id: int) -> None:
@@ -53,6 +53,7 @@ class MinecraftCog(commands.Cog):
 
         del data
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command()
     @app_commands.describe(name="Give information about a minecraft block.")
     async def namelookupblock(self: "MinecraftCog", ctx: Interaction, *, name: str) -> None:
@@ -84,6 +85,7 @@ class MinecraftCog(commands.Cog):
 
         del data
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command()
     @app_commands.describe(item="The name of the item e.g. `campfire`")
     async def craft(self: "MinecraftCog", ctx: Interaction, item: str) -> None:
@@ -111,6 +113,7 @@ class MinecraftCog(commands.Cog):
 
         await ctx.response.send_message(embed=em)
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command()
     @app_commands.describe(enchantment="The name of the enchantment e.g. `Protection`")
     async def findenchant(self, ctx: Interaction, enchantment: str) -> None:
@@ -139,12 +142,3 @@ class MinecraftCog(commands.Cog):
                 continue
 
         del data
-
-    def __cog_docs__(self) -> str:
-        return """
-        You can view minecraft related information using the following commands:
-            - idlookupblock
-            - namelookupblock
-            - craft
-            - findenchant
-        """

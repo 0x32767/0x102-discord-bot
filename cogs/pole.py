@@ -1,10 +1,11 @@
-import discord
+import cogs._helpCommandSetup
 from discord.ext import commands
 from discord import (
     Interaction,
     app_commands,
     Object,
-    Embed
+    Embed,
+    Color
 )
 
 
@@ -33,6 +34,7 @@ class PoleCog(commands.Cog):
             }
         """
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command(name="newpoll")
     async def new_poll(self: "PoleCog", ctx: Interaction, *, question: str) -> None:
         """
@@ -60,13 +62,14 @@ class PoleCog(commands.Cog):
             embed=Embed(
                 title="Poll created",
                 description="use `/newpole` to create a new poll in this channel",
-                color=discord.Color.green()
+                color=Color.green()
             ).add_field(
                 name="vote",
                 value="`/vote yes` or `/vote no`"
             )
         )
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command(name="vote")
     @app_commands.describe(vote="true: yes, false: no")
     async def vote(self: "PoleCog", ctx: Interaction, vote: bool) -> None:
@@ -88,6 +91,7 @@ class PoleCog(commands.Cog):
 
         await ctx.send("Your vote has been registered.", ephemeral=True)
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command(name="closepoll")
     @app_commands.describe(show="show the results of the poll")
     async def close_poll(self, ctx: Interaction, show: bool = False) -> None:
@@ -109,11 +113,12 @@ class PoleCog(commands.Cog):
             embed=Embed(
                 title="The pole has been closed",
                 description="The poll is closed, you can not vote anymore.",
-                color=discord.Color.red()
+                color=Color.red()
             ),
             ephemeral=show
         )
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command(name="showpoll")
     @app_commands.describe(public="do you want the poll to be public (can be seen by everyone)")
     async def show_poll(self, ctx: Interaction, public: bool = False) -> None:
@@ -133,7 +138,7 @@ class PoleCog(commands.Cog):
             embed=Embed(
                 title=pole["question"],
                 description=f'yes: {pole["options"]["yes"]}\nno: {pole["options"]["no"]}',
-                color=discord.Color.green()
+                color=Color.green()
             ).add_field(
                 name="yes",
                 value=f'{pole["options"]["yes"] / (pole["options"]["yes"] + pole["options"]["no"]) * 100}%'

@@ -1,4 +1,5 @@
 from discord.ext import commands
+import cogs._helpCommandSetup
 from hashlib import sha256
 from random import random
 from cogs._lua import run
@@ -23,6 +24,7 @@ class LuaCog(commands.Cog):
     def __init__(self: "LuaCog", bot: commands.Bot) -> None:
         self.bot = bot
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command()
     async def runcommand(self: "LuaCog", ctx: Interaction, name: str = "echo") -> None:
         if not name:
@@ -34,6 +36,7 @@ class LuaCog(commands.Cog):
                 result = await curr.fetchone()
                 await run(result[0], ctx)
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command()
     async def inspectcommand(self: "LuaCog", ctx: Interaction, name: str = "echo") -> None:
         async with aiosqlite.connect("D:\\programing\\0x102-discord-bot\\commands.db") as db:
@@ -42,6 +45,7 @@ class LuaCog(commands.Cog):
                 result = await curr.fetchall()
                 return await ctx.response.send_message(f"```lua\n{result[0][0]}\n```")
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command()
     async def newcommand(
             self: "LuaCog",

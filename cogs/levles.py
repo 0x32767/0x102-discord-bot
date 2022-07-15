@@ -2,7 +2,7 @@ import discord
 import aiosqlite
 from discord.ext import commands
 from cache import cacheGet
-from ._comandChache import register_commands
+import cogs._helpCommandSetup
 from discord import (
     Interaction,
     app_commands,
@@ -20,9 +20,9 @@ async def setup(bot: commands.Bot) -> None:
 
 class LevelsCog(commands.Cog):
     def __init__(self: "LevelsCog", bot: commands.Bot) -> None:
-        register_commands(self)
         self.bot: commands.Bot = bot
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command()
     async def levleinfo(self: "LevelsCog", ctx: Interaction) -> None:
         async with aiosqlite.connect("discordbotdb.db") as data:
@@ -100,10 +100,3 @@ class LevelsCog(commands.Cog):
         else:
             await self.update_exp(message.guild.id, message.author.id, 5)
             await self.update_level(message.guild.id, message.author.id, 0)
-
-    def __cog_docs__(self) -> str:
-        return """
-        The Cog that adds exp and levels to your account.
-        You can also see your current level and exp with:
-        -`levleinfo`
-        """

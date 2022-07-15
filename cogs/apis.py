@@ -1,8 +1,8 @@
 from requests import get as get_request
 from json import loads as js_loads
-from cogs._comandChache import register_commands
 from discord.ext import commands
 from cache import cacheGet
+import cogs._helpCommandSetup
 from discord import (
     Embed,
     Interaction,
@@ -21,9 +21,9 @@ async def setup(bot: commands.Bot) -> None:
 
 class APICog(commands.Cog):
     def __init__(self: "APICog", bot: commands.Bot) -> None:
-        register_commands(self)
         self.bot: commands.Bot = bot
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command(description="sends a random picture of a fox")
     async def fox(self: "APICog", interaction: Interaction) -> None:
         async with interaction.channel.typing():
@@ -47,6 +47,7 @@ class APICog(commands.Cog):
 
             await interaction.response.send_message(embed=ui_embed, view=view)
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command(description="sends a random image of a dog")
     async def dog(self: "APICog", interaction: Interaction) -> None:
         async with interaction.channel.typing():
@@ -69,6 +70,7 @@ class APICog(commands.Cog):
 
             await interaction.response.send_message(embed=ui_embed, view=view)
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command(description="sends a random image of a cat")
     async def cat(self: "APICog", interaction: Interaction) -> None:
         async with interaction.channel.typing():
@@ -91,6 +93,7 @@ class APICog(commands.Cog):
 
             await interaction.response.send_message(embed=uiEmbed, view=view)
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command(description="sends a meme")
     async def meme(self: "APICog", interaction: Interaction) -> None:
         async with interaction.channel.typing():
@@ -113,6 +116,7 @@ class APICog(commands.Cog):
 
         await interaction.response.send_message(embed=ui_embed, view=view)
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command(description="sends a random fact about a cat")
     async def catfact(self: "APICog", interaction: Interaction) -> None:
         async with interaction.channel.typing():
@@ -124,6 +128,7 @@ class APICog(commands.Cog):
 
         await interaction.response.send_message(embed=em)
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command(description="sends a random fact about a dog")
     async def dogfact(self, interaction: Interaction) -> None:
         async with interaction.channel.typing():
@@ -136,16 +141,3 @@ class APICog(commands.Cog):
         await interaction.response.send_message(embed=em)
 
     def pass_(self) -> None:...
-
-    def __cog_docs__(self) -> str:
-        self.pass_()
-        return """
-        The cog is a wrapper for all the api related commands.
-        These include:
-            - fox
-            - dog
-            - cat
-            - meme
-            - catfact
-            - dogfact
-        """
