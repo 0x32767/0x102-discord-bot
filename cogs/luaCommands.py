@@ -1,11 +1,14 @@
-from cache import cacheGet
 from discord.ext import commands
+from hashlib import sha256
+from random import random
 from cogs._lua import run
+from cache import cacheGet
 import aiosqlite
 from discord import (
     Interaction,
     app_commands,
-    Object
+    Object,
+    Embed,
 )
 
 
@@ -38,3 +41,30 @@ class LuaCog(commands.Cog):
                 await curr.execute(f"SELECT code FROM commands where name = \"{name}\"")
                 result = await curr.fetchall()
                 return await ctx.response.send_message(f"```lua\n{result[0][0]}\n```")
+
+    @app_commands.command()
+    async def newcommand(
+            self: "LuaCog",
+            ctx: Interaction,
+            name: str
+        ) -> None:
+        key: str = sha256(f"{random()}".encode("utf-8")).hexdigest()
+
+        async for msg in ctx.channel.history(limit=10):
+            if msg.author.id == ctx.user.id:
+                async with aiosqlite.connect("D:\\programing\\0x102-discord-bot\\commands.db") as db:
+                    async with db.cursor() as curr:
+                        curr.execute("INSERT INTO waitingList VALUES(?, ?, ?, ?)", (key, name, msg.id, msg.content))
+                        await db.commit()
+                await db.close()
+
+        return await ctx.response.send_message(
+            embed=Embed(
+                title="Command added to waiting list",
+                description="The command will be added to the waiting list when it is ready.",
+                url=""
+            ).add_field(
+                name="id",
+                value=key,
+            )
+        )
