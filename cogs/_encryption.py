@@ -74,7 +74,7 @@ class EncryptionDropdown(Select):
             except ValueError:
                 # I have not included all of the ascii characters
                 res += char
-            
+
             except IndexError:
                 # a ceaser cipher will wrap around, this is to do that
                 res += self.chars[self.chars.index(char) + offset - 26]

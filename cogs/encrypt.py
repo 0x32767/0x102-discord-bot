@@ -5,7 +5,6 @@ from discord import (
     Object,
     app_commands,
     Interaction,
-    Embed
 )
 
 

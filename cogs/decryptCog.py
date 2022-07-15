@@ -44,7 +44,7 @@ class DecryptCog(commands.Cog):
                         inline=True
                     )
                 embeds.append(em)
-                continue # skip the rest of the loop.
+                continue  # skip the rest of the loop.
 
             # some erors could be thrown it the encryption type is not soported
             try:
@@ -54,8 +54,8 @@ class DecryptCog(commands.Cog):
                         title=f"Decrypted Message for {method.__name__}",
                         description="".join(await method(message)),
                         color=0x00ff00
-                        )
                     )
+                )
 
             except Exception as e:
                 embeds.append(Embed(title="Error", description=f"{e}", color=0xff0000))
@@ -69,7 +69,11 @@ class DecryptCog(commands.Cog):
         """
          | This function is given an offset and will return the decrypted message.
         """
-        return "".join(self.chars[self.chars.index(char) - offset] if char in "abcdefghijklmnopqrstuvwxyz" else char for char in message)
+        return "".join(
+            self.chars[self.chars.index(char) - offset]
+            if char in "abcdefghijklmnopqrstuvwxyz" else char
+            for char in message
+        )
 
     async def crackBase2Encode(self: "DecryptCog", message: str) -> str:
         """
@@ -77,8 +81,11 @@ class DecryptCog(commands.Cog):
          | is the ascii character of the string in binary. this
          | will reconvert the binary to ascii and return the string.
         """
-        return "".join(chr(int(message[i : i + 9], 2)) for i in range(0, len(message), 9) if message[i : i + 9] != "0b")
-
+        return "".join(
+            chr(int(message[i: i + 9], 2))
+            for i in range(0, len(message), 9)
+            if message[i: i + 9] != "0b"
+        )
 
     async def crackHexEncode(self: "DecryptCog", message: str) -> str:
         """
@@ -86,4 +93,8 @@ class DecryptCog(commands.Cog):
          | is the ascii character of the string in hexadecimal.
          | this will reconvert the hex to ascii and return the string.
         """
-        return "".join(chr(int(message[i : i + 2], 16)) for i in range(0, len(message), 2) if message[i : i + 2] != "0x")
+        return "".join(
+            chr(int(message[i: i + 2], 16))
+            for i in range(0, len(message), 2)
+            if message[i: i + 2] != "0x"
+        )
