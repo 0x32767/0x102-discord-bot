@@ -101,4 +101,60 @@ Github is a platform where you can see the source code of a program, you'r in gi
 
 - username: a github username, like `0x32767`
 
+This gets some information about a github user.
 
+### /getrepos
+
+>Usage:
+
+`/getrepos <username>`
+
+- username: a github username
+
+This gets a list of the github user's github repos.
+
+## Lua commands
+
+Custom commands can be created in lua and then run by 0x102.
+
+### /runcommand
+
+>Usage:
+
+`/runcommand <name>`
+
+- name: the name of the command you want to run
+
+This command runs a command that was created by a user such a yourself.
+
+### /inspectcommand
+
+>Usage:
+
+`/inspectcommand <name>`
+
+- name: the name of the command you want to inspect
+
+This command will send the source code of the command, this was made so you know what the command is doing before you run it.
+
+### /newcommand
+
+>Usage:
+
+1. create a message with th the code of your command.
+
+2. run `/newcommand <name>`
+
+   - name: the name of your command.
+
+## Minecraft
+
+This cog can be used to look up important minecraft things.
+
+### /mcidlookup
+
+> Usage:
+
+`/mcidlookup <id>`
+
+- id: the id of the block you want to find
