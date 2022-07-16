@@ -1,8 +1,8 @@
-import cogs._helpCommandSetup
 from ._triviaView import TriviaView
+from aiohttp import ClientSession
 from discord.ext import commands
+import cogs._helpCommandSetup
 from cache import cacheGet
-import requests
 from discord import (
     Embed,
     Interaction,
@@ -20,7 +20,8 @@ async def setup(bot: commands.Bot) -> None:
 
 class TriviaCog(commands.Cog):
     def __init__(self: "TriviaCog", bot: commands.Bot) -> None:
-        self.bot = bot
+        self.cs: ClientSession = ClientSession()
+        self.bot: commands.Bot = bot
 
     @cogs._helpCommandSetup.record()
     @app_commands.command(name="trivia", description="starts a trivia game")
@@ -29,7 +30,9 @@ class TriviaCog(commands.Cog):
          | `get_questions` is a coroutine that returns
          | `self` which is the class.
         """
-        data: dict = requests.get("https://opentdb.com/api.php?amount=1").json()
+        req = await self.cs.get("https://opentdb.com/api.php?amount=1&type=multiple")
+        data: dict = req.json()
+
         view: TriviaView = TriviaView(data["results"][0])
 
         await ctx.response.send_message(
@@ -40,3 +43,5 @@ class TriviaCog(commands.Cog):
                 color=0x00ff00
             )
         )
+
+        del req, data

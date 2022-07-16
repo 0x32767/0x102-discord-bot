@@ -1,7 +1,8 @@
-import cogs._helpCommandSetup
+from json import load as jsonLoads
+from aiohttp import ClientSession
 from discord.ext import commands
+import cogs._helpCommandSetup
 from cache import cacheGet
-import requests
 from discord import (
     Interaction,
     app_commands,
@@ -19,20 +20,21 @@ async def setup(bot: commands.Bot) -> None:
 
 class MinecraftCog(commands.Cog):
     def __init__(self: "MinecraftCog", bot: commands.Bot) -> None:
+        self.cs: ClientSession = ClientSession()
         self.bot: commands.Bot = bot
 
     @cogs._helpCommandSetup.record()
     @app_commands.command()
     @app_commands.describe(id="The id of the block you want to learn about.")
-    async def idlookupblock(self: "MinecraftCog", ctx: Interaction, id: int) -> None:
+    async def mcidlookup(self: "MinecraftCog", ctx: Interaction, id: int) -> None:
         """
         :param ctx: `ctx` param is passed by the discord.pt library when executed
         :param id:  `id` param is of class integer that should correspond to a minecraft block id
         :return:
         """
-        data: list[dict] = requests.get(
-            "https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/bedrock/1.18.11/blocks.json"
-        ).json()
+        with open("assets/mcblocks.json") as f:
+            data: list[dict] = jsonLoads(f)
+            del f
 
         for block in data:
             if block["id"] != id:
@@ -43,8 +45,8 @@ class MinecraftCog(commands.Cog):
                 description="use `/idlookupblock` and then the id of the block to get info about the block"
             )
 
-            em.add_field(name="mine able", value="yes" if block["diggable"] else "no")
-            em.add_field(name="tool", value=block["material"])
+            em.add_field(name="mine able", value="yes" if block["diggable"] else "no", inline=True)
+            em.add_field(name="tool", value=block["material"] if "material" in block.keys() else "none", inline=True)
             em.add_field(name="stacks up to", value=f"{block['stackSize']}")
             em.add_field(name="transparent", value="yes" if block['transparent'] else "no")
             em.add_field(name="emits light", value=f"emits `{block['emitLight']}` light")
@@ -56,15 +58,15 @@ class MinecraftCog(commands.Cog):
     @cogs._helpCommandSetup.record()
     @app_commands.command()
     @app_commands.describe(name="Give information about a minecraft block.")
-    async def namelookupblock(self: "MinecraftCog", ctx: Interaction, *, name: str) -> None:
+    async def mcnamelookup(self: "MinecraftCog", ctx: Interaction, *, name: str) -> None:
         """
         :param ctx: The `ctx` is passed by default when the command is executed
         :param name:  The name param is class string and is the display name for the minecraft item/block
         :return:
         """
-        data: list[dict] = requests.get(
-            "https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/bedrock/1.18.11/blocks.json"
-        ).json()
+        with open("assets/mcblocks.json") as f:
+            data: list[dict] = jsonLoads(f)
+            del f
 
         for block in data:
             if block["name"] != name and block["displayName"] != name:
@@ -80,23 +82,22 @@ class MinecraftCog(commands.Cog):
             em.add_field(name="stacks up to", value=f"{block['stackSize']}")
             em.add_field(name="transparent", value="yes" if block["transparent"] else "no")
             em.add_field(name="emits light", value=f"emits `{block['emitLight']}` light")
-            await ctx.response.send_message(embed=em)
-            break
+            del data
 
-        del data
+            return await ctx.response.send_message(embed=em)
 
     @cogs._helpCommandSetup.record()
     @app_commands.command()
     @app_commands.describe(item="The name of the item e.g. `campfire`")
-    async def craft(self: "MinecraftCog", ctx: Interaction, item: str) -> None:
+    async def mccraft(self: "MinecraftCog", ctx: Interaction, item: str) -> None:
         """
         :param ctx: The `ctx` argument is passed by default when the command is executed
         :param item: The `item` argument is the name of the item e.g "cooked_mutton"
         :return:
         """
-        data: dict[dict] = requests.get(
-            "https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/bedrock/1.18.11/recipes.json"
-        ).json()
+        with open("assets\mcrecipes.json") as f:
+            data: list[dict] = jsonLoads(f)
+            del f
 
         em: Embed = Embed(title=f"How to craft {item}", description="use `/craft` to learn the ways to make something")
         i: int = 0
@@ -112,33 +113,23 @@ class MinecraftCog(commands.Cog):
                 i += 1
 
         await ctx.response.send_message(embed=em)
+        del data, req
 
     @cogs._helpCommandSetup.record()
     @app_commands.command()
-    @app_commands.describe(enchantment="The name of the enchantment e.g. `Protection`")
-    async def findenchant(self, ctx: Interaction, enchantment: str) -> None:
-        data: list[dict] = requests.get(
-            "https://raw.githubusercontent.com/PrismarineJS/minecraft-data/master/data/pc/1.8/enchantments.json"
-        ).json()
+    async def mcloot(self, ctx: Interaction, entity: str) -> None:
+        with open("assets\mcentityLoot.json") as f:
+            data: list[dict] = jsonLoads(f)
+            del f
 
-        for enchant in data:
-            if enchant["displayName"] == enchantment or enchant["name"] == enchantment:
+        for e in data:
+            if e["entity"] == entity:
                 em: Embed = Embed(
-                    title=str(enchant["name"]),
-                    description="use `/findenchant` to learn more about the enchantment"
+                    title=f"{entity} loot",
+                    description="use `/loot` to learn the loot that can be found from this entity"
                 )
 
-                em.add_field(name="max level", value=str(enchant["maxLevel"]))
-                em.add_field(name="does not go with", value="\n".join(list(enchant["exclude"])))
+                for loot in e["drops"]:
+                    em.add_field(name=loot["item"], value=str(loot["dropChance"]))
 
-                em.add_field(name="catagory", value=str(enchant["category"]))
-                em.add_field(name="tradeable", value=str(enchant["tradeable"]))
-                em.add_field(name="discoverable", value=str(enchant["discoverable"]))
-
-                await ctx.response.send_message(embed=em)
-                break
-
-            else:
-                continue
-
-        del data
+                return await ctx.response.send_message(embed=em)

@@ -1,6 +1,6 @@
+from aiohttp import ClientSession
 from discord.ext import commands
 from cache import cacheGet
-import requests
 from discord import (
     Interaction,
     app_commands,
@@ -18,7 +18,8 @@ async def setup(bot: commands.Bot) -> None:
 
 class githubApiCog(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
-        self.bot = bot
+        self.cs: ClientSession = ClientSession()
+        self.bot: commands.Bot = bot
 
     @app_commands.command()
     @app_commands.describe(username="Username of the user.")
@@ -28,9 +29,8 @@ class githubApiCog(commands.Cog):
         :param username: The `username` is the name of the user
         :return:
         """
-        data: dict = requests.get(
-            f"https://api.github.com/users/{username}"
-        ).json()
+        req = await self.cs.get(f"https://api.github.com/users/{username}")
+        data = await req.json()
 
         em: Embed = Embed(
             title=f"{username}",
@@ -50,7 +50,7 @@ class githubApiCog(commands.Cog):
 
         await ctx.response.send_message(embed=em)
 
-        del data
+        del data, req
 
     @app_commands.command()
     @app_commands.describe(username="Username of the user who`s repos you want to get.")
@@ -60,9 +60,8 @@ class githubApiCog(commands.Cog):
         :param username: The `username` is the name of the user
         :return:
         """
-        data: dict = requests.get(
-            f"https://api.github.com/users/{username}/repos"
-        ).json()
+        req = await self.cs.get(f"https://api.github.com/users/{username}/repos")
+        data = await req.json()
 
         em: Embed = Embed(
             title=f"{username}`s repos",
@@ -74,4 +73,4 @@ class githubApiCog(commands.Cog):
 
         await ctx.response.send_message(embed=em)
 
-        del data
+        del data, req
