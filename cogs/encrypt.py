@@ -21,8 +21,9 @@ class EncryptCog(commands.Cog):
         self.bot: commands.Bot = bot
 
     @cogs._helpCommandSetup.record()
-    @app_commands.command()
-    async def encrypt(self: "EncryptCog", ctx: Interaction, msg: str) -> None:
+    @app_commands.describe(msg="The message you want to encrypt.")
+    @app_commands.command(description="Encrypts a message.")
+    async def encrypt(self: "EncryptCog", ctx: Interaction, *, msg: str) -> None:
         await ctx.response.send_message(
             view=EncryptionView(msg),
             ephemeral=True

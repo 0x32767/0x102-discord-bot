@@ -23,7 +23,8 @@ class MinecrtaftCog(commands.Cog):
         self.bot: commands.Bot = bot
 
     @cogs._helpCommandSetup.record()
-    @app_commands.command()
+    @app_commands.command(description="Kill a user or yourself.")
+    @app_commands.describe(player="The member you want to kill.")
     async def kill(self: "MinecrtaftCog", ctx: Interaction, player: Member = None) -> None:
         """
         :param ctx: The ctx param is passes by the discord.py libruary

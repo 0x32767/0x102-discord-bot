@@ -21,7 +21,7 @@ class VoiceCog(commands.Cog):
         self.bot: commands.Bot = bot
 
     @cogs._helpCommandSetup.record()
-    @app_commands.command()
+    @app_commands.command(description="Joins the voice channel of the user.")
     async def join(self: "VoiceCog", ctx: Interaction) -> None:
         if ctx.user.voice:
             channel: VoiceChannel = ctx.user.voice.channel

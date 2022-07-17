@@ -23,7 +23,7 @@ class LevelsCog(commands.Cog):
         self.bot: commands.Bot = bot
 
     @cogs._helpCommandSetup.record()
-    @app_commands.command()
+    @app_commands.command(description="Gets your current level.")
     async def levleinfo(self: "LevelsCog", ctx: Interaction) -> None:
         async with aiosqlite.connect("discordbotdb.db") as data:
             async with data.cursor() as curr:

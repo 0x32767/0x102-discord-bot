@@ -1,7 +1,8 @@
-from rich.progress import track
+from cogs._createGenericHelpCommand import createFile
 from configparser import ConfigParser
 from rich.console import Console
 from discord.ext import commands
+from rich.progress import track
 from os import listdir
 import aiosqlite
 import discord
@@ -85,6 +86,13 @@ async def on_ready():
     await bot.tree.sync(guild=TEST_GUILD)
 
     console.print(f"[green]Logged in as: [/green][bright_yellow][underline]{bot.user.name}[/underline][/bright_yellow]")
+
+    await createHelpCommand()
+
+
+async def createHelpCommand() -> None:
+    from cogs._helpCommandSetup import recorded_commands
+    createFile(".\\docs\\generic-help-cmd.md", recorded_commands)
 
 
 bot.run(conf["bot"]["token"])

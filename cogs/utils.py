@@ -24,7 +24,7 @@ class UtilsCog(commands.Cog):
         self.bot: commands.Bot = bot
 
     @cogs._helpCommandSetup.record()
-    @app_commands.command(description='gives a classic 8ball response')
+    @app_commands.command(description='Gives a classic 8ball response.')
     async def ball(self: 'UtilsCog', ctx: discord.Interaction):
         await ctx.response.send_message(choice([
             # yes responses
@@ -59,7 +59,7 @@ class UtilsCog(commands.Cog):
         ]))
 
     @cogs._helpCommandSetup.record()
-    @app_commands.command(name='inspire', description='sends an inspiring message')
+    @app_commands.command(name='inspire', description='sends an inspiring message.')
     async def inspire(self: 'UtilsCog', ctx: Interaction):
         quote: str = await self._get_quote()
         await ctx.response.send_message(quote)
@@ -88,7 +88,7 @@ class UtilsCog(commands.Cog):
             await ctx.response.send_message(f'member {member} was not found')
 
     @cogs._helpCommandSetup.record()
-    @app_commands.command(name='sus')
+    @app_commands.command(name='sus', description="...")
     async def sus(self: 'UtilsCog', ctx: Interaction):
         await ctx.response.send_message('ඞ sus')
 

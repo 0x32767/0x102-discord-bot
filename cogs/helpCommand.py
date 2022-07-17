@@ -22,7 +22,7 @@ class HelpCommand(commands.Cog):
         self.bot: commands.Bot = bot
 
     @cogs._helpCommandSetup.record()
-    @app_commands.command()
+    @app_commands.command(description="gives the link to the help command")
     async def help(self: "HelpCommand", ctx: Interaction) -> None:
         await ctx.response.send_message(
             embed=Embed(

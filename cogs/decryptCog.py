@@ -26,7 +26,8 @@ class DecryptCog(commands.Cog):
         ]
 
     @cogs._helpCommandSetup.record()
-    @app_commands.command(name="decrypt")
+    @app_commands.command(name="decrypt", description="This command will decrypt a message.")
+    @app_commands.describe(message="The message you want the bot to decrypt.")
     async def decrypt(self: "DecryptCog", ctx: Interaction, *, message: str) -> None:
         embeds: List[Embed] = []
 
@@ -48,7 +49,7 @@ class DecryptCog(commands.Cog):
                 embeds.append(em)
                 continue  # skip the rest of the loop.
 
-            # some erors could be thrown it the encryption type is not soported
+            # some errors could be thrown it the encryption type is not supported
             try:
                 # all other encodings are of type str
                 embeds.append(

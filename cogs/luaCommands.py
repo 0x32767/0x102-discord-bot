@@ -25,7 +25,8 @@ class LuaCog(commands.Cog):
         self.bot = bot
 
     @cogs._helpCommandSetup.record()
-    @app_commands.command()
+    @app_commands.command(description="Runs a Lua command.")
+    @app_commands.describe(name="The name of the command you want to run.")
     async def runcommand(self: "LuaCog", ctx: Interaction, name: str = "echo") -> None:
         if not name:
             return await ctx.response.send_message("Please provide a command name.")
@@ -37,7 +38,8 @@ class LuaCog(commands.Cog):
                 await run(result[0], ctx)
 
     @cogs._helpCommandSetup.record()
-    @app_commands.command()
+    @app_commands.command(description="Lets you see the code of a command.")
+    @app_commands.describe(name="The name of the command you want to inspect.")
     async def inspectcommand(self: "LuaCog", ctx: Interaction, name: str = "echo") -> None:
         async with aiosqlite.connect("D:\\programing\\0x102-discord-bot\\commands.db") as db:
             async with db.cursor() as curr:
@@ -46,12 +48,9 @@ class LuaCog(commands.Cog):
                 return await ctx.response.send_message(f"```lua\n{result[0][0]}\n```")
 
     @cogs._helpCommandSetup.record()
-    @app_commands.command()
-    async def newcommand(
-            self: "LuaCog",
-            ctx: Interaction,
-            name: str
-        ) -> None:
+    @app_commands.command(description="Creates a new command.")
+    @app_commands.describe(name="The name of the command you want to create.")
+    async def newcommand(self: "LuaCog", ctx: Interaction, name: str) -> None:
         key: str = sha256(f"{random()}".encode("utf-8")).hexdigest()
 
         async for msg in ctx.channel.history(limit=10):

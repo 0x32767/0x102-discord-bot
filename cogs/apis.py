@@ -25,7 +25,7 @@ class APICog(commands.Cog):
         self.bot: commands.Bot = bot
 
     @cogs._helpCommandSetup.record()
-    @app_commands.command(description="sends a random picture of a fox")
+    @app_commands.command(description="Sends a random picture of a fox.")
     async def fox(self: "APICog", interaction: Interaction) -> None:
         async with interaction.channel.typing():
             async def get_fox() -> str:
@@ -53,7 +53,7 @@ class APICog(commands.Cog):
             await interaction.response.send_message(embed=ui_embed, view=view)
 
     @cogs._helpCommandSetup.record()
-    @app_commands.command(description="sends a random image of a dog")
+    @app_commands.command(description="Sends a random image of a dog.")
     async def dog(self: "APICog", interaction: Interaction) -> None:
         async with interaction.channel.typing():
             async def get_dog() -> str:
@@ -80,7 +80,7 @@ class APICog(commands.Cog):
             await interaction.response.send_message(embed=ui_embed, view=view)
 
     @cogs._helpCommandSetup.record()
-    @app_commands.command(description="sends a random image of a cat")
+    @app_commands.command(description="Sends a random image of a cat.")
     async def cat(self: "APICog", interaction: Interaction) -> None:
         async with interaction.channel.typing():
             async def get_cat() -> str:
@@ -107,7 +107,7 @@ class APICog(commands.Cog):
             await interaction.response.send_message(embed=uiEmbed, view=view)
 
     @cogs._helpCommandSetup.record()
-    @app_commands.command(description="sends a meme")
+    @app_commands.command(description="Sends a meme.")
     async def meme(self: "APICog", interaction: Interaction) -> None:
         async with interaction.channel.typing():
             async def get_meme():
@@ -134,7 +134,7 @@ class APICog(commands.Cog):
         await interaction.response.send_message(embed=ui_embed, view=view)
 
     @cogs._helpCommandSetup.record()
-    @app_commands.command(description="sends a random fact about a cat")
+    @app_commands.command(description="Sends a random fact about a cat.")
     async def catfact(self: "APICog", interaction: Interaction) -> None:
         async with interaction.channel.typing():
             req = await self.cs.get("https://catfact.ninja/fact")
@@ -149,7 +149,7 @@ class APICog(commands.Cog):
         await interaction.response.send_message(embed=em)
 
     @cogs._helpCommandSetup.record()
-    @app_commands.command(description="sends a random fact about a dog")
+    @app_commands.command(description="Sends a random fact about a dog.")
     async def dogfact(self, interaction: Interaction) -> None:
         async with interaction.channel.typing():
             req = await self.cs.get("https://dog-api.kinduff.com/api/facts")

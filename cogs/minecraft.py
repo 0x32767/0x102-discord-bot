@@ -24,7 +24,7 @@ class MinecraftCog(commands.Cog):
         self.bot: commands.Bot = bot
 
     @cogs._helpCommandSetup.record()
-    @app_commands.command()
+    @app_commands.command(description="Gets some info about a minecraft block.")
     @app_commands.describe(id="The id of the block you want to learn about.")
     async def mcidlookup(self: "MinecraftCog", ctx: Interaction, id: int) -> None:
         """
@@ -56,7 +56,7 @@ class MinecraftCog(commands.Cog):
         del data
 
     @cogs._helpCommandSetup.record()
-    @app_commands.command()
+    @app_commands.command(description="Gets some info about a minecraft block.")
     @app_commands.describe(name="Give information about a minecraft block.")
     async def mcnamelookup(self: "MinecraftCog", ctx: Interaction, *, name: str) -> None:
         """
@@ -87,7 +87,7 @@ class MinecraftCog(commands.Cog):
             return await ctx.response.send_message(embed=em)
 
     @cogs._helpCommandSetup.record()
-    @app_commands.command()
+    @app_commands.command(description="Gets some info about a minecraft crafting recipe.")
     @app_commands.describe(item="The name of the item e.g. `campfire`")
     async def mccraft(self: "MinecraftCog", ctx: Interaction, item: str) -> None:
         """
@@ -116,7 +116,8 @@ class MinecraftCog(commands.Cog):
         del data, req
 
     @cogs._helpCommandSetup.record()
-    @app_commands.command()
+    @app_commands.command(description="Gets some info about a minecraft entity drops.")
+    @app_commands.describe(entity="The name of the item e.g. `campfire`")
     async def mcloot(self, ctx: Interaction, entity: str) -> None:
         with open("assets\mcentityLoot.json") as f:
             data: list[dict] = jsonLoads(f)

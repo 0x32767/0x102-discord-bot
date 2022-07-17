@@ -23,7 +23,7 @@ class githubApiCog(commands.Cog):
         self.bot: commands.Bot = bot
 
     @cogs._helpCommandSetup.record()
-    @app_commands.command()
+    @app_commands.command(description="Gets some info about a github user.")
     @app_commands.describe(username="Username of the user.")
     async def getuser(self: "githubApiCog", ctx: Interaction, *, username: str) -> None:
         """
@@ -55,7 +55,7 @@ class githubApiCog(commands.Cog):
         del data, req
 
     @cogs._helpCommandSetup.record()
-    @app_commands.command()
+    @app_commands.command(description="Gets some info about a users github repos.")
     @app_commands.describe(username="Username of the user who`s repos you want to get.")
     async def getrepos(self: "githubApiCog", ctx: Interaction, *, username: str) -> None:
         """

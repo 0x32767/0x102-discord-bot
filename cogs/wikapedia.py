@@ -21,7 +21,8 @@ class WikiCog(commands.Cog):
         self.bot: commands.Bot = bot
 
     @cogs._helpCommandSetup.record()
-    @app_commands.command()
+    @app_commands.command(description="Searches Wikipedia for a given term.")
+    @app_commands.describe(query="The query you want to search for.")
     async def wiki(self: "WikiCog", ctx: Interaction, *, query: str) -> None:
         """
         :param ctx: The `ctx` peramiter is passed by default by the discord.py lib when executed
