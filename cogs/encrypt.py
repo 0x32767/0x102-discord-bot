@@ -1,6 +1,7 @@
-from cache import cacheGet
-from discord.ext import commands
 from cogs._encryption import EncryptionView
+from discord.ext import commands
+import cogs._helpCommandSetup
+from cache import cacheGet
 from discord import (
     Object,
     app_commands,
@@ -19,6 +20,7 @@ class EncryptCog(commands.Cog):
     def __init__(self: "EncryptCog", bot: commands.Bot) -> None:
         self.bot: commands.Bot = bot
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command()
     async def encrypt(self: "EncryptCog", ctx: Interaction, msg: str) -> None:
         await ctx.response.send_message(

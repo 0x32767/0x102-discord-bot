@@ -1,4 +1,5 @@
 from cogs._helpCommandSetup import recorded_commands
+import cogs._helpCommandSetup
 from discord.ext import commands
 from cache import cacheGet
 from discord import (
@@ -20,6 +21,7 @@ class HelpCommand(commands.Cog):
     def __init__(self: "HelpCommand", bot: commands.Bot) -> None:
         self.bot: commands.Bot = bot
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command()
     async def help(self: "HelpCommand", ctx: Interaction) -> None:
         await ctx.response.send_message(

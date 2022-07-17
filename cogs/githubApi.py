@@ -1,5 +1,6 @@
 from aiohttp import ClientSession
 from discord.ext import commands
+import cogs._helpCommandSetup
 from cache import cacheGet
 from discord import (
     Interaction,
@@ -21,6 +22,7 @@ class githubApiCog(commands.Cog):
         self.cs: ClientSession = ClientSession()
         self.bot: commands.Bot = bot
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command()
     @app_commands.describe(username="Username of the user.")
     async def getuser(self: "githubApiCog", ctx: Interaction, *, username: str) -> None:
@@ -52,6 +54,7 @@ class githubApiCog(commands.Cog):
 
         del data, req
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command()
     @app_commands.describe(username="Username of the user who`s repos you want to get.")
     async def getrepos(self: "githubApiCog", ctx: Interaction, *, username: str) -> None:

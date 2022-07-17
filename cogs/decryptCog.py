@@ -1,6 +1,7 @@
+import cogs._helpCommandSetup
 from discord.ext import commands
-from typing import List
 from cache import cacheGet
+from typing import List
 from discord import (
     Embed,
     Interaction,
@@ -24,6 +25,7 @@ class DecryptCog(commands.Cog):
             "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z",
         ]
 
+    @cogs._helpCommandSetup.record()
     @app_commands.command(name="decrypt")
     async def decrypt(self: "DecryptCog", ctx: Interaction, *, message: str) -> None:
         embeds: List[Embed] = []
