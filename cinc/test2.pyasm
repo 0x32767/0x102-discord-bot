@@ -1,0 +1,6 @@
+1   0   LOAD_GLOBAL         0 (print)
+    2   LOAD_CONST          1 ('hello world')
+    4   CALL_FUNCTION       1
+
+2   6   LOAD_CONST          2 (0)
+    8   RETURN_VALUE
