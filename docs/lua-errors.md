@@ -44,11 +44,11 @@ discord.py requires embeds to created with the following syntax:
 embed: Embed = Embed(
      title=">>INSERT TITLE HERE<<",
      description=">>INSERT DESCRIPTION HERE<<",
-     color=0x00ff00 # this creates a nice matrix gereen
+     color=0x00ff00 # this creates a nice matrix green
 )
 ```
 
-These paramiters are accessed from the embed object created by the user.
+These parameters are accessed from the embed object created by the user.
 
 
 ### use
