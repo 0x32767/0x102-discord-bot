@@ -222,6 +222,13 @@ Shows the results of the poll.
 `/trivia`
 
 starts a trivia game
+## /truthordare
+
+> Usage:
+
+`/truthordare`
+
+Truth or Dare
 ## /ball
 
 > Usage:
