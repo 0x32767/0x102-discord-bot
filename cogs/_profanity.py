@@ -1,6 +1,5 @@
 from pickle import load as pickle_load, dump as pickle_dump
 from better_profanity import Profanity
-from profanity_check import predict
 
 
 def dump(file: str) -> None:
@@ -27,7 +26,4 @@ def check_raw(text: str) -> bool:
         "D:\\programing\\0x102-discord-bot\\assets\\profanity.pkl"
     )
 
-    if profanityFilter is None:
-        return predict(text)[0] == 1
-
-    return profanityFilter.censor_text(text) or predict(text)[0] == 1
+    return profanityFilter.censor_text(text)

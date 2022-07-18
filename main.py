@@ -7,6 +7,7 @@ from os import listdir
 import aiosqlite
 import discord
 from cache import cacheSet, cacheGet
+import cProfile, pstats
 
 
 intents: discord.Intents = discord.Intents.default()
@@ -90,7 +91,7 @@ async def on_ready():
                 idl_cogs += 1
 
     console.print(
-        f"\nSuccessfully loaded [bald][dark_orange3][{num_cogs}/{idl_cogs}][/dark_orange3][bals] cogs"
+        f"\nSuccessfully loaded [bald][dark_orange3][{num_cogs}/{idl_cogs}][/dark_orange3][/bald] cogs"
     )
 
     await bot.tree.sync(guild=TEST_GUILD)
@@ -108,4 +109,5 @@ async def createHelpCommand() -> None:
     createFile(".\\docs\\generic-help-cmd.md", recorded_commands)
 
 
-bot.run(conf["bot"]["token"])
+if __name__ == "__main__":
+    bot.run(conf["bot"]["token"])

@@ -5,7 +5,7 @@ from cache import cacheGet
 
 
 async def setup(bot: commands.Bot) -> None:
-    await bot.add_cog(PoleCog(bot), guilds=[Object(id=cacheGet("ID"))])
+    await bot.add_cog(PoleCog(bot), guilds=[Object(id=cacheGet("id"))])
 
 
 class PoleCog(commands.Cog):

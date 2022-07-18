@@ -1,4 +1,4 @@
-from discord import Interaction, app_commands, Object, Embed
+from discord import Interaction, Member, app_commands, Object, Embed
 from cogs._profanity import check_raw
 from discord.ext import commands
 import cogs._helpCommandSetup
@@ -6,7 +6,7 @@ from cache import cacheGet
 
 
 async def setup(bot: commands.Bot) -> None:
-    await bot.add_cog(ProfanityReport(bot), guilds=[Object(id=cacheGet("ID"))])
+    await bot.add_cog(ProfanityReport(bot), guilds=[Object(id=cacheGet("id"))])
 
 
 class ProfanityReport(commands.Cog):
@@ -18,7 +18,7 @@ class ProfanityReport(commands.Cog):
     @app_commands.describe(user="Who the message is from.")
     @app_commands.describe(message="The message to report.")
     async def report(
-        self: "ProfanityReport", ctx: commands.Context, user: Interaction, message: str
+        self: "ProfanityReport", ctx: Interaction, user: Member, message: str
     ) -> None:
         if check_raw(message):
             await ctx.send(

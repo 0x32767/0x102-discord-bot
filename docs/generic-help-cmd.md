@@ -215,6 +215,13 @@ Closes the poll.
 `/showpoll`
 
 Shows the results of the poll.
+## /report
+
+> Usage:
+
+`/report <message>`
+
+Report a profanity message.
 ## /trivia
 
 > Usage:
