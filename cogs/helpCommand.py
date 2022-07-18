@@ -2,19 +2,11 @@ from cogs._helpCommandSetup import recorded_commands
 import cogs._helpCommandSetup
 from discord.ext import commands
 from cache import cacheGet
-from discord import (
-    Embed,
-    Interaction,
-    app_commands,
-    Object
-)
+from discord import Embed, Interaction, app_commands, Object
 
 
 async def setup(bot: commands.Bot) -> None:
-    await bot.add_cog(
-        HelpCommand(bot),
-        guilds=[Object(id=cacheGet("id"))]
-    )
+    await bot.add_cog(HelpCommand(bot), guilds=[Object(id=cacheGet("id"))])
 
 
 class HelpCommand(commands.Cog):
@@ -28,6 +20,6 @@ class HelpCommand(commands.Cog):
             embed=Embed(
                 title="Help",
                 description="This is the help command.",
-                url="https://github.com/0x32767/0x102-discord-bot/blob/master/docs/help-cmd.md"
+                url="https://github.com/0x32767/0x102-discord-bot/blob/master/docs/help-cmd.md",
             )
         )

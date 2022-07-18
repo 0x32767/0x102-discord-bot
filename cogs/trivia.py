@@ -3,19 +3,11 @@ from aiohttp import ClientSession
 from discord.ext import commands
 import cogs._helpCommandSetup
 from cache import cacheGet
-from discord import (
-    Embed,
-    Interaction,
-    app_commands,
-    Object
-)
+from discord import Embed, Interaction, app_commands, Object
 
 
 async def setup(bot: commands.Bot) -> None:
-    await bot.add_cog(
-        TriviaCog(bot),
-        guilds=[Object(id=cacheGet("id"))]
-    )
+    await bot.add_cog(TriviaCog(bot), guilds=[Object(id=cacheGet("id"))])
 
 
 class TriviaCog(commands.Cog):
@@ -27,8 +19,8 @@ class TriviaCog(commands.Cog):
     @app_commands.command(name="trivia", description="starts a trivia game")
     async def trivia(self: "TriviaCog", ctx: Interaction) -> None:
         """
-         | `get_questions` is a coroutine that returns
-         | `self` which is the class.
+        | `get_questions` is a coroutine that returns
+        | `self` which is the class.
         """
         req = await self.cs.get("https://opentdb.com/api.php?amount=1&type=multiple")
         data: dict = req.json()
@@ -40,8 +32,8 @@ class TriviaCog(commands.Cog):
             embed=Embed(
                 title=f'Trivia: {data["results"][0]["question"]}',
                 description="Select an answer",
-                color=0x00ff00
-            )
+                color=0x00FF00,
+            ),
         )
 
         del req, data

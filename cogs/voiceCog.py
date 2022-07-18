@@ -1,19 +1,11 @@
 import cogs._helpCommandSetup
 from discord.ext import commands
 from cache import cacheGet
-from discord import (
-    Interaction,
-    app_commands,
-    Object,
-    VoiceChannel
-)
+from discord import Interaction, app_commands, Object, VoiceChannel
 
 
 async def setup(bot: commands.Bot) -> None:
-    await bot.add_cog(
-        VoiceCog(bot),
-        guilds=[Object(id=cacheGet("id"))]
-    )
+    await bot.add_cog(VoiceCog(bot), guilds=[Object(id=cacheGet("id"))])
 
 
 class VoiceCog(commands.Cog):
@@ -29,7 +21,9 @@ class VoiceCog(commands.Cog):
             await ctx.response.send_message("connected successfully!!!")
 
         else:
-            await ctx.response.send_message("you need to be in a vc for this command to work")
+            await ctx.response.send_message(
+                "you need to be in a vc for this command to work"
+            )
 
     @cogs._helpCommandSetup.record()
     @app_commands.command(description="leaves a voice channel")

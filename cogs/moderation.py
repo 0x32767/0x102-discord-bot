@@ -2,13 +2,7 @@ from discord.ext import commands
 import cogs._helpCommandSetup
 from cache import cacheGet
 import aiosqlite
-from discord import (
-    Interaction,
-    app_commands,
-    Object,
-    Embed,
-    Member
-)
+from discord import Interaction, app_commands, Object, Embed, Member
 
 
 class Moderation(commands.Cog):
@@ -19,7 +13,13 @@ class Moderation(commands.Cog):
     @app_commands.command(description="Kicks a member from the server.")
     @app_commands.describe(user="The user you want to kick.")
     @app_commands.describe(reason="Why you want to kick the user.")
-    async def kick(self: "Moderation", ctx: Interaction, user: Member, *, reason: str = "You  have been naughty") -> None:
+    async def kick(
+        self: "Moderation",
+        ctx: Interaction,
+        user: Member,
+        *,
+        reason: str = "You  have been naughty",
+    ) -> None:
         """
         :param ctx:
         :param user:
@@ -28,7 +28,9 @@ class Moderation(commands.Cog):
         """
         try:
             await user.kick(reason=reason)
-            await ctx.response.send_message(f"successfully kicked {user.name} for \"{reason}\"")
+            await ctx.response.send_message(
+                f'successfully kicked {user.name} for "{reason}"'
+            )
 
         except Exception as e:
             await ctx.response.send_message(f"error: {e}")
@@ -37,10 +39,18 @@ class Moderation(commands.Cog):
     @app_commands.command(description="Bans a member from the server.")
     @app_commands.describe(user="The user you want to ban.")
     @app_commands.describe(reason="Why you want to ban the user.")
-    async def ban(self: "Moderation", ctx: Interaction, user: Member, *, reason: str = "you have been naughty") -> None:
+    async def ban(
+        self: "Moderation",
+        ctx: Interaction,
+        user: Member,
+        *,
+        reason: str = "you have been naughty",
+    ) -> None:
         try:
             await user.ban(reason=reason)
-            await ctx.response.send_message(f"successfully kicked {user.name} for \"{reason}\"")
+            await ctx.response.send_message(
+                f'successfully kicked {user.name} for "{reason}"'
+            )
 
         except Exception as e:
             await ctx.response.send_message(f"error: {e}")
@@ -51,16 +61,18 @@ class Moderation(commands.Cog):
         async with ctx.channel.typing():
             embed: Embed = Embed(
                 title=f"{ctx.guild.name}'s stats",
-                description="gives the stats of the server"
+                description="gives the stats of the server",
             )
             for key, stat in zip(
-                    ["name", "owner", "members", "region"],
-                    [str(ctx.guild.name), str(ctx.guild.owner.name), str(ctx.guild.member_count), str(ctx.guild.region)]
+                ["name", "owner", "members", "region"],
+                [
+                    str(ctx.guild.name),
+                    str(ctx.guild.owner.name),
+                    str(ctx.guild.member_count),
+                    str(ctx.guild.region),
+                ],
             ):
-                embed.add_field(
-                    name=key,
-                    value=stat
-                )
+                embed.add_field(name=key, value=stat)
 
         await ctx.response.send("ok", embed=embed)
 
@@ -78,7 +90,9 @@ class Moderation(commands.Cog):
 
                 await db.commit()
 
-            await ctx.response.send_message(f"{ctx.user.mention} has now been whitelisted!!!")
+            await ctx.response.send_message(
+                f"{ctx.user.mention} has now been whitelisted!!!"
+            )
 
     @cogs._helpCommandSetup.record()
     @app_commands.command(description="unwhitelist a user and bots")
@@ -94,7 +108,9 @@ class Moderation(commands.Cog):
 
             await db.commit()
 
-            await ctx.response.send_message(f"{ctx.user.mention} has now been unwhitelisted!!!")
+            await ctx.response.send_message(
+                f"{ctx.user.mention} has now been unwhitelisted!!!"
+            )
 
     @cogs._helpCommandSetup.record()
     @app_commands.command(description="check if a user is whitelisted")
@@ -132,13 +148,12 @@ class Moderation(commands.Cog):
                             continue
 
                         else:
-                            await member.kick(reason=f"You are not whitelisted in the `{ctx.guild.name}` server")
+                            await member.kick(
+                                reason=f"You are not whitelisted in the `{ctx.guild.name}` server"
+                            )
 
             await ctx.response.send_message("ok, done")
 
 
 async def setup(bot: commands.Bot) -> None:
-    await bot.add_cog(
-        Moderation(bot),
-        guilds=[Object(id=cacheGet('id'))]
-    )
+    await bot.add_cog(Moderation(bot), guilds=[Object(id=cacheGet("id"))])

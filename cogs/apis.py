@@ -3,20 +3,11 @@ from json import loads as js_loads
 from discord.ext import commands
 from cache import cacheGet
 import cogs._helpCommandSetup
-from discord import (
-    Embed,
-    Interaction,
-    app_commands,
-    Object,
-    ui
-)
+from discord import Embed, Interaction, app_commands, Object, ui
 
 
 async def setup(bot: commands.Bot) -> None:
-    await bot.add_cog(
-        APICog(bot),
-        guilds=[Object(id=cacheGet("id"))]
-    )
+    await bot.add_cog(APICog(bot), guilds=[Object(id=cacheGet("id"))])
 
 
 class APICog(commands.Cog):
@@ -28,6 +19,7 @@ class APICog(commands.Cog):
     @app_commands.command(description="Sends a random picture of a fox.")
     async def fox(self: "APICog", interaction: Interaction) -> None:
         async with interaction.channel.typing():
+
             async def get_fox() -> str:
                 req = await self.cs.get("https://randomfox.ca/floof/")
                 data = await req.json()
@@ -36,7 +28,9 @@ class APICog(commands.Cog):
                 return data["image"]
 
             async def btn_interaction(btn_interaction_p: Interaction):
-                embed: Embed = btn_interaction_p.message.embeds[0].set_image(url=await get_fox())
+                embed: Embed = btn_interaction_p.message.embeds[0].set_image(
+                    url=await get_fox()
+                )
                 await btn_interaction_p.response.edit_message(embed=embed)
 
             next_btn: ui.Button = ui.Button(label="next")
@@ -56,6 +50,7 @@ class APICog(commands.Cog):
     @app_commands.command(description="Sends a random image of a dog.")
     async def dog(self: "APICog", interaction: Interaction) -> None:
         async with interaction.channel.typing():
+
             async def get_dog() -> str:
                 req = await self.cs.get("https://dog.ceo/api/breeds/image/random")
                 data = await req.json()
@@ -64,7 +59,9 @@ class APICog(commands.Cog):
                 return data["message"]
 
             async def btn_interaction(_btn_interaction: Interaction):
-                embed: Embed = _btn_interaction.message.embeds[0].set_image(url=await get_dog())
+                embed: Embed = _btn_interaction.message.embeds[0].set_image(
+                    url=await get_dog()
+                )
                 await _btn_interaction.response.edit_message(embed=embed)
 
             next_btn: ui.Button = ui.Button(label="next")
@@ -83,6 +80,7 @@ class APICog(commands.Cog):
     @app_commands.command(description="Sends a random image of a cat.")
     async def cat(self: "APICog", interaction: Interaction) -> None:
         async with interaction.channel.typing():
+
             async def get_cat() -> str:
                 req = await self.cs.get("https://aws.random.cat/meow")
                 data = await req.json()
@@ -91,7 +89,9 @@ class APICog(commands.Cog):
                 return data["file"]
 
             async def btn_interaction(_btn_interaction: Interaction) -> None:
-                embed: Embed = _btn_interaction.message.embeds[0].set_image(url=await get_cat())
+                embed: Embed = _btn_interaction.message.embeds[0].set_image(
+                    url=await get_cat()
+                )
                 await _btn_interaction.response.edit_message(embed=embed)
 
             next_btn: ui.Button = ui.Button(label="next")
@@ -110,6 +110,7 @@ class APICog(commands.Cog):
     @app_commands.command(description="Sends a meme.")
     async def meme(self: "APICog", interaction: Interaction) -> None:
         async with interaction.channel.typing():
+
             async def get_meme():
                 req = await self.cs.get("https://meme-api.herokuapp.com/gimme")
                 data = await req.json()
@@ -118,7 +119,9 @@ class APICog(commands.Cog):
                 return data["url"]
 
             async def btn_interaction(_btn_interaction: Interaction) -> None:
-                embed: Embed = _btn_interaction.message.embeds[0].set_image(url=await get_meme())
+                embed: Embed = _btn_interaction.message.embeds[0].set_image(
+                    url=await get_meme()
+                )
                 await _btn_interaction.response.edit_message(embed=embed)
 
             next_btn: ui.Button = ui.Button(label="next")
@@ -139,11 +142,11 @@ class APICog(commands.Cog):
         async with interaction.channel.typing():
             req = await self.cs.get("https://catfact.ninja/fact")
             res = await req.json()
-            em: Embed = Embed(title="A cat fact", description="learn more about cats here: https://www.catster.com/")
-            em.add_field(
-                name="Did you know...",
-                value=res["fact"]
+            em: Embed = Embed(
+                title="A cat fact",
+                description="learn more about cats here: https://www.catster.com/",
             )
+            em.add_field(name="Did you know...", value=res["fact"])
 
         del req, res
         await interaction.response.send_message(embed=em)
@@ -155,11 +158,11 @@ class APICog(commands.Cog):
             req = await self.cs.get("https://dog-api.kinduff.com/api/facts")
             res = await req.json()
 
-            em: Embed = Embed(title="A dog fact", description="learn more about cats here: https://dog-api.kinduff.com/")
-            em.add_field(
-                name="Did you know...",
-                value=res["facts"][0]
+            em: Embed = Embed(
+                title="A dog fact",
+                description="learn more about cats here: https://dog-api.kinduff.com/",
             )
+            em.add_field(name="Did you know...", value=res["facts"][0])
 
         del req, res
         await interaction.response.send_message(embed=em)

@@ -8,18 +8,26 @@ from discord.ui import (
 
 
 class TriviaQuestionDropdown(Select):
-    def __init__(self: "TriviaQuestionDropdown", question: str, questions: list[str], correct: str) -> None:
+    def __init__(
+        self: "TriviaQuestionDropdown",
+        question: str,
+        questions: list[str],
+        correct: str,
+    ) -> None:
         """
-         | this constructs a dropdown of the question
-         | as the placeholder and the answers as the
-         | options.
+        | this constructs a dropdown of the question
+        | as the placeholder and the answers as the
+        | options.
         """
         self.correct: str = correct
         super().__init__(
             max_values=1,
             min_values=1,
-            options=[SelectOption(label=f"{i}", value=f"{i}", description=i) for i in self.shuffle(questions)],
-            placeholder=question
+            options=[
+                SelectOption(label=f"{i}", value=f"{i}", description=i)
+                for i in self.shuffle(questions)
+            ],
+            placeholder=question,
         )
 
     def shuffle(self: "TriviaQuestionDropdown", arr: list[str]) -> list[str]:
@@ -29,16 +37,16 @@ class TriviaQuestionDropdown(Select):
 
     async def callback(self: "TriviaQuestionDropdown", ctx: Interaction) -> None:
         """
-         | This is the callback function
-         | that is called when the user
-         | selects an option.
+        | This is the callback function
+        | that is called when the user
+        | selects an option.
         """
         if self.correct == self.values[0]:
             await ctx.response.send_message(
                 embed=Embed(
                     title="Correct!",
                     description=f"{self.correct} is correct!",
-                    color=0x00ff00
+                    color=0x00FF00,
                 )
             )
         else:
@@ -46,11 +54,12 @@ class TriviaQuestionDropdown(Select):
                 embed=Embed(
                     title="Incorrect!",
                     description=f"The correct answer was {self.correct}",
-                    color=0xFF0000
+                    color=0xFF0000,
                 )
             )
 
-    def pass_(self: "TriviaQuestionDropdown") -> None:...
+    def pass_(self: "TriviaQuestionDropdown") -> None:
+        ...
 
 
 class TriviaView(View):
@@ -58,8 +67,8 @@ class TriviaView(View):
         super().__init__()
         self.add_item(
             TriviaQuestionDropdown(
-                question=data["question"].replace("&quot;", "\""),
+                question=data["question"].replace("&quot;", '"'),
                 questions=data["incorrect_answers"] + [data["correct_answer"]],
-                correct=data["correct_answer"]
+                correct=data["correct_answer"],
             )
         )

@@ -2,18 +2,11 @@ import cogs._helpCommandSetup
 from discord.ext import commands
 from cache import cacheGet
 import wikipedia as wiki
-from discord import (
-    Interaction,
-    app_commands,
-    Object
-)
+from discord import Interaction, app_commands, Object
 
 
 async def setup(bot: commands.Bot) -> None:
-    await bot.add_cog(
-        WikiCog(bot),
-        guilds=[Object(id=cacheGet("id"))]
-    )
+    await bot.add_cog(WikiCog(bot), guilds=[Object(id=cacheGet("id"))])
 
 
 class WikiCog(commands.Cog):

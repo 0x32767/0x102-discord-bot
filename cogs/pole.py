@@ -1,19 +1,10 @@
 import cogs._helpCommandSetup
 from discord.ext import commands
-from discord import (
-    Interaction,
-    app_commands,
-    Object,
-    Embed,
-    Color
-)
+from discord import Interaction, app_commands, Object, Embed, Color
 
 
 async def setup(bot: commands.Bot) -> None:
-    await bot.add_cog(
-        PoleCog(bot),
-        guilds=[Object(id=938541999961833574)]
-    )
+    await bot.add_cog(PoleCog(bot), guilds=[Object(id=938541999961833574)])
 
 
 class PoleCog(commands.Cog):
@@ -45,29 +36,26 @@ class PoleCog(commands.Cog):
         """
 
         # checks if there is still a non-closed pole in the channel
-        if ctx.channel.id in self.votes and self.votes[ctx.channel.id]["closed"] is False:
+        if (
+            ctx.channel.id in self.votes
+            and self.votes[ctx.channel.id]["closed"] is False
+        ):
             await ctx.send("There is already a poll in this channel.")
             return
 
         self.votes[ctx.channel.id] = {
             "question": question,
-            "options": {
-                "yes": 0,
-                "no": 0
-            },
+            "options": {"yes": 0, "no": 0},
             "closed": False,
-            "author": ctx.author.id
+            "author": ctx.author.id,
         }
 
         await ctx.response.send_message(
             embed=Embed(
                 title="Poll created",
                 description="use `/newpole` to create a new poll in this channel",
-                color=Color.green()
-            ).add_field(
-                name="vote",
-                value="`/vote yes` or `/vote no`"
-            )
+                color=Color.green(),
+            ).add_field(name="vote", value="`/vote yes` or `/vote no`")
         )
 
     @cogs._helpCommandSetup.record()
@@ -85,7 +73,9 @@ class PoleCog(commands.Cog):
             return await ctx.send("There is no poll in this channel.", ephemeral=True)
 
         if pole["closed"] is True:
-            return await ctx.send("The poll is closed, you can not vote in a colsed pole.", ephemeral=True)
+            return await ctx.send(
+                "The poll is closed, you can not vote in a colsed pole.", ephemeral=True
+            )
 
         pole["options"]["yes"] += 1 if vote else 0
         pole["options"]["no"] += 0 if vote else 1
@@ -114,14 +104,16 @@ class PoleCog(commands.Cog):
             embed=Embed(
                 title="The pole has been closed",
                 description="The poll is closed, you can not vote anymore.",
-                color=Color.red()
+                color=Color.red(),
             ),
-            ephemeral=show
+            ephemeral=show,
         )
 
     @cogs._helpCommandSetup.record()
     @app_commands.command(name="showpoll", description="Shows the results of the poll.")
-    @app_commands.describe(public="do you want the poll to be public (can be seen by everyone)")
+    @app_commands.describe(
+        public="do you want the poll to be public (can be seen by everyone)"
+    )
     async def show_poll(self, ctx: Interaction, public: bool = False) -> None:
         """
         :param ctx: The ctx param is passes by the discord.py libruary
@@ -139,13 +131,15 @@ class PoleCog(commands.Cog):
             embed=Embed(
                 title=pole["question"],
                 description=f'yes: {pole["options"]["yes"]}\nno: {pole["options"]["no"]}',
-                color=Color.green()
-            ).add_field(
+                color=Color.green(),
+            )
+            .add_field(
                 name="yes",
-                value=f'{pole["options"]["yes"] / (pole["options"]["yes"] + pole["options"]["no"]) * 100}%'
-            ).add_field(
+                value=f'{pole["options"]["yes"] / (pole["options"]["yes"] + pole["options"]["no"]) * 100}%',
+            )
+            .add_field(
                 name="no",
-                value=f'{pole["options"]["no"] / (pole["options"]["yes"] + pole["options"]["no"]) * 100}%'
+                value=f'{pole["options"]["no"] / (pole["options"]["yes"] + pole["options"]["no"]) * 100}%',
             ),
-            ephemeral=public
+            ephemeral=public,
         )

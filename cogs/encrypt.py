@@ -10,10 +10,7 @@ from discord import (
 
 
 async def setup(bot: commands.Bot) -> None:
-    await bot.add_cog(
-        EncryptCog(bot),
-        guilds=[Object(id=cacheGet("id"))]
-    )
+    await bot.add_cog(EncryptCog(bot), guilds=[Object(id=cacheGet("id"))])
 
 
 class EncryptCog(commands.Cog):
@@ -24,7 +21,4 @@ class EncryptCog(commands.Cog):
     @app_commands.describe(msg="The message you want to encrypt.")
     @app_commands.command(description="Encrypts a message.")
     async def encrypt(self: "EncryptCog", ctx: Interaction, *, msg: str) -> None:
-        await ctx.response.send_message(
-            view=EncryptionView(msg),
-            ephemeral=True
-        )
+        await ctx.response.send_message(view=EncryptionView(msg), ephemeral=True)

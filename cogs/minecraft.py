@@ -3,19 +3,11 @@ from aiohttp import ClientSession
 from discord.ext import commands
 import cogs._helpCommandSetup
 from cache import cacheGet
-from discord import (
-    Interaction,
-    app_commands,
-    Object,
-    Embed
-)
+from discord import Interaction, app_commands, Object, Embed
 
 
 async def setup(bot: commands.Bot) -> None:
-    await bot.add_cog(
-        MinecraftCog(bot),
-        guilds=[Object(id=cacheGet("id"))]
-    )
+    await bot.add_cog(MinecraftCog(bot), guilds=[Object(id=cacheGet("id"))])
 
 
 class MinecraftCog(commands.Cog):
@@ -42,14 +34,26 @@ class MinecraftCog(commands.Cog):
 
             em: Embed = Embed(
                 title=f"learn more about `{block['displayName']}`",
-                description="use `/idlookupblock` and then the id of the block to get info about the block"
+                description="use `/idlookupblock` and then the id of the block to get info about the block",
             )
 
-            em.add_field(name="mine able", value="yes" if block["diggable"] else "no", inline=True)
-            em.add_field(name="tool", value=block["material"] if "material" in block.keys() else "none", inline=True)
+            em.add_field(
+                name="mine able",
+                value="yes" if block["diggable"] else "no",
+                inline=True,
+            )
+            em.add_field(
+                name="tool",
+                value=block["material"] if "material" in block.keys() else "none",
+                inline=True,
+            )
             em.add_field(name="stacks up to", value=f"{block['stackSize']}")
-            em.add_field(name="transparent", value="yes" if block['transparent'] else "no")
-            em.add_field(name="emits light", value=f"emits `{block['emitLight']}` light")
+            em.add_field(
+                name="transparent", value="yes" if block["transparent"] else "no"
+            )
+            em.add_field(
+                name="emits light", value=f"emits `{block['emitLight']}` light"
+            )
             await ctx.response.send_message(embed=em)
             break
 
@@ -58,7 +62,9 @@ class MinecraftCog(commands.Cog):
     @cogs._helpCommandSetup.record()
     @app_commands.command(description="Gets some info about a minecraft block.")
     @app_commands.describe(name="Give information about a minecraft block.")
-    async def mcnamelookup(self: "MinecraftCog", ctx: Interaction, *, name: str) -> None:
+    async def mcnamelookup(
+        self: "MinecraftCog", ctx: Interaction, *, name: str
+    ) -> None:
         """
         :param ctx: The `ctx` is passed by default when the command is executed
         :param name:  The name param is class string and is the display name for the minecraft item/block
@@ -74,20 +80,26 @@ class MinecraftCog(commands.Cog):
 
             em: Embed = Embed(
                 title=f'learn more about `{block["displayName"]}`',
-                description="use `/namelookupblock` and then the id of the block to learn about it"
+                description="use `/namelookupblock` and then the id of the block to learn about it",
             )
 
             em.add_field(name="mine able", value="yes" if block["diggable"] else "no")
             em.add_field(name="tool", value=block["material"])
             em.add_field(name="stacks up to", value=f"{block['stackSize']}")
-            em.add_field(name="transparent", value="yes" if block["transparent"] else "no")
-            em.add_field(name="emits light", value=f"emits `{block['emitLight']}` light")
+            em.add_field(
+                name="transparent", value="yes" if block["transparent"] else "no"
+            )
+            em.add_field(
+                name="emits light", value=f"emits `{block['emitLight']}` light"
+            )
             del data
 
             return await ctx.response.send_message(embed=em)
 
     @cogs._helpCommandSetup.record()
-    @app_commands.command(description="Gets some info about a minecraft crafting recipe.")
+    @app_commands.command(
+        description="Gets some info about a minecraft crafting recipe."
+    )
     @app_commands.describe(item="The name of the item e.g. `campfire`")
     async def mccraft(self: "MinecraftCog", ctx: Interaction, item: str) -> None:
         """
@@ -99,7 +111,10 @@ class MinecraftCog(commands.Cog):
             data: list[dict] = jsonLoads(f)
             del f
 
-        em: Embed = Embed(title=f"How to craft {item}", description="use `/craft` to learn the ways to make something")
+        em: Embed = Embed(
+            title=f"How to craft {item}",
+            description="use `/craft` to learn the ways to make something",
+        )
         i: int = 0
 
         for key, recipe in data.items():
@@ -108,7 +123,7 @@ class MinecraftCog(commands.Cog):
                     name=f"Way {i + 1} to craft {item}",
                     value="".join(
                         [f"{f['name']}: {f['count']}\n" for f in recipe["ingredients"]]
-                    )
+                    ),
                 )
                 i += 1
 
@@ -127,7 +142,7 @@ class MinecraftCog(commands.Cog):
             if e["entity"] == entity:
                 em: Embed = Embed(
                     title=f"{entity} loot",
-                    description="use `/loot` to learn the loot that can be found from this entity"
+                    description="use `/loot` to learn the loot that can be found from this entity",
                 )
 
                 for loot in e["drops"]:
