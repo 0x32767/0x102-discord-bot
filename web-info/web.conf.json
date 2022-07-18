@@ -1,8 +1,0 @@
-{
-    "title": "0x102",
-    "description": "A general purpose discord bot.",
-    "author": "<a href=\"https://github.com/0x32767/\">0x32767</a>",
-    "conf": {
-        "index": "https://raw.githubcontent.com/0x32767/0x102-discord-bot/blob/master/web-info/bot.html"
-    }
-}
