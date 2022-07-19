@@ -7,7 +7,7 @@
 
 ## public use
 
-The bot is currentely not availible for public use yet, if you want it to relese then star the project. When the bot will launch for public use the bot (0x102) will be 0z012, that way the 0x102 bot can still be used for developement. (There will be two versions of the bot, one for use, one for testing).
+The bot is currentely not availible for public use yet, if you want it to relese then star the project. When the bot will launch for public use the bot (0x102) will be 0x012, that way the 0x102 bot can still be used for developement. (There will be two versions of the bot, one for use, one for testing).
 
 ## updates
 
