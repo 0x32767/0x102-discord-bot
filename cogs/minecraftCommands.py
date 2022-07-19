@@ -25,7 +25,7 @@ class MinecrtaftCog(commands.Cog):
         :param player: The player that is killed
         :return:
         """
-        with open("deathMessages.json", "r") as f:
+        with open("assets/deathMessages.json", "r") as f:
             data: dict[list[str]] = json.load(f)
 
         if player is None:
