@@ -1,0 +1,79 @@
+============
+Instructions
+============
+
+Arithmetic operations
+=====================
+
+00: addition
+01: subtraction
+02: multiplication
+03: division
+04: modulo
+
+Raw instructions
+================
+
+05: or
+06: and
+07: not
+
+Memory access
+=============
+
+08: allocate
+09: unallocated
+10: push
+11: pop
+
+Control flow
+============
+
+12: jz
+13: jnz
+
+Miscellaneous
+=============
+
+16: quit
+
+Memory layout
+=============
+
+000 - 454: video buffer
+455 - 999: memory
+
+CCL instructions
+================
+
++-----+------------------+
+| add | add              |
++-----+------------------+
+| sub | subtraction      |
++-----+------------------+
+| mul | multiplication   |
++-----+------------------+
+| div | division         |
++-----+------------------+
+| mod | modulo           |
++-----+------------------+
+| lor | logical or       |
++-----+------------------+
+| and | logical and      |
++-----+------------------+
+| not | logical not      |
++-----+------------------+
+| alo | memory allocate  |
++-----+------------------+
+| dal | de allocate      |
++-----+------------------+
+| put | push to stack    |
++-----+------------------+
+| pop | pops the stack   |
++-----+------------------+
+| jez | jump equal zero  |
++-----+------------------+
+| jnz | jump not zero    |
++-----+------------------+
+| qut | ends the program |
++-----+------------------+
