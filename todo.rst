@@ -46,3 +46,4 @@ The list
  - [9] [#000f]. errors for custom commands
  - [9] [#0010]. Create an encryption system
  - [-] [#0011]. Create an decryption system
+ - [1] [#0012]. Speedup JSON searches with c++
