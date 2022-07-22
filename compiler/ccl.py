@@ -1,15 +1,8 @@
+from numba import jit
 import sys
 
 
-stack: list[int] = [0 for _ in range(255)]
-mem: list[int] = [0 for _ in range(255)]
-
-global stkPrt
-
-stkPrt = 0
-
-
-def update():
+def update(mem, stack):
     for c in mem:
         if c == 0:
             break
@@ -22,126 +15,135 @@ def update():
     print()
 
 
-with open("compiler/test.cclab", "rb") as f:
-    code = f.read()
-    c = 0
+@jit(nopython=True)
+def emulate():
+    stack: list[int] = [0 for _ in range(255)]
+    mem: list[int] = [0 for _ in range(255)]
 
-    while code[c] != 15:
-        print(c)
+    global stkPrt
 
-        match int(code[c]):
-            case 00:
-                stack[stkPrt - 1] = stack[stkPrt - 1] + stack[stkPrt]
-                stkPrt -= 1
-                c += 1
+    stkPrt = 0
 
-                update()
+    with open(f"compiler/{sys.argv[1]}", "rb") as f:
+        code = f.read()
+        c = 0
 
-            case 1:
-                stack[stkPrt - 1] = stack[stkPrt - 1] - stack[stkPrt]
+        while code[c] != 15:
+            print(c)
 
-                update()
-                stkPrt -= 1
-                c += 1
+            match int(code[c]):
+                case 00:
+                    stack[stkPrt - 1] = stack[stkPrt - 1] + stack[stkPrt]
+                    stkPrt -= 1
+                    c += 1
 
-            case 2:
-                stack[stkPrt - 1] = stack[stkPrt - 1] * stack[stkPrt]
-                update()
-                stkPrt -= 1
-                c += 1
+                    update()
 
-            case 3:
-                stack[stkPrt - 1] = stack[stkPrt - 1] // stack[stkPrt]
-                update()
-                stkPrt -= 1
-                c += 1
+                case 1:
+                    stack[stkPrt - 1] = stack[stkPrt - 1] - stack[stkPrt]
 
-            case 4:
-                stack[stkPrt - 1] = stack[stkPrt - 1] % stack[stkPrt]
-                update()
-                stkPrt -= 1
-                c += 1
+                    update()
+                    stkPrt -= 1
+                    c += 1
 
-            case 5:
-                if stack[stkPrt - 1] or stack[stkPrt]:
-                    stack[stkPrt - 1] = 1
-                else:
-                    stack[stkPrt - 1] = 0
+                case 2:
+                    stack[stkPrt - 1] = stack[stkPrt - 1] * stack[stkPrt]
+                    update()
+                    stkPrt -= 1
+                    c += 1
 
-                update()
-                stkPrt -= 1
-                c += 1
+                case 3:
+                    stack[stkPrt - 1] = stack[stkPrt - 1] // stack[stkPrt]
+                    update()
+                    stkPrt -= 1
+                    c += 1
 
-            case 6:
-                if stack[stkPrt - 1] and stack[stkPrt]:
-                    stack[stkPrt - 1] = 1
-                else:
-                    stack[stkPrt - 1] = 0
+                case 4:
+                    stack[stkPrt - 1] = stack[stkPrt - 1] % stack[stkPrt]
+                    update()
+                    stkPrt -= 1
+                    c += 1
 
-                update()
-                stkPrt -= 1
-                c += 1
+                case 5:
+                    if stack[stkPrt - 1] or stack[stkPrt]:
+                        stack[stkPrt - 1] = 1
+                    else:
+                        stack[stkPrt - 1] = 0
 
-            case 7:
-                if not stack[stkPrt]:
-                    stack[stkPrt - 1] = 1
-                else:
-                    stack[stkPrt - 1] = 0
+                    update()
+                    stkPrt -= 1
+                    c += 1
 
-                update()
-                stkPrt -= 1
-                c += 1
+                case 6:
+                    if stack[stkPrt - 1] and stack[stkPrt]:
+                        stack[stkPrt - 1] = 1
+                    else:
+                        stack[stkPrt - 1] = 0
 
-            case 8:
-                mem[stack[stkPrt]] = stack[stkPrt - 1]
+                    update()
+                    stkPrt -= 1
+                    c += 1
 
-                update()
-                stkPrt -= 1
-                c += 1
+                case 7:
+                    if not stack[stkPrt]:
+                        stack[stkPrt - 1] = 1
+                    else:
+                        stack[stkPrt - 1] = 0
 
-            case 9:
-                mem[stack[stkPrt]] = 0
+                    update()
+                    stkPrt -= 1
+                    c += 1
 
-                update()
-                stkPrt -= 1
-                c += 1
+                case 8:
+                    mem[stack[stkPrt]] = stack[stkPrt - 1]
 
-            case 10:
-                stack[stkPrt] = code[c + 1]
+                    update()
+                    stkPrt -= 1
+                    c += 1
 
-                update()
-                stkPrt += 1
-                c += 2
+                case 9:
+                    mem[stack[stkPrt]] = 0
 
-            case 11:
-                stack[stkPrt] = 0
+                    update()
+                    stkPrt -= 1
+                    c += 1
 
-                update()
-                c += 1
+                case 10:
+                    stack[stkPrt] = code[c + 1]
 
-            case 12:
-                mem[code[c + 1]] = stack[stkPrt]
-
-                update()
-                stkPrt -= 1
-                c += 2
-
-            case 13:
-                stack[stkPrt] = mem[code[c + 1]]
-
-                update()
-                c += 2
-
-            case 14:
-                if stack[stkPrt] == 0:
-                    c = code[c + 1]
-                else:
+                    update()
+                    stkPrt += 1
                     c += 2
 
-                update()
+                case 11:
+                    stack[stkPrt] = 0
 
-            case 15:
-                sys.exit(0)
+                    update()
+                    c += 1
 
-            case _:
-                c += 1
+                case 12:
+                    mem[code[c + 1]] = stack[stkPrt]
+
+                    update()
+                    stkPrt -= 1
+                    c += 2
+
+                case 13:
+                    stack[stkPrt] = mem[code[c + 1]]
+
+                    update()
+                    c += 2
+
+                case 14:
+                    if stack[stkPrt] == 0:
+                        c = code[c + 1]
+                    else:
+                        c += 2
+
+                    update()
+
+                case 15:
+                    sys.exit(0)
+
+                case _:
+                    c += 1

@@ -1,0 +1,6 @@
+~start:
+    put 1
+    put 1
+    add
+    set 0
+    qut
