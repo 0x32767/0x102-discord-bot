@@ -26,8 +26,8 @@ with open("compiler/test.cclab", "rb") as f:
     code = f.read()
     c = 0
 
-    while code[c] != 0x0F:
-        print(code[c])
+    while code[c] != 15:
+        print(c)
 
         match int(code[c]):
             case 00:
@@ -36,7 +36,6 @@ with open("compiler/test.cclab", "rb") as f:
                 c += 1
 
                 update()
-                break
 
             case 1:
                 stack[stkPrt - 1] = stack[stkPrt - 1] - stack[stkPrt]
@@ -44,28 +43,24 @@ with open("compiler/test.cclab", "rb") as f:
                 update()
                 stkPrt -= 1
                 c += 1
-                break
 
             case 2:
                 stack[stkPrt - 1] = stack[stkPrt - 1] * stack[stkPrt]
                 update()
                 stkPrt -= 1
                 c += 1
-                break
 
             case 3:
                 stack[stkPrt - 1] = stack[stkPrt - 1] // stack[stkPrt]
                 update()
                 stkPrt -= 1
                 c += 1
-                break
 
             case 4:
                 stack[stkPrt - 1] = stack[stkPrt - 1] % stack[stkPrt]
                 update()
                 stkPrt -= 1
                 c += 1
-                break
 
             case 5:
                 if stack[stkPrt - 1] or stack[stkPrt]:
@@ -76,7 +71,6 @@ with open("compiler/test.cclab", "rb") as f:
                 update()
                 stkPrt -= 1
                 c += 1
-                break
 
             case 6:
                 if stack[stkPrt - 1] and stack[stkPrt]:
@@ -87,7 +81,6 @@ with open("compiler/test.cclab", "rb") as f:
                 update()
                 stkPrt -= 1
                 c += 1
-                break
 
             case 7:
                 if not stack[stkPrt]:
@@ -98,7 +91,6 @@ with open("compiler/test.cclab", "rb") as f:
                 update()
                 stkPrt -= 1
                 c += 1
-                break
 
             case 8:
                 mem[stack[stkPrt]] = stack[stkPrt - 1]
@@ -106,7 +98,6 @@ with open("compiler/test.cclab", "rb") as f:
                 update()
                 stkPrt -= 1
                 c += 1
-                break
 
             case 9:
                 mem[stack[stkPrt]] = 0
@@ -114,22 +105,19 @@ with open("compiler/test.cclab", "rb") as f:
                 update()
                 stkPrt -= 1
                 c += 1
-                break
 
             case 10:
                 stack[stkPrt] = code[c + 1]
 
                 update()
                 stkPrt += 1
-                c += 1
-                break
+                c += 2
 
             case 11:
                 stack[stkPrt] = 0
 
                 update()
                 c += 1
-                break
 
             case 12:
                 mem[code[c + 1]] = stack[stkPrt]
@@ -137,14 +125,12 @@ with open("compiler/test.cclab", "rb") as f:
                 update()
                 stkPrt -= 1
                 c += 2
-                break
 
             case 13:
                 stack[stkPrt] = mem[code[c + 1]]
 
                 update()
                 c += 2
-                break
 
             case 14:
                 if stack[stkPrt] == 0:
@@ -153,7 +139,6 @@ with open("compiler/test.cclab", "rb") as f:
                     c += 2
 
                 update()
-                break
 
             case 15:
                 sys.exit(0)
