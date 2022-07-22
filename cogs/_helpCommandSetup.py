@@ -1,7 +1,14 @@
 from discord.ext import commands
 
 
-recorded_commands: list[commands.Command] = []
+recorded_commands: list = []
+
+
+"""
+ ::NOTE::
+ ========
+ This is a setup function for the help command.
+"""
 
 
 def record(usage: str = "/") -> callable:

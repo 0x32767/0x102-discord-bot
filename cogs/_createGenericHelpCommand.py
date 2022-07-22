@@ -6,7 +6,7 @@ def createFile(filename: str, commands: list) -> None:
         f.write(createDocs(commands))
 
 
-def createDocs(commands: list[commands.Command]) -> str:
+def createDocs(commands: list) -> str:
     return "".join(
         f"""## /{c["f"].name}\n\n> Usage:\n\n`{c["u"]}`\n\n{c["f"].description}\n"""
         for c in commands

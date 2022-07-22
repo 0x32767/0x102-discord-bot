@@ -14,11 +14,6 @@ class TriviaQuestionDropdown(Select):
         questions: list[str],
         correct: str,
     ) -> None:
-        """
-        | this constructs a dropdown of the question
-        | as the placeholder and the answers as the
-        | options.
-        """
         self.correct: str = correct
         super().__init__(
             max_values=1,
@@ -36,11 +31,6 @@ class TriviaQuestionDropdown(Select):
         return arr
 
     async def callback(self: "TriviaQuestionDropdown", ctx: Interaction) -> None:
-        """
-        | This is the callback function
-        | that is called when the user
-        | selects an option.
-        """
         if self.correct == self.values[0]:
             await ctx.response.send_message(
                 embed=Embed(
