@@ -31,7 +31,8 @@ Memory access
 Control flow
 ============
 
-14: jz
+14: jez
+15: jmp
 
 Miscellaneous
 =============
@@ -81,4 +82,6 @@ CCL instructions
 | set | get from stack and push to memory |
 +-----+-----------------------------------+
 | qut | ends the program                  |
++-----+-----------------------------------+
+| jmp | jump to section                   |
 +-----+-----------------------------------+
