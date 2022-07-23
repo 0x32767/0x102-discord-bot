@@ -1,6 +1,5 @@
 # 0x102 discord bot
 
-
 > Overview
 
 0x102 is a discord bot packed with manny features, It is made with the discord.py libruary (which has resumbed developement). The discord bot is still under developement and is being frequantly updated.
@@ -19,16 +18,22 @@ Pull requests will be accepted by the author, these pull requests can range from
 
 ## features
 
-* API interaction
-* Fun message encryption
-* Help command (duh :))
-* leveling (depricated for now)
-* moderation
-* whitelisting
-* trivia questions
-* Wikapedia intergration
-* pole
-* utils
-* general fun
-* Memes
-* running, making, editing customm commands
+- API interaction
+- Fun message encryption
+- Help command (duh :))
+- leveling (depricated for now)
+- moderation
+- whitelisting
+- trivia questions
+- Wikapedia intergration
+- pole
+- utils
+- general fun
+- Memes
+- running, making, editing customm commands
+
+## license
+
+A large amount of commands in this bot are from other bots, there for the license of the bot is https://www.gnu.org/licenses/agpl-3.0.en.html. This is because the copy write owner (of the original repository from the bot I have taken some of the commands from) `GeoffreyWesthoff` (https://github.com/GeoffreyWesthoff/Dank-Memer#license) says so in his license section. Full credit goes to the original author(s). Files that contain the MIT license are 100% free to use (as they are from me). Licensing information will be available in all files in the cogs directory as this is were all of the commands are, no other code was used any were else in the bot. The verification of these files can be found by looking at previous commits to the repo.
+
+Also fro clarity, the license of the bot is the AGPLv3 license. And when the license refers to "this Software" it refers to the file.
