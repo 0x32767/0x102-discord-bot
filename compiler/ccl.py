@@ -1,21 +1,16 @@
-from numba import jit
 import sys
 
 
-def update(mem, stack):
+def update(mem):
+    print("\n")
     for c in mem:
         if c == 0:
-            break
+            print(" ", end="")
 
         else:
             print(chr(c), end="")
 
-    print(mem)
-    print(stack)
-    print()
 
-
-@jit(nopython=True)
 def emulate():
     stack: list[int] = [0 for _ in range(255)]
     mem: list[int] = [0 for _ in range(255)]
@@ -24,43 +19,41 @@ def emulate():
 
     stkPrt = 0
 
-    with open(f"compiler/{sys.argv[1]}", "rb") as f:
+    with open(r"D:\programing\0x102-discord-bot\compiler\test.cclab", "rb") as f:
         code = f.read()
         c = 0
 
         while code[c] != 15:
-            print(c)
-
             match int(code[c]):
                 case 00:
                     stack[stkPrt - 1] = stack[stkPrt - 1] + stack[stkPrt]
                     stkPrt -= 1
                     c += 1
 
-                    update()
+                    update(mem)
 
                 case 1:
                     stack[stkPrt - 1] = stack[stkPrt - 1] - stack[stkPrt]
 
-                    update()
+                    update(mem)
                     stkPrt -= 1
                     c += 1
 
                 case 2:
                     stack[stkPrt - 1] = stack[stkPrt - 1] * stack[stkPrt]
-                    update()
+                    update(mem)
                     stkPrt -= 1
                     c += 1
 
                 case 3:
                     stack[stkPrt - 1] = stack[stkPrt - 1] // stack[stkPrt]
-                    update()
+                    update(mem)
                     stkPrt -= 1
                     c += 1
 
                 case 4:
                     stack[stkPrt - 1] = stack[stkPrt - 1] % stack[stkPrt]
-                    update()
+                    update(mem)
                     stkPrt -= 1
                     c += 1
 
@@ -70,7 +63,7 @@ def emulate():
                     else:
                         stack[stkPrt - 1] = 0
 
-                    update()
+                    update(mem)
                     stkPrt -= 1
                     c += 1
 
@@ -80,7 +73,7 @@ def emulate():
                     else:
                         stack[stkPrt - 1] = 0
 
-                    update()
+                    update(mem)
                     stkPrt -= 1
                     c += 1
 
@@ -90,48 +83,48 @@ def emulate():
                     else:
                         stack[stkPrt - 1] = 0
 
-                    update()
+                    update(mem)
                     stkPrt -= 1
                     c += 1
 
                 case 8:
                     mem[stack[stkPrt]] = stack[stkPrt - 1]
 
-                    update()
+                    update(mem)
                     stkPrt -= 1
-                    c += 1
+                    c += 2
 
                 case 9:
                     mem[stack[stkPrt]] = 0
 
-                    update()
+                    update(mem)
                     stkPrt -= 1
                     c += 1
 
                 case 10:
                     stack[stkPrt] = code[c + 1]
 
-                    update()
+                    update(mem)
                     stkPrt += 1
                     c += 2
 
                 case 11:
                     stack[stkPrt] = 0
 
-                    update()
+                    update(mem)
                     c += 1
 
                 case 12:
                     mem[code[c + 1]] = stack[stkPrt]
 
-                    update()
+                    update(mem)
                     stkPrt -= 1
                     c += 2
 
                 case 13:
                     stack[stkPrt] = mem[code[c + 1]]
 
-                    update()
+                    update(mem)
                     c += 2
 
                 case 14:
@@ -140,10 +133,16 @@ def emulate():
                     else:
                         c += 2
 
-                    update()
+                    update(mem)
 
                 case 15:
                     sys.exit(0)
 
                 case _:
                     c += 1
+
+    return mem
+
+
+if __name__ == "__main__":
+    print(emulate())
