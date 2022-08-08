@@ -44,15 +44,11 @@ class LevelsCog(commands.Cog):
     async def levleinfo(self: "LevelsCog", ctx: Interaction) -> None:
         async with aiosqlite.connect("discordbotdb.db") as data:
             async with data.cursor() as curr:
-                await curr.execute(
-                    f"select * from levels where guild_id = {ctx.user.id} and user_id = {ctx.guild.id}"
-                )
+                await curr.execute(f"select * from levels where guild_id = {ctx.user.id} and user_id = {ctx.guild.id}")
 
                 em: Embed = Embed(title=f"{ctx.user.name}'s progress")
                 # the `_` are the user and guild's ids, we don't need these in the mebed
-                for val, key in zip(
-                    list(await curr.fetchall())[0], ["_", "_", "levle", "exp"]
-                ):
+                for val, key in zip(list(await curr.fetchall())[0], ["_", "_", "levle", "exp"]):
                     if key == "_":
                         continue
 
@@ -64,33 +60,23 @@ class LevelsCog(commands.Cog):
      | The code below updates the user's levels
     """
 
-    async def get_attr(
-        self: "LevelsCog", guild_id: int, user_id: int, attr: int
-    ) -> int:
+    async def get_attr(self: "LevelsCog", guild_id: int, user_id: int, attr: int) -> int:
         async with aiosqlite.connect("discordbotdb.db") as database:
             async with database.cursor() as curr:
-                await curr.execute(
-                    f"select * from levels where user_id = {guild_id} and guild_id = {user_id}"
-                )
+                await curr.execute(f"select * from levels where user_id = {guild_id} and guild_id = {user_id}")
 
                 data: list[tuple] = await curr.fetchall()
                 return int(data[0][attr])
 
-    async def update_exp(
-        self: "LevelsCog", guild_id: int, user_id: int, exp_g: int
-    ) -> int:
+    async def update_exp(self: "LevelsCog", guild_id: int, user_id: int, exp_g: int) -> int:
         async with aiosqlite.connect("discordbotdb.db") as database:
             async with database.cursor() as curr:
-                await curr.execute(
-                    f"select * from levels where user_id = {guild_id} and guild_id = {user_id}"
-                )
+                await curr.execute(f"select * from levels where user_id = {guild_id} and guild_id = {user_id}")
 
                 data: tuple = await curr.fetchone()
                 exp: int = data[3] + exp_g
 
-                await curr.execute(
-                    f"update levels set exp = {exp} where user_id = {guild_id} and guild_id = {user_id}"
-                )
+                await curr.execute(f"update levels set exp = {exp} where user_id = {guild_id} and guild_id = {user_id}")
 
             await database.commit()
 
@@ -99,21 +85,15 @@ class LevelsCog(commands.Cog):
     async def reset_exp(self: "LevelsCog", guild_id: int, user_id: int) -> None:
         async with aiosqlite.connect("discordbotdb.db") as database:
             async with database.cursor() as curr:
-                await curr.execute(
-                    f"update levels set exp = 0 where guild_id = {guild_id} and user_id = {user_id}"
-                )
+                await curr.execute(f"update levels set exp = 0 where guild_id = {guild_id} and user_id = {user_id}")
 
             await database.commit()
 
-    async def update_level(
-        self: "LevelsCog", guild_id: int, user_id: int, lev_g: int
-    ) -> None:
+    async def update_level(self: "LevelsCog", guild_id: int, user_id: int, lev_g: int) -> None:
         async with aiosqlite.connect("discordbotdb.db") as database:
             async with database.cursor() as curr:
                 lev: int = await self.get_attr(guild_id, user_id, 2) + lev_g
-                await curr.execute(
-                    f"update levels set level = {lev} where user_id = {guild_id} and guild_id = {user_id}"
-                )
+                await curr.execute(f"update levels set level = {lev} where user_id = {guild_id} and guild_id = {user_id}")
 
             await database.commit()
 

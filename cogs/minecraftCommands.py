@@ -42,9 +42,7 @@ class MinecrtaftCog(commands.Cog):
     @cogs._helpCommandSetup.record()
     @app_commands.command(description="Kill a user or yourself.")
     @app_commands.describe(player="The member you want to kill.")
-    async def kill(
-        self: "MinecrtaftCog", ctx: Interaction, player: Member = None
-    ) -> None:
+    async def kill(self: "MinecrtaftCog", ctx: Interaction, player: Member = None) -> None:
         """
         :param ctx: The ctx param is passes by the discord.py libruary
         :param player: The player that is killed
@@ -54,15 +52,11 @@ class MinecrtaftCog(commands.Cog):
             data: dict[list[str]] = json.load(f)
 
         if player is None:
-            await ctx.response.send_message(
-                random.choice(data["self"]).replace("{player}", ctx.user.mention)
-            )
+            await ctx.response.send_message(random.choice(data["self"]).replace("{player}", ctx.user.mention))
 
         else:
             await ctx.response.send_message(
-                random.choice(data["other"])
-                .replace("{player}", player.mention)
-                .replace("{killer}", ctx.user.mention)
+                random.choice(data["other"]).replace("{player}", player.mention).replace("{killer}", ctx.user.mention)
             )
 
         del data

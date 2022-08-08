@@ -46,9 +46,7 @@ class VoiceCog(commands.Cog):
             await ctx.response.send_message("connected successfully!!!")
 
         else:
-            await ctx.response.send_message(
-                "you need to be in a vc for this command to work"
-            )
+            await ctx.response.send_message("you need to be in a vc for this command to work")
 
     @cogs._helpCommandSetup.record()
     @app_commands.command(description="leaves a voice channel")

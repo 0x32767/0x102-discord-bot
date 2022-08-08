@@ -53,9 +53,7 @@ class Moderation(commands.Cog):
         """
         try:
             await user.kick(reason=reason)
-            await ctx.response.send_message(
-                f'successfully kicked {user.name} for "{reason}"'
-            )
+            await ctx.response.send_message(f'successfully kicked {user.name} for "{reason}"')
 
         except Exception as e:
             await ctx.response.send_message(f"error: {e}")
@@ -73,9 +71,7 @@ class Moderation(commands.Cog):
     ) -> None:
         try:
             await user.ban(reason=reason)
-            await ctx.response.send_message(
-                f'successfully kicked {user.name} for "{reason}"'
-            )
+            await ctx.response.send_message(f'successfully kicked {user.name} for "{reason}"')
 
         except Exception as e:
             await ctx.response.send_message(f"error: {e}")
@@ -115,9 +111,7 @@ class Moderation(commands.Cog):
 
                 await db.commit()
 
-            await ctx.response.send_message(
-                f"{ctx.user.mention} has now been whitelisted!!!"
-            )
+            await ctx.response.send_message(f"{ctx.user.mention} has now been whitelisted!!!")
 
     @cogs._helpCommandSetup.record()
     @app_commands.command(description="unwhitelist a user and bots")
@@ -133,9 +127,7 @@ class Moderation(commands.Cog):
 
             await db.commit()
 
-            await ctx.response.send_message(
-                f"{ctx.user.mention} has now been unwhitelisted!!!"
-            )
+            await ctx.response.send_message(f"{ctx.user.mention} has now been unwhitelisted!!!")
 
     @cogs._helpCommandSetup.record()
     @app_commands.command(description="check if a user is whitelisted")
@@ -173,9 +165,7 @@ class Moderation(commands.Cog):
                             continue
 
                         else:
-                            await member.kick(
-                                reason=f"You are not whitelisted in the `{ctx.guild.name}` server"
-                            )
+                            await member.kick(reason=f"You are not whitelisted in the `{ctx.guild.name}` server")
 
             await ctx.response.send_message("ok, done")
 

@@ -101,9 +101,7 @@ class EncryptionDropdown(Select):
             case "base32 encode":
                 msg = await self.createBase32Encode()
 
-        await ctx.response.send_message(
-            embed=Embed(title="Encrypted Message", description=msg), ephemeral=True
-        )
+        await ctx.response.send_message(embed=Embed(title="Encrypted Message", description=msg), ephemeral=True)
 
     async def createCeaserCipher(self: "EncryptionDropdown") -> str:
         offset: int = randint(1, 25)

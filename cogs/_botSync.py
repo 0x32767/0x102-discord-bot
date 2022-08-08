@@ -77,9 +77,7 @@ class botSync:
         async with connect(self.file) as conn:
             async with conn.curr() as curr:
                 for guildId in guilds:
-                    async with self.session.get(
-                        f"{self.baseUrl}items/{guildId}/"
-                    ) as res:
+                    async with self.session.get(f"{self.baseUrl}items/{guildId}/") as res:
                         """
                         | The response from: http://XX.XXX.XXX.XX/items/{guildId}/
                         | would return a json object that looks like this:

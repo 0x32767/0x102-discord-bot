@@ -42,9 +42,7 @@ class ProfanityReport(commands.Cog):
     @app_commands.command(name="report", description="Report a profanity message.")
     @app_commands.describe(user="Who the message is from.")
     @app_commands.describe(message="The message to report.")
-    async def report(
-        self: "ProfanityReport", ctx: Interaction, user: Member, message: str
-    ) -> None:
+    async def report(self: "ProfanityReport", ctx: Interaction, user: Member, message: str) -> None:
         if check_raw(message):
             await ctx.send(
                 Embed(

@@ -84,9 +84,7 @@ class githubApiCog(commands.Cog):
     @cogs._helpCommandSetup.record()
     @app_commands.command(description="Gets some info about a users github repos.")
     @app_commands.describe(username="Username of the user who`s repos you want to get.")
-    async def getrepos(
-        self: "githubApiCog", ctx: Interaction, *, username: str
-    ) -> None:
+    async def getrepos(self: "githubApiCog", ctx: Interaction, *, username: str) -> None:
         """
         :param ctx: The `ctx` is passed by default when the command is executed
         :param username: The `username` is the name of the user

@@ -42,9 +42,7 @@ async def create_embed(embed) -> Embed or tuple[str, str]:
         )
 
     try:
-        em: Embed = Embed(
-            title=embed["title"], description=embed["description"], color=embed["color"]
-        )
+        em: Embed = Embed(title=embed["title"], description=embed["description"], color=embed["color"])
 
     except KeyError:
         return err.EmbedInitializeError(
@@ -56,9 +54,7 @@ async def create_embed(embed) -> Embed or tuple[str, str]:
 
     for field in embed["fields"]:
         try:
-            em.add_field(
-                name=field["name"], value=field["value"], inline=field["inline"]
-            )
+            em.add_field(name=field["name"], value=field["value"], inline=field["inline"])
 
         except KeyError:
             return err.FieldInitializeError(
@@ -83,9 +79,7 @@ async def create_embed(embed) -> Embed or tuple[str, str]:
 
 
 # this function will validate out embed and check for errors.
-async def check_embed(
-    embed: Embed or any(inspect.getmembers(err)), ctx: Interaction
-) -> bool:
+async def check_embed(embed: Embed or any(inspect.getmembers(err)), ctx: Interaction) -> bool:
     # check if the embed inherits from the Embed class.
     if not issubclass(embed.__class__.__base__, Exception):
         return await ctx.response.send_message(embed=embed)

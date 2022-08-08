@@ -62,10 +62,7 @@ class PoleCog(commands.Cog):
         """
 
         # checks if there is still a non-closed pole in the channel
-        if (
-            ctx.channel.id in self.votes
-            and self.votes[ctx.channel.id]["closed"] is False
-        ):
+        if ctx.channel.id in self.votes and self.votes[ctx.channel.id]["closed"] is False:
             await ctx.send("There is already a poll in this channel.")
             return
 
@@ -99,9 +96,7 @@ class PoleCog(commands.Cog):
             return await ctx.send("There is no poll in this channel.", ephemeral=True)
 
         if pole["closed"] is True:
-            return await ctx.send(
-                "The poll is closed, you can not vote in a colsed pole.", ephemeral=True
-            )
+            return await ctx.send("The poll is closed, you can not vote in a colsed pole.", ephemeral=True)
 
         pole["options"]["yes"] += 1 if vote else 0
         pole["options"]["no"] += 0 if vote else 1
@@ -137,9 +132,7 @@ class PoleCog(commands.Cog):
 
     @cogs._helpCommandSetup.record()
     @app_commands.command(name="showpoll", description="Shows the results of the poll.")
-    @app_commands.describe(
-        public="do you want the poll to be public (can be seen by everyone)"
-    )
+    @app_commands.describe(public="do you want the poll to be public (can be seen by everyone)")
     async def show_poll(self, ctx: Interaction, public: bool = False) -> None:
         """
         :param ctx: The ctx param is passes by the discord.py libruary

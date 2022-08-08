@@ -67,9 +67,7 @@ class DecryptCog(commands.Cog):
         ]
 
     @cogs._helpCommandSetup.record()
-    @app_commands.command(
-        name="decrypt", description="This command will decrypt a message."
-    )
+    @app_commands.command(name="decrypt", description="This command will decrypt a message.")
     @app_commands.describe(message="The message you want the bot to decrypt.")
     async def decrypt(self: "DecryptCog", ctx: Interaction, *, message: str) -> None:
         embeds: List[Embed] = []
@@ -82,9 +80,7 @@ class DecryptCog(commands.Cog):
 
             # self.crackCieserCipher is a bruit force method and therefore needs to be itterated over all possibilities.
             if method == self.crackCieserCipher:
-                em: Embed = Embed(
-                    title="Caesar Cipher", description=f"{message}", color=0x00FF00
-                )
+                em: Embed = Embed(title="Caesar Cipher", description=f"{message}", color=0x00FF00)
                 for i in range(1, 26):
                     em.add_field(
                         name=f"{i}",
@@ -115,10 +111,7 @@ class DecryptCog(commands.Cog):
         | This function is given an offset and will return the decrypted message.
         """
         return "".join(
-            self.chars[self.chars.index(char) - offset]
-            if char in "abcdefghijklmnopqrstuvwxyz"
-            else char
-            for char in message
+            self.chars[self.chars.index(char) - offset] if char in "abcdefghijklmnopqrstuvwxyz" else char for char in message
         )
 
     async def crackBase2Encode(self: "DecryptCog", message: str) -> str:
@@ -127,11 +120,7 @@ class DecryptCog(commands.Cog):
         | is the ascii character of the string in binary. this
         | will reconvert the binary to ascii and return the string.
         """
-        return "".join(
-            chr(int(message[i : i + 9], 2))
-            for i in range(0, len(message), 9)
-            if message[i : i + 9] != "0b"
-        )
+        return "".join(chr(int(message[i : i + 9], 2)) for i in range(0, len(message), 9) if message[i : i + 9] != "0b")
 
     async def crackHexEncode(self: "DecryptCog", message: str) -> str:
         """
@@ -139,8 +128,4 @@ class DecryptCog(commands.Cog):
         | is the ascii character of the string in hexadecimal.
         | this will reconvert the hex to ascii and return the string.
         """
-        return "".join(
-            chr(int(message[i : i + 2], 16))
-            for i in range(0, len(message), 2)
-            if message[i : i + 2] != "0x"
-        )
+        return "".join(chr(int(message[i : i + 2], 16)) for i in range(0, len(message), 2) if message[i : i + 2] != "0x")

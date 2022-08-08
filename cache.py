@@ -6,6 +6,7 @@
 
 cache = {}
 
+
 def cacheGet(key: str) -> any:
     """
     :param key: The `key` is the key of the cache
@@ -22,6 +23,7 @@ def cacheSet(key: str, value: any) -> None:
     """
     cache[key] = value
 
+
 def cacheFree(key: str) -> None:
     """
     :param key: The `key` is the key of the cache
@@ -35,6 +37,7 @@ def cacheClear() -> None:
     :return:
     """
     cache.clear()
+
 
 def cacheExist(key: str) -> bool:
     """

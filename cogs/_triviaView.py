@@ -42,10 +42,7 @@ class TriviaQuestionDropdown(Select):
         super().__init__(
             max_values=1,
             min_values=1,
-            options=[
-                SelectOption(label=f"{i}", value=f"{i}", description=i)
-                for i in self.shuffle(questions)
-            ],
+            options=[SelectOption(label=f"{i}", value=f"{i}", description=i) for i in self.shuffle(questions)],
             placeholder=question,
         )
 

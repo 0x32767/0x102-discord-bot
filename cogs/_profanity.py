@@ -29,9 +29,7 @@ from better_profanity import Profanity
 
 def dump(file: str) -> None:
     profanityFilter = Profanity()
-    profanityFilter.load_censor_words_from_file(
-        "D:\\programing\\0x102-discord-bot\\assets\\profanity.json"
-    )
+    profanityFilter.load_censor_words_from_file("D:\\programing\\0x102-discord-bot\\assets\\profanity.json")
 
     with open(file, "wb") as f:
         pickle_dump(profanityFilter, f)
@@ -47,8 +45,6 @@ def load(file: str) -> Profanity:
 
 
 def check_raw(text: str) -> bool:
-    profanityFilter: Profanity = load(
-        "D:\\programing\\0x102-discord-bot\\assets\\profanity.pkl"
-    )
+    profanityFilter: Profanity = load("D:\\programing\\0x102-discord-bot\\assets\\profanity.pkl")
 
     return profanityFilter.censor_text(text)

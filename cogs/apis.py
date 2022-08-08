@@ -52,9 +52,7 @@ class APICog(commands.Cog):
                 return data["image"]
 
             async def btn_interaction(btn_interaction_p: Interaction):
-                embed: Embed = btn_interaction_p.message.embeds[0].set_image(
-                    url=await get_fox()
-                )
+                embed: Embed = btn_interaction_p.message.embeds[0].set_image(url=await get_fox())
                 await btn_interaction_p.response.edit_message(embed=embed)
 
             next_btn: ui.Button = ui.Button(label="next")
@@ -83,9 +81,7 @@ class APICog(commands.Cog):
                 return data["message"]
 
             async def btn_interaction(_btn_interaction: Interaction):
-                embed: Embed = _btn_interaction.message.embeds[0].set_image(
-                    url=await get_dog()
-                )
+                embed: Embed = _btn_interaction.message.embeds[0].set_image(url=await get_dog())
                 await _btn_interaction.response.edit_message(embed=embed)
 
             next_btn: ui.Button = ui.Button(label="next")
@@ -113,9 +109,7 @@ class APICog(commands.Cog):
                 return data["file"]
 
             async def btn_interaction(_btn_interaction: Interaction) -> None:
-                embed: Embed = _btn_interaction.message.embeds[0].set_image(
-                    url=await get_cat()
-                )
+                embed: Embed = _btn_interaction.message.embeds[0].set_image(url=await get_cat())
                 await _btn_interaction.response.edit_message(embed=embed)
 
             next_btn: ui.Button = ui.Button(label="next")
@@ -143,9 +137,7 @@ class APICog(commands.Cog):
                 return data["url"]
 
             async def btn_interaction(_btn_interaction: Interaction) -> None:
-                embed: Embed = _btn_interaction.message.embeds[0].set_image(
-                    url=await get_meme()
-                )
+                embed: Embed = _btn_interaction.message.embeds[0].set_image(url=await get_meme())
                 await _btn_interaction.response.edit_message(embed=embed)
 
             next_btn: ui.Button = ui.Button(label="next")

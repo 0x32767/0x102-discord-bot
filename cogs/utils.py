@@ -99,14 +99,10 @@ class UtilsCog(commands.Cog):
         await ctx.response.send_message(f"date and time: {dt_string}")
 
     @cogs._helpCommandSetup.record()
-    @app_commands.command(
-        name="poke", description="you can send a private message to another user"
-    )
+    @app_commands.command(name="poke", description="you can send a private message to another user")
     @app_commands.describe(member="The user you want to msg.")
     @app_commands.describe(msg="The message you want to send.")
-    async def poke(
-        self: "UtilsCog", ctx: Interaction, member: discord.Member, *, msg: str
-    ):
+    async def poke(self: "UtilsCog", ctx: Interaction, member: discord.Member, *, msg: str):
         try:
             await member.send(f"`{ctx.user}` from `{ctx.channel.name}` says {msg}")
             await ctx.response.send_message(f"sent {msg}")
@@ -127,9 +123,7 @@ class UtilsCog(commands.Cog):
             return f"{r[0]['q']} - {r[0]['a']}"
 
     @cogs._helpCommandSetup.record()
-    @app_commands.command(
-        name="enchant", description="you can enchant your text maybe with sharpness?"
-    )
+    @app_commands.command(name="enchant", description="you can enchant your text maybe with sharpness?")
     @app_commands.describe(message="The text you want to enchant.")
     async def enchant(self: "UtilsCog", ctx: Interaction, *, message: str):
         """

@@ -73,12 +73,8 @@ class MinecraftCog(commands.Cog):
                 inline=True,
             )
             em.add_field(name="stacks up to", value=f"{block['stackSize']}")
-            em.add_field(
-                name="transparent", value="yes" if block["transparent"] else "no"
-            )
-            em.add_field(
-                name="emits light", value=f"emits `{block['emitLight']}` light"
-            )
+            em.add_field(name="transparent", value="yes" if block["transparent"] else "no")
+            em.add_field(name="emits light", value=f"emits `{block['emitLight']}` light")
             await ctx.response.send_message(embed=em)
             break
 
@@ -87,9 +83,7 @@ class MinecraftCog(commands.Cog):
     @cogs._helpCommandSetup.record()
     @app_commands.command(description="Gets some info about a minecraft block.")
     @app_commands.describe(name="Give information about a minecraft block.")
-    async def mcnamelookup(
-        self: "MinecraftCog", ctx: Interaction, *, name: str
-    ) -> None:
+    async def mcnamelookup(self: "MinecraftCog", ctx: Interaction, *, name: str) -> None:
         """
         :param ctx: The `ctx` is passed by default when the command is executed
         :param name:  The name param is class string and is the display name for the minecraft item/block
@@ -111,20 +105,14 @@ class MinecraftCog(commands.Cog):
             em.add_field(name="mine able", value="yes" if block["diggable"] else "no")
             em.add_field(name="tool", value=block["material"])
             em.add_field(name="stacks up to", value=f"{block['stackSize']}")
-            em.add_field(
-                name="transparent", value="yes" if block["transparent"] else "no"
-            )
-            em.add_field(
-                name="emits light", value=f"emits `{block['emitLight']}` light"
-            )
+            em.add_field(name="transparent", value="yes" if block["transparent"] else "no")
+            em.add_field(name="emits light", value=f"emits `{block['emitLight']}` light")
             del data
 
             return await ctx.response.send_message(embed=em)
 
     @cogs._helpCommandSetup.record()
-    @app_commands.command(
-        description="Gets some info about a minecraft crafting recipe."
-    )
+    @app_commands.command(description="Gets some info about a minecraft crafting recipe.")
     @app_commands.describe(item="The name of the item e.g. `campfire`")
     async def mccraft(self: "MinecraftCog", ctx: Interaction, item: str) -> None:
         """
@@ -146,9 +134,7 @@ class MinecraftCog(commands.Cog):
             if recipe["output"][0]["name"] == item:
                 em.add_field(
                     name=f"Way {i + 1} to craft {item}",
-                    value="".join(
-                        [f"{f['name']}: {f['count']}\n" for f in recipe["ingredients"]]
-                    ),
+                    value="".join([f"{f['name']}: {f['count']}\n" for f in recipe["ingredients"]]),
                 )
                 i += 1
 

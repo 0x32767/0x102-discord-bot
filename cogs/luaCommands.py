@@ -53,9 +53,7 @@ class LuaCog(commands.Cog):
         if not name:
             return await ctx.response.send_message("Please provide a command name.")
 
-        async with aiosqlite.connect(
-            "D:\\programing\\0x102-discord-bot\\commands.db"
-        ) as db:
+        async with aiosqlite.connect("D:\\programing\\0x102-discord-bot\\commands.db") as db:
             async with db.cursor() as curr:
                 await curr.execute(f'SELECT code FROM commands WHERE name = "{name}"')
                 result = await curr.fetchone()
@@ -64,12 +62,8 @@ class LuaCog(commands.Cog):
     @cogs._helpCommandSetup.record()
     @app_commands.command(description="Lets you see the code of a command.")
     @app_commands.describe(name="The name of the command you want to inspect.")
-    async def inspectcommand(
-        self: "LuaCog", ctx: Interaction, name: str = "echo"
-    ) -> None:
-        async with aiosqlite.connect(
-            "D:\\programing\\0x102-discord-bot\\commands.db"
-        ) as db:
+    async def inspectcommand(self: "LuaCog", ctx: Interaction, name: str = "echo") -> None:
+        async with aiosqlite.connect("D:\\programing\\0x102-discord-bot\\commands.db") as db:
             async with db.cursor() as curr:
                 await curr.execute(f'SELECT code FROM commands where name = "{name}"')
                 result = await curr.fetchall()
@@ -83,9 +77,7 @@ class LuaCog(commands.Cog):
 
         async for msg in ctx.channel.history(limit=10):
             if msg.author.id == ctx.user.id:
-                async with aiosqlite.connect(
-                    "D:\\programing\\0x102-discord-bot\\commands.db"
-                ) as db:
+                async with aiosqlite.connect("D:\\programing\\0x102-discord-bot\\commands.db") as db:
                     async with db.cursor() as curr:
                         curr.execute(
                             "INSERT INTO waitingList VALUES(?, ?, ?, ?)",

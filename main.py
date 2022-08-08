@@ -7,15 +7,12 @@ from os import listdir
 import aiosqlite
 import discord
 from cache import cacheSet, cacheGet
-import cProfile, pstats
 
 
 intents: discord.Intents = discord.Intents.default()
 intents.members = True
 
-bot: commands.Bot = commands.Bot(
-    command_prefix="~", intents=intents, application_id=937461852282167337
-)
+bot: commands.Bot = commands.Bot(command_prefix="~", intents=intents, application_id=937461852282167337)
 
 console: Console = Console()
 
@@ -43,25 +40,17 @@ async def on_ready():
                 """
                 for user in server.members:
                     # ! if the user does not exist in the database, add them
-                    await cur.execute(
-                        f"select * from levels where guild_id = {user.id} and user_id = {server.id}"
-                    )
+                    await cur.execute(f"select * from levels where guild_id = {user.id} and user_id = {server.id}")
 
                     if not await cur.fetchall():
-                        await cur.execute(
-                            f"INSERT INTO levels VALUES({server.id}, {user.id}, 0, 0)"
-                        )
+                        await cur.execute(f"INSERT INTO levels VALUES({server.id}, {user.id}, 0, 0)")
 
                     # ! if the user does exist in the database, we add them to the database
                     # ! the database is setup to have a default `false` value for the `whitelisted` column
-                    await cur.execute(
-                        f"select * from whitelist where guild_id = {server.id} and user_id = {user.id}"
-                    )
+                    await cur.execute(f"select * from whitelist where guild_id = {server.id} and user_id = {user.id}")
 
                     if not await cur.fetchall():
-                        await cur.execute(
-                            f"INSERT INTO whitelist VALUES({server.id}, {user.id}, false)"
-                        )
+                        await cur.execute(f"INSERT INTO whitelist VALUES({server.id}, {user.id}, false)")
 
         await database.commit()
 
@@ -83,22 +72,16 @@ async def on_ready():
                 num_cogs += 1
 
             except Exception as e:
-                console.print(
-                    f"[red]Failed loading  cog: [/red][orange_red1]{cog}[/orange_red1] [{e}]"
-                )
+                console.print(f"[red]Failed loading  cog: [/red][orange_red1]{cog}[/orange_red1] [{e}]")
 
             finally:
                 idl_cogs += 1
 
-    console.print(
-        f"\nSuccessfully loaded [bald][dark_orange3][{num_cogs}/{idl_cogs}][/dark_orange3][/bald] cogs"
-    )
+    console.print(f"\nSuccessfully loaded [bald][dark_orange3][{num_cogs}/{idl_cogs}][/dark_orange3][/bald] cogs")
 
     await bot.tree.sync(guild=TEST_GUILD)
 
-    console.print(
-        f"[green]Logged in as: [/green][bright_yellow][underline]{bot.user.name}[/underline][/bright_yellow]"
-    )
+    console.print(f"[green]Logged in as: [/green][bright_yellow][underline]{bot.user.name}[/underline][/bright_yellow]")
 
     await createHelpCommand()
 
