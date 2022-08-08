@@ -1,0 +1,13 @@
+_entr:
+    push 0
+    cpts
+
+    ifz IF_0000
+
+IF_0000:
+    pop
+    tmp
+    [[
+        LOAD_NAME
+        LOAD_GLOBAL "Hello %%"
+    ]]

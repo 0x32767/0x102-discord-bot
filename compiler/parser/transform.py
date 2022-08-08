@@ -1,6 +1,5 @@
 from sly import Lexer
-from sys import argv
-import uuid
+from parse import parse
 
 
 class CCLS(Lexer):
@@ -23,10 +22,10 @@ class CCLS(Lexer):
     NUMBER = r"\d+"
     STRING = r"\"[^\"]*\""
     IDENTIFIER = r"[a-zA-Z_][a-zA-Z0-9_]*"
-    KEYWORD = r"(if|elif|else|while|for|func|return|and|or|not|in|is|class|dir|import|True|False|None)"
-    OPERATOR = r"[+\-*/%<>=&|^!]=|[+\-*/%<>&|^!]"
+    KEYWORD = r"(ifz|ifnz|ifn|ifnn|ifc|else|fnc|jmp|pop|push|pshpy|poppy|call|cpts|tmp)"
+    OPERATOR = r"[+\-*/%<>=&|^!:]=|[+\-*/%<>&|^!:]"
     SEPARATOR = r"[\(\)\[\]\{\},;]"
-    COMMENT = r"\#.*"
+    COMMENT = r"\>.*"
     WHITESPACE = r"\s+"
     NEWLINE = r"\n"
     INDENT = r"\t"
@@ -51,6 +50,4 @@ if __name__ == "__main__":
     lex = CCLS()
 
     while True:
-        for token in lex.tokenize(input("CCLS > ")):
-            print(token)
-        print("\n")
+        parse(lex.tokenize(input("CCLS > ")))
