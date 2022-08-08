@@ -1,0 +1,21 @@
+# The list
+
+- [x] [#0001]. Github api
+- [-] [#0002]. Add possible communications between servers
+- [$] [#0003]. Spam detection
+- [-] [#0004]. Message logs
+- [-] [#0005]. reputation system
+- [-] [#0006]. some sort of gambling system
+- [$] [#0007]. Profanity detection
+- [$] [#0008]. api call to sync data with another bot
+- [$] [#0009]. dynamic website for bots
+- [x] [#000a]. Custom commands
+- [x] [#000b]. implement a way to make custom commands
+- [x] [#000c]. implement a way to run custom commands
+- [-] [#000d]. implement a way to delete custom commands
+- [-] [#000e]. implement a way to edit custom commands
+- [x] [#000f]. errors for custom commands
+- [x] [#0010]. Create an encryption system
+- [x] [#0011]. Create an decryption system
+- [-] [#0012]. Speedup JSON searches with c++
+- [-] [#0013]. sokoban
