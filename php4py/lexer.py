@@ -1,13 +1,9 @@
-from tokens import tokens
+from tokens import tokens as _tokens
+from parser import jplParser
 import re
 
 
-code = """
-echo "Hello World!";
-"""
-
-
-class phpToken:
+class jplToken:
     def __init__(self, raw: str, name: str, line: int, idx: int) -> None:
         self.name = name
         self.line = line
@@ -18,9 +14,9 @@ class phpToken:
         return f"Token(name='{self.name}', line={self.line}, value='{self.raw}')"
 
 
-class phpLexer:
+class jplLexer:
     def __init__(self) -> None:
-        self.tokens: list[phpToken] = []
+        self.tokens: list[jplToken] = []
         self.line: int = 0
 
     def tokenize(self, code: str) -> list:
@@ -28,8 +24,9 @@ class phpLexer:
         self.line = 0
 
         wrd: str = ""
-        sym: str = ""
-        inSym: bool = False
+        inStr: bool = False
+        string: str = ""
+
         for idx, char in enumerate(code):
             # TODO: stop string splitting
             # ? when a string has a space in it (e.g. "Hello World!") it would split into two tokens, both are:
@@ -39,19 +36,24 @@ class phpLexer:
                 self.line += 1
                 wrd = ""
 
+            elif char in ("'", '"') and not inStr:
+                inStr = True
+                string = char
+                continue
+
+            elif char in ("'", '"'):
+                string += char
+                self.tokens.append(jplToken(string, "string", self.line, idx))
+                inStr = False
+                string = ""
+                continue
+
+            elif inStr:
+                string += char
+                continue
+
             elif char in [" ", "}", "]", ",", ";", "=", ":", "(", ")", "{", "[", "<", ">", "+", "-", "*", "/", "%", "!"]:
                 self.tokens.append(self.identify(wrd, idx))
-
-                if char in [">", "<", "=", "+", "-", "!"]:
-                    if inSym:
-                        sym += char
-                        self.identify(sym, idx)
-                        inSym = False
-
-                    else:
-                        sym = char
-                        inSym = True
-
                 self.tokens.append(self.identify(char, idx))
                 wrd = ""
 
@@ -60,24 +62,54 @@ class phpLexer:
 
         self.tokens.append(self.identify(wrd, idx))
 
-        self.tokens = [t for t in self.tokens if t is not None]
+        self.tokens = self.clean()
 
         return self.tokens
 
-    def identify(self, wrd: str, idx: int) -> phpToken:
+    def clean(self) -> list[jplToken]:
+        tok: list[jplToken] = []
+        las: jplToken = None
+
+        for token in self.tokens:
+            if token is None:
+                continue
+
+            elif token.name == "eq":
+                if las.raw == "=":
+                    tok.pop()
+                    tok.append(jplToken("==", "eqeq", self.line, token.idx))
+
+                elif las.raw == "!":
+                    tok.pop()
+                    tok.append(jplToken("!=", "ne", self.line, token.idx))
+
+                elif las.raw == ">":
+                    tok.pop()
+                    tok.append(jplToken(">=", "ge", self.line, token.idx))
+
+                elif las.raw == "<":
+                    tok.pop()
+                    tok.append(jplToken("<=", "le", self.line, token.idx))
+
+                continue
+
+            las = token
+            tok.append(token)
+
+        return tok
+
+    def identify(self, wrd: str, idx: int) -> jplToken:
         if wrd == " ":
             return None
 
-        for rgx, name in tokens.items():
-            if not not re.match(rgx, wrd):
-                print(wrd, name)
-
+        for rgx, name in _tokens.items():
             if re.match(rgx, wrd):
-                return phpToken(wrd, name, self.line, idx)
+                return jplToken(wrd, name, self.line, idx)
 
 
 if __name__ == "__main__":
-    lexer: phpLexer = phpLexer()
+    parser: jplParser = jplParser()
+    lexer: jplLexer = jplLexer()
     while True:
-        for token in lexer.tokenize(input("php >>> ")):
-            print(token)
+        tokens = lexer.tokenize(input("jpl >>> "))
+        parser.parse(tokens)
