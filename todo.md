@@ -68,7 +68,7 @@ This feature would be more of an in-server currency that would give users privil
 
 Status: **not started**
 
-Expected to be implemented: ==soon==
+Expected to be implemented: ==under development==
 
 ## Gamboling
 
@@ -94,4 +94,18 @@ Status: **working on it**
 
 Expected to be implemented: ==in a week==
 
-`more coming soon`
+## Some website
+
+The website would be similar to https://www.dankmemer.lol/ or https://mee6.xyz/ but with a few extra features. The website would be made with php or django. This website would contain bots that were created from the ArtyStudios and 0x102. The website would also have an api, and also an integrated text editor for lua (for custom commands).
+
+Status: **in the making**
+
+Expected to be implemented: ==soon==
+
+# Custom commands
+
+Custom commands are very important to all bots that have them. They allow users to customize the bot to their liking. This feature is still under development and has many restrictions. Custom commands are written in lua, because it is a beginner friendly language. For more experienced programers forcing lua can seem restricting, therefor there will be an aim to include support for any language that can compile to a .pyc file ( ).
+
+# what / why a \*.pyc file?
+
+Cpython (the c implementation of python) is compiled to bytecode stored in a .pyc file. Functions can still be called from this file, so if you were to convert a c++ function to a python bytecode, then you could call it from python (the same applies to any language not just c++). I will try again to create a compiler for this feature. But I will not be able to convert all languages to pyc. I would really appreciate it if some one made a compiler.
