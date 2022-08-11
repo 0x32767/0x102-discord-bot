@@ -1,4 +1,0 @@
-fnc hello_world()
-{
-    $python.print("Hello world");
-}

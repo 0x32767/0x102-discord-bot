@@ -29,31 +29,6 @@ TEST_GUILD: discord.Object = discord.Object(cacheGet("id"))
 @bot.event
 async def on_ready():
     # console.clear()
-
-    async with aiosqlite.connect("discordbotdb.db") as database:
-        async with database.cursor() as cur:
-            for server in bot.guilds:
-                """
-                | Adds individual users to the `discordbotdb.db`
-                | database. This database is used to keep track
-                | of all the users attributes, e.g levels.
-                """
-                for user in server.members:
-                    # ! if the user does not exist in the database, add them
-                    await cur.execute(f"select * from levels where guild_id = {user.id} and user_id = {server.id}")
-
-                    if not await cur.fetchall():
-                        await cur.execute(f"INSERT INTO levels VALUES({server.id}, {user.id}, 0, 0)")
-
-                    # ! if the user does exist in the database, we add them to the database
-                    # ! the database is setup to have a default `false` value for the `whitelisted` column
-                    await cur.execute(f"select * from whitelist where guild_id = {server.id} and user_id = {user.id}")
-
-                    if not await cur.fetchall():
-                        await cur.execute(f"INSERT INTO whitelist VALUES({server.id}, {user.id}, false)")
-
-        await database.commit()
-
     num_cogs: int = 0
     idl_cogs: int = 0
 
