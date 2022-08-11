@@ -39,18 +39,16 @@ async def on_ready():
         total=len(listdir("cogs")),
     ):
         if cog.endswith(".py") and not cog.startswith("_"):
-            try:
-                await bot.load_extension(f"cogs.{cog[:-3]}")
-                console.print(
-                    f"  [green]Successfully loaded: [/green][bright_yellow][underline]{cog}[/underline][/bright_yellow]"
-                )
-                num_cogs += 1
+            #            try:
+            await bot.load_extension(f"cogs.{cog[:-3]}")
+            console.print(f"  [green]Successfully loaded: [/green][bright_yellow][underline]{cog}[/underline][/bright_yellow]")
+            num_cogs += 1
 
-            except Exception as e:
-                console.print(f"[red]Failed loading  cog: [/red][orange_red1]{cog}[/orange_red1] [{e}]")
+            #            except Exception as e:
+            #                console.print(f"[red]Failed loading  cog: [/red][orange_red1]{cog}[/orange_red1] [{e}]")
 
-            finally:
-                idl_cogs += 1
+            #            finally:
+            idl_cogs += 1
 
     console.print(f"\nSuccessfully loaded [bald][dark_orange3][{num_cogs}/{idl_cogs}][/dark_orange3][/bald] cogs")
 

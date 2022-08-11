@@ -53,7 +53,7 @@ class DumbCommandsCog(commands.Cog):
     @cogs._helpCommandSetup.record()
     @app_commands.command(description="shows the durp-score of someone")
     @app_commands.describe(user="who's durp-score you want to see")
-    async def durpscore(self: "DumbCommandsCog", ctx: commands.Context, user: Interaction) -> None | Message:
+    async def durpscore(self: "DumbCommandsCog", ctx: Interaction, user: User) -> None | Message:
         if user:
             await ctx.send(f"{user.mention} has a durp-score of `{user.id % 100}`")
 

@@ -2,7 +2,7 @@ from typing import Generator
 from random import choice
 
 
-async def progressBar(messages: list[str], errors: list[str], endMessage: str = "done") -> Generator[str]:
+async def progressBar(messages: list[str], errors: list[str]) -> Generator[str, None, None]:
     weel: list[str] = ["|", "/", "-", "\\", "|"]
     base: str = "{} :: {}"
 
@@ -11,5 +11,3 @@ async def progressBar(messages: list[str], errors: list[str], endMessage: str = 
             base += choice(errors)
 
         yield base.format(weel[100 % idx], msg)
-
-    return StopIteration

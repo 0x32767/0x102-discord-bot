@@ -95,7 +95,6 @@ class LevelingCog(commands.Cog):
 
     @cogs._helpCommandSetup.record()
     @app_commands.command(name="levelup", description="level up a user")
-    @app_commands.has_permissions(administrator=True)
     @app_commands.describe(user="the user to level up")
     @app_commands.describe(amount="how many levels to level up the user")
     @app_commands.describe(reason="the reason for leveling up the user")

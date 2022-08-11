@@ -14,3 +14,4 @@ package-lock.json
 package.json
 *.o
 vars.ini
+pybind11

@@ -47,6 +47,27 @@ Sends a random fact about a dog.
 `/decrypt`
 
 This command will decrypt a message.
+## /durpscore
+
+> Usage:
+
+`/durpscore`
+
+shows the durp-score of someone
+## /hack
+
+> Usage:
+
+`/hack`
+
+get a users discord token
+## /rr
+
+> Usage:
+
+`/rr`
+
+click the link
 ## /encrypt
 
 > Usage:
@@ -75,13 +96,20 @@ Gets some info about a users github repos.
 `/help`
 
 gives the link to the help command
-## /levleinfo
+## /level
 
 > Usage:
 
-`/levleinfo`
+`/level`
 
-Gets your current level.
+you can see your current level and xp
+## /levelup
+
+> Usage:
+
+`/levelup`
+
+level up a user
 ## /runcommand
 
 > Usage:
