@@ -1,12 +1,11 @@
 from cogs._createGenericHelpCommand import createFile
+from cache import cacheSet, cacheGet
 from configparser import ConfigParser
 from rich.console import Console
 from discord.ext import commands
 from rich.progress import track
 from os import listdir
-import aiosqlite
 import discord
-from cache import cacheSet, cacheGet
 
 
 intents: discord.Intents = discord.Intents.default()
@@ -52,7 +51,7 @@ async def on_ready():
 
     console.print(f"\nSuccessfully loaded [bald][dark_orange3][{num_cogs}/{idl_cogs}][/dark_orange3][/bald] cogs")
 
-    await bot.tree.sync(guild=TEST_GUILD)
+    #    await bot.tree.sync(guild=TEST_GUILD)
 
     console.print(f"[green]Logged in as: [/green][bright_yellow][underline]{bot.user.name}[/underline][/bright_yellow]")
 
