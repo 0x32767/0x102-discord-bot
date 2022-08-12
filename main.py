@@ -7,7 +7,6 @@ from os import listdir
 import aiosqlite
 import discord
 from cache import cacheSet, cacheGet
-import cProfile, pstats
 
 
 intents: discord.Intents = discord.Intents.default()

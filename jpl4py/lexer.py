@@ -52,7 +52,29 @@ class jplLexer:
                 string += char
                 continue
 
-            elif char in [" ", "}", "]", ",", ";", "=", ":", "(", ")", "{", "[", "<", ">", "+", "-", "*", "/", "%", "!"]:
+            elif char in [
+                " ",
+                "}",
+                "]",
+                ",",
+                ";",
+                "=",
+                ":",
+                "(",
+                ")",
+                "{",
+                "[",
+                "<",
+                ">",
+                "+",
+                "-",
+                "*",
+                "/",
+                "%",
+                "!",
+                "+",
+                "-",
+            ]:
                 self.tokens.append(self.identify(wrd, idx))
                 self.tokens.append(self.identify(char, idx))
                 wrd = ""
@@ -78,20 +100,36 @@ class jplLexer:
                 if las.raw == "=":
                     tok.pop()
                     tok.append(jplToken("==", "eqeq", self.line, token.idx))
+                    continue
 
                 elif las.raw == "!":
                     tok.pop()
                     tok.append(jplToken("!=", "ne", self.line, token.idx))
+                    continue
 
                 elif las.raw == ">":
                     tok.pop()
                     tok.append(jplToken(">=", "ge", self.line, token.idx))
+                    continue
 
                 elif las.raw == "<":
                     tok.pop()
                     tok.append(jplToken("<=", "le", self.line, token.idx))
+                    continue
 
-                continue
+                else:
+                    tok.append(token)
+
+            if las:
+                if las.name == "add" and token.name == "add":
+                    tok.pop()
+                    tok.append(jplToken("++", "inc", self.line, token.idx))
+                    continue
+
+                elif las.name == "sub" and token.name == "sub":
+                    tok.pop()
+                    tok.append(jplToken("--", "dec", self.line, token.idx))
+                    continue
 
             las = token
             tok.append(token)

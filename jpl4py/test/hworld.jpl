@@ -1,0 +1,12 @@
+import 'STD'
+
+
+jf fnc main() {
+    std.print(_start());
+}
+
+cf fnc _start() >> int
+{
+    int d = 1;
+    return d;
+}

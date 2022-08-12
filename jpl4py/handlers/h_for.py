@@ -29,18 +29,38 @@ class hFor:
 
             info.append(token)
 
+        inner: list["jplToken"] = []
+        nest: int = 0
+        rec = False
+        for token in self._tokens:
+            if token.name == "lbrace":
+                nest += 1
+                rec = True
+
+            elif token.name == "rbrace":
+                nest -= 1
+
+                if rec and nest == 0:
+                    inner.append(token)
+                    rec = False
+
+            if rec:
+                inner.append(token)
+
+        self._inner = inner
         self.parse_inner(info)
 
     def parse_inner(self, info: list[any]) -> None:
-        # ($i = 0; $i < 10; $i++)
-        # this is the part of the loop we are interested in
         from lexer import jplToken
 
         section: list["jplToken"] = []
-
         for t in info:
             if t.name == "lparen":
                 continue
+
+            elif t.name == "rparen":
+                self._updater = section
+                return
 
             elif t.name == "semicolon":
                 if not self._counter:
@@ -58,13 +78,10 @@ class hFor:
                     section = []
                     continue
 
-            elif t.name == "rparen":
-                return
-
             section.append(t)
 
     def __repr__(self) -> str:
-        return f"{self._counter}, {self._while}, {self._updater}"
+        return f"{self._counter}\n{self._while}\n{self._updater}\n{self._inner}"
 
     @property
     def tokens(self) -> list:
