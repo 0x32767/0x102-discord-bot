@@ -50,9 +50,9 @@ Expected to be implemented: ==soon==
 This will look at the average time between messages sent by a user and see if they are over a threshold. This feature was under development but after discord made `MESSAGE_CONTENT` a privilege, the feature was put on hold.
 The algorithm would have worked by also checking the message content, to assure that the user is deliberately spamming. However, the announcement put the feature on hold.
 
-Status: **delayed**
+Status: **working now**
 
-Expected to be implemented: ==soon==
+Expected to be implemented: ==week==
 
 ## Message logs
 
@@ -68,7 +68,7 @@ This feature would be more of an in-server currency that would give users privil
 
 Status: **not started**
 
-Expected to be implemented: ==under development==
+Expected to be implemented: ==soon==
 
 ## Gamboling
 
@@ -92,13 +92,13 @@ Expected to be implemented: ==soon==
 
 Status: **working on it**
 
-Expected to be implemented: ==in a week==
+Expected to be implemented: ==soon==
 
 ## Some website
 
 The website would be similar to https://www.dankmemer.lol/ or https://mee6.xyz/ but with a few extra features. The website would be made with php or django. This website would contain bots that were created from the ArtyStudios and 0x102. The website would also have an api, and also an integrated text editor for lua (for custom commands).
 
-Status: **in the making**
+Status: **paused**
 
 Expected to be implemented: ==soon==
 
