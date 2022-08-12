@@ -32,10 +32,6 @@ class jplLexer:
         string: str = ""
 
         for idx, char in enumerate(code):
-            # TODO: stop string splitting
-            # ? when a string has a space in it (e.g. "Hello World!") it would split into two tokens, both are:
-            # Token(name='string', line=0, value=World!')
-            # But we want to have one token with the value "Hello World!"
             if char == "\n":
                 self.line += 1
                 wrd = ""

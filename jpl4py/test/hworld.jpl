@@ -1,6 +1,13 @@
 import 'STD'
 
 
-fnc main() {
+jfn test1() {
     std.print("hello world");
 }
+
+cfn test2() {
+
+    int i;
+    return int i;
+
+};

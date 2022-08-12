@@ -1,0 +1,24 @@
+/*
+!=================================================!
+!------------THE-STANDART-JPL-LIBRUARY------------!
+!=================================================!
+*/
+
+import 'python'
+
+
+namespace python as py {
+
+    jfn len($obj) {
+        return obj.__len;
+    }
+
+    jfn print($str, ~arg, newline: bool = true) {
+        return py.print($str, args, newline);
+    }
+
+}
+
+cfn test() <int> {
+    return 1;
+}
