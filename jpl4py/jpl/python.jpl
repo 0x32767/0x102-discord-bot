@@ -1,4 +1,0 @@
-pfn print($str, ~arg, newline)
-{
-    return print(getv("str"), getv("arg"), getv("newline"))
-}

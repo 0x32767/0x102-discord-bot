@@ -8,7 +8,6 @@ venv
 *.pyc
 *.pyo
 .vscode
-*.bat
 node_modules
 package-lock.json
 package.json

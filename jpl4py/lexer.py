@@ -1,3 +1,4 @@
+from tokenize import Token
 from tokens import tokens as _tokens
 from parser import jplParser
 import re
@@ -18,6 +19,18 @@ class jplToken:
         return f"Token(name='{self.name}', line={self.line}, value='{self.raw}')"
 
 
+class jplRaw:
+    def __init__(self, inner) -> None:
+        self.inner = inner
+
+    def __repr__(self) -> str:
+        return f"Raw(inner={self.inner})"
+
+    @property
+    def name(self) -> str:
+        return None
+
+
 class jplLexer:
     def __init__(self) -> None:
         self.tokens: list[jplToken] = []
@@ -27,9 +40,12 @@ class jplLexer:
         self.tokens = []
         self.line = 0
 
-        wrd: str = ""
+        last: jplToken = None
         inStr: bool = False
         string: str = ""
+        clang: str = ""
+        nest: int = 0
+        wrd: str = ""
 
         for idx, char in enumerate(code):
             if char == "\n":
@@ -43,7 +59,10 @@ class jplLexer:
 
             elif char in ("'", '"'):
                 string += char
+
                 self.tokens.append(jplToken(string, "string", self.line, idx))
+                last = self.tokens[-1]
+
                 inStr = False
                 string = ""
                 continue
@@ -76,7 +95,10 @@ class jplLexer:
                 "-",
             ]:
                 self.tokens.append(self.identify(wrd, idx))
-                self.tokens.append(self.identify(char, idx))
+
+                last = self.identify(char, idx)
+                self.tokens.append(last)
+
                 wrd = ""
 
             else:
@@ -148,6 +170,7 @@ class jplLexer:
 if __name__ == "__main__":
     parser: jplParser = jplParser()
     lexer: jplLexer = jplLexer()
+
     while True:
         tokens = lexer.tokenize(input("jpl >>> "))
         parser.parse(tokens)
