@@ -43,8 +43,6 @@ class jplLexer:
         last: jplToken = None
         inStr: bool = False
         string: str = ""
-        clang: str = ""
-        nest: int = 0
         wrd: str = ""
 
         for idx, char in enumerate(code):

@@ -1,13 +1,45 @@
-import 'STD'
+jfn main() {
+    $fnc = test();
 
+    if ($fnc.success == true) {
+        print("yay it worked");
+    }
 
-jfn test1() {
-    std.print("hello world");
+    for ($i=0; $i<=100; $i++) {
+        if ($i % 3 == 0 && $i % 5 == 0) {
+            print("fizz buzz");
+        }
+
+        else if ($i % 3 == 0) {
+            print("fizz");
+        }
+
+        else if ($i % 5 == 0) {
+            print("buzz");
+        }
+
+        else {
+            print("$i")
+        }
+    }
 }
 
-cfn test2() {
+cfn test() [void] {
 
-    int i;
-    return int i;
+    #include<stdio.h>
 
-};
+    // some c code goes here
+    printf("hello world");
+
+}
+
+pfn python_function()
+{
+    # python goes here
+    if jpl["var"].exists:
+        print("123")
+}
+
+pac jpl_is_cool() {
+    return main();
+}
