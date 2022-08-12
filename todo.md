@@ -106,6 +106,62 @@ Expected to be implemented: ==soon==
 
 Custom commands are very important to all bots that have them. They allow users to customize the bot to their liking. This feature is still under development and has many restrictions. Custom commands are written in lua, because it is a beginner friendly language. For more experienced programers forcing lua can seem restricting, therefor there will be an aim to include support for any language that can compile to a .pyc file ( ).
 
+# Edit commands
+
+Editing custom commands would be done via the website.
+
+Status: **not started**
+
+Expected to be implemented: ==soon==
+
+# Run commands
+
+Run custom commands.
+
+Status: **stable**
+
+Expected to be implemented: ==done==
+
+# Delete commands
+
+Delete custom commands.
+
+Status: **stable**
+
+Expected to be implemented: ==done==
+
+# Error logging
+
+This feature would log errors that occur in custom commands. This would be useful for debugging and finding bugs.
+
+Status: **done**
+
+Expected to be implemented: ==done==
+
+# Encryption
+
+This feature would encrypt messages that are sent to the bot. This would be useful or just silly.
+
+Status: **done**
+
+Expected to be implemented: ==done==
+
+# Decryption
+
+this would decrypt messages that are sent to the bot. This would could have actual applications such as decrypting ceaser ciphers.
+
+Status: **done**
+
+Expected to be implemented: ==done==
+
+# Optimize
+
+This feature is not a usable feature, but will make the bot faster. If many people use the bot then making t fast and efficient would be a good idea. This would be very important because python is a very slow language. But there are some things that can be done to make the bot faster.
+
+Status: **always active**
+
+Expected to be implemented: ==done==
+
 # what / why a \*.pyc file?
 
 Cpython (the c implementation of python) is compiled to bytecode stored in a .pyc file. Functions can still be called from this file, so if you were to convert a c++ function to a python bytecode, then you could call it from python (the same applies to any language not just c++). I will try again to create a compiler for this feature. But I will not be able to convert all languages to pyc. I would really appreciate it if some one made a compiler.
