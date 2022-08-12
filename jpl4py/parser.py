@@ -11,13 +11,10 @@ class jplParser:
         self.tokens = tokens_
 
         for idx, token in enumerate(self.tokens):
-            print(token)
-
             if token.name == "for":
                 print(self.get_nested_content(self.tokens[idx:], hFor))
 
-            elif token.name in ["jf", "cf", "pf"]:
-                print("here")
+            elif token.name in ["jfn", "cfn", "pfn"]:
                 print(self.get_nested_content(self.tokens[idx:], hFnc))
 
     def get_nested_content(self, tokens: list, cls: object) -> None:

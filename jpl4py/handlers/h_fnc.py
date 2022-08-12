@@ -9,7 +9,7 @@ class hFnc:
         self.parse()
 
     def parse(self) -> None:
-        self._type = self._tokens[0].name
+        self._name = self._tokens[1].value
 
         for token in self._tokens:
             if token.name == "lparen":
@@ -20,6 +20,12 @@ class hFnc:
                 break
 
             self._args.append(token)
-        
-        self._name = self._args[0].name
-        self._args = self._args[1:]
+
+        self._type = self._args[0].name
+        self._args = self.clean(self._args[1:])
+
+    def clean(self, tokens) -> None:
+        return [token for token in tokens if token.name == "variable"]
+
+    def __repr__(self) -> str:
+        return f'hFnc(type="{self._type}", name="{self._name}", args={self._args})'

@@ -10,6 +10,10 @@ class jplToken:
         self.raw = raw
         self.idx = idx
 
+    @property
+    def value(self) -> str:
+        return self.raw
+
     def __repr__(self) -> str:
         return f"Token(name='{self.name}', line={self.line}, value='{self.raw}')"
 
