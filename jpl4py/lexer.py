@@ -1,22 +1,7 @@
-from tokenize import Token
 from tokens import tokens as _tokens
+from token_cls import jplToken
 from parser import jplParser
 import re
-
-
-class jplToken:
-    def __init__(self, raw: str, name: str, line: int, idx: int) -> None:
-        self.name = name
-        self.line = line
-        self.raw = raw
-        self.idx = idx
-
-    @property
-    def value(self) -> str:
-        return self.raw
-
-    def __repr__(self) -> str:
-        return f"Token(name='{self.name}', line={self.line}, value='{self.raw}')"
 
 
 class jplLexer:
@@ -151,12 +136,3 @@ class jplLexer:
         for rgx, name in _tokens.items():
             if re.match(rgx, wrd):
                 return jplToken(wrd, name, self.line, idx)
-
-
-if __name__ == "__main__":
-    parser: jplParser = jplParser()
-    lexer: jplLexer = jplLexer()
-
-    while True:
-        tokens = lexer.tokenize(input("jpl >>> "))
-        parser.parse(tokens)

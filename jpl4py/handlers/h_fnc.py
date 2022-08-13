@@ -11,6 +11,7 @@ class hFnc:
         self._name: str = None
 
         self.parse()
+        self.parse_inner(self._inner)
 
     def parse(self) -> None:
         self._name = self._tokens[1].value
@@ -33,6 +34,12 @@ class hFnc:
                 self._annotation = t[1].value
 
         self._inner = self._tokens[4 + len(self._args) :]
+
+    def parse_inner(self, tokens: list[any]) -> None:
+        from parser import jplParser
+
+        parser = jplParser()
+        print(parser.parse(tokens))
 
     def clean(self, tokens) -> None:
         return [token for token in tokens if token.name == "variable"]
