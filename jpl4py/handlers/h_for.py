@@ -81,7 +81,7 @@ class hFor:
             section.append(t)
 
     def __repr__(self) -> str:
-        return f"{self._counter}\n{self._while}\n{self._updater}\n{self._inner}"
+        return f"hFor(counter={self._counter}, updater={self._updater}, while={self._while}, inner=[{self._inner}])"
 
     @property
     def tokens(self) -> list:

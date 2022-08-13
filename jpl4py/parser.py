@@ -1,8 +1,9 @@
-from handlers.h_while import hWhile
-from handlers.h_else import hElse
+# from handlers.h_while import hWhile
+# from handlers.h_else import hElse
 from handlers.h_for import hFor
 from handlers.h_fnc import hFnc
-from handlers.h_if import hIf
+
+# from handlers.h_if import hIf
 
 
 class jplParser:
@@ -14,20 +15,21 @@ class jplParser:
         self.tokens = tokens_
 
         for idx, token in enumerate(self.tokens):
+
             if token.name == "for":
                 print(self.get_nested_content(self.tokens[idx:], hFor))
 
             elif token.name in ["jfn", "cfn", "pfn"]:
                 print(self.get_nested_content(self.tokens[idx:], hFnc))
 
-            elif token.name == "if":
-                print(self.get_nested_content(self.tokens[idx:], hIf))
+    #            elif token.name == "if":
+    #                print(self.get_nested_content(self.tokens[idx:], hIf))
 
-            elif token.name == "else":
-                print(self.get_nested_content(self.tokens[idx:], hElse))
+    #            elif token.name == "else":
+    #                print(self.get_nested_content(self.tokens[idx:], hElse))
 
-            elif token.name == "while":
-                print(self.get_nested_content(self.tokens[idx:], hWhile))
+    #            elif token.name == "while":
+    #                print(self.get_nested_content(self.tokens[idx:], hWhile))
 
     def get_nested_content(self, tokens: list, cls: object) -> None:
         nest_level: int = 0
