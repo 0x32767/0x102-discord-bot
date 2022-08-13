@@ -19,18 +19,6 @@ class jplToken:
         return f"Token(name='{self.name}', line={self.line}, value='{self.raw}')"
 
 
-class jplRaw:
-    def __init__(self, inner) -> None:
-        self.inner = inner
-
-    def __repr__(self) -> str:
-        return f"Raw(inner={self.inner})"
-
-    @property
-    def name(self) -> str:
-        return None
-
-
 class jplLexer:
     def __init__(self) -> None:
         self.tokens: list[jplToken] = []

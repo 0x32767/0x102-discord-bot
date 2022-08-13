@@ -30,6 +30,7 @@ tokens = {
     r"fnc": "function",
     r"return": "return",
     r"if": "if",
+    r"elif": "elif",
     r"else": "else",
     r"while": "while",
     r"for": "for",
