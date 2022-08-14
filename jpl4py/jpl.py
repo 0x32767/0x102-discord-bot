@@ -1,5 +1,5 @@
 from sly import Lexer, Parser
-from pprint import pprint
+import json
 
 
 def _():
@@ -209,7 +209,7 @@ class jplParser(Parser):
 if __name__ == "__main__":
     lexer = jplLexer()
     parser = jplParser()
-    env = {}
+
     while True:
         try:
             text = input("jpl > ")
@@ -217,4 +217,10 @@ if __name__ == "__main__":
             break
         if text:
             tree = parser.parse(lexer.tokenize(text))
-            pprint(tree)
+
+            if tree["fnc"] == "run":
+                print(tree["inner"])
+                continue
+
+            with open("out.json", "w") as f:
+                json.dump(tree, f, indent=4)

@@ -1,0 +1,8 @@
+{
+    "type": "call",
+    "fnc": "run",
+    "params": {
+        "type": "str",
+        "value": "\"out.json\""
+    }
+}
