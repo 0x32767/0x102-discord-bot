@@ -175,7 +175,7 @@ class jplParser(Parser):
     def expr(self, p):
         return ["for", p.expr0, p.expr1, p.expr2, p.expr3]
 
-    @_('JFN "(" expr ")" "{" expr "}"')
+    @_('JFN NAME "(" expr ")" "{" expr "}"')
     def expr(self, p):
         return ["jfn", p.expr0, p.expr1]
 
@@ -186,6 +186,10 @@ class jplParser(Parser):
     @_('expr "," expr')
     def expr(self, p):
         return [p.expr0, p.expr1]
+
+    @_('VAR "," VAR')
+    def expr(self, p):
+        return [p.VAR0, p.VAR1]
 
 
 if __name__ == "__main__":
