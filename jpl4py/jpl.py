@@ -218,19 +218,14 @@ if __name__ == "__main__":
     lexer = jplLexer()
     parser = jplParser()
 
-    while True:
-        try:
-            text = input("jpl > ")
-        except EOFError:
-            break
-        if text:
-            tree = parser.parse(lexer.tokenize(text))
+    if text := open("hWorld.jpl").read():
+        tree = parser.parse(lexer.tokenize(text))
+        print(tree)
 
-            # not all programs would a run function
-            with contextlib.suppress(KeyError):
-                if tree["fnc"] == "run":
-                    print(tree["inner"])
-                    continue
+        # not all programs would a run function
+        with contextlib.suppress(KeyError):
+            if tree["fnc"] == "run":
+                print(tree["inner"])
 
-            with open("out.json", "w") as f:
-                json.dump(tree, f, indent=4)
+        with open("out.json", "w") as f:
+            json.dump(tree, f, indent=4)

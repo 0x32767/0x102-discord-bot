@@ -1,42 +1,13 @@
 {
     "type": "jfn",
-    "name": "_enter",
+    "name": "main",
     "args": {},
     "inner": {
-        "type": "for",
-        "cou": {
-            "type": "vardec",
-            "tar": "$i",
-            "eq": {
-                "type": "num",
-                "value": 0
-            }
-        },
-        "con": {
-            "type": "LTEQ",
-            "1": {
-                "type": "var",
-                "name": "$i"
-            },
-            "2": {
-                "type": "num",
-                "value": 10
-            }
-        },
-        "up": {
-            "type": "inc",
-            "tar": {
-                "type": "var",
-                "name": "$i"
-            }
-        },
-        "inner": {
-            "type": "call",
-            "fnc": "print",
-            "params": {
-                "type": "str",
-                "value": "\"hi\""
-            }
+        "type": "call",
+        "fnc": "print",
+        "params": {
+            "type": "str",
+            "value": "\"hello world\""
         }
     }
 }
