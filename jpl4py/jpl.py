@@ -1,4 +1,6 @@
+from errors.lex_errors.iligal_character import IllegalCharacterError
 from sly import Lexer, Parser
+import pprint
 import json
 
 
@@ -71,6 +73,9 @@ class jplLexer(Lexer):
     @_(r"\n+")
     def newline(self, t):
         self.lineno = t.value.count("\n")
+
+    def error(self, t):
+        IllegalCharacterError(self.lineno, [t.value])
 
 
 class jplParser(Parser):
@@ -206,6 +211,8 @@ class jplParser(Parser):
         return [p.VAR0, p.VAR1]
 
 
+import contextlib
+
 if __name__ == "__main__":
     lexer = jplLexer()
     parser = jplParser()
@@ -218,9 +225,11 @@ if __name__ == "__main__":
         if text:
             tree = parser.parse(lexer.tokenize(text))
 
-            if tree["fnc"] == "run":
-                print(tree["inner"])
-                continue
+            # not all programs would a run function
+            with contextlib.suppress(KeyError):
+                if tree["fnc"] == "run":
+                    print(tree["inner"])
+                    continue
 
             with open("out.json", "w") as f:
                 json.dump(tree, f, indent=4)
