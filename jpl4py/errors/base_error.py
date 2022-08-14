@@ -1,3 +1,4 @@
+import sys
 from colorama import Fore, Style, init
 
 
@@ -13,3 +14,4 @@ class BaseError:
         print(f"{Fore.RED}{type(self).__name__}{Style.RESET_ALL}:")
         print(f"{Fore.RED}    {line=} {Style.RESET_ALL}")
         print(f"{Fore.RED}    {self.msg.format(msgs)}{Style.RESET_ALL}")
+        sys.exit(1)

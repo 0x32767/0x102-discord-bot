@@ -1,5 +1,6 @@
 from errors.lex_errors.iligal_character import IllegalCharacterError
 from sly import Lexer, Parser
+import traceback
 import pprint
 import json
 
@@ -75,7 +76,7 @@ class jplLexer(Lexer):
         self.lineno = t.value.count("\n")
 
     def error(self, t):
-        IllegalCharacterError(self.lineno, [t.value])
+        raise IllegalCharacterError(self.lineno, [t.value])
 
 
 class jplParser(Parser):
