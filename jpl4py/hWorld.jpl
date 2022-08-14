@@ -1,0 +1,3 @@
+jfn _enter() {
+    print("hello world")
+}

@@ -1,0 +1,19 @@
+jfn map($array, $func) {
+    $newarr = [];
+    for ($i=0; $i<=leng(array); $i++) {
+        $res = ($func)($array[$i]);
+        $newarr.add($res);
+    }
+
+    return $newarr;
+}
+
+jfn any($arr) {
+    for ($i=0; $i<=leng($arr); i++) {
+        if (bool($i) == false) {
+            return false;
+        }
+    }
+
+    return true;
+}

@@ -81,107 +81,121 @@ class jplParser(Parser):
 
     @_("NAME")
     def expr(self, p):
-        return ["name", p.NAME]
+        return {"type": "name", "name": p.NAME}
 
     @_("VAR")
     def expr(self, p):
-        return ["var", p.VAR]
+        return {"type": "var", "name": p.VAR}
 
     @_("NUMBER")
     def expr(self, p):
-        return ["num", p.NUMBER]
+        return {"type": "num", "value": p.NUMBER}
 
     @_("STRING")
     def expr(self, p):
-        return ["str", p.STRING]
+        return {"type": "str", "value": p.STRING}
 
     @_("expr EQEQ expr")
     def expr(self, p):
-        return [p.expr0, "==", p.expr1]
+        return {"type": "==", "1": p.expr0, "2": p.expr1}
 
     @_("expr GE expr")
     def expr(self, p):
-        return [p.expr0, ">=", p.expr1]
+        return {"type": "GEEQ", "1": p.expr0, "2": p.expr1}
 
     @_("expr LE expr")
     def expr(self, p):
-        return [p.expr0, "<=", p.expr1]
+        return {"type": "LTEQ", "1": p.expr0, "2": p.expr1}
 
     @_('expr ">" expr')
     def expr(self, p):
-        return [p.expr0, ">", p.expr1]
+        return {"type": "GT", "1": p.expr0, "2": p.expr1}
 
     @_('expr "<" expr')
     def expr(self, p):
-        return [p.expr0, "<", p.expr1]
+        return {"type": "LT", "1": p.expr0, "2": p.expr1}
 
     @_('expr "+" expr')
     def expr(self, p):
-        return [p.expr0, "+", p.expr1]
+        return {"type": "add", "1": p.expr0, "2": p.expr1}
 
     @_('expr "-" expr')
     def expr(self, p):
-        return [p.expr0, "-", p.expr1]
+        return {"type": "sub", "1": p.expr0, "2": p.expr1}
 
     @_('expr "*" expr')
     def expr(self, p):
-        return [p.expr0, "*", p.expr1]
+        return {"type": "mul", "1": p.expr0, "2": p.expr1}
 
     @_('expr "/" expr')
     def expr(self, p):
-        return [p.expr0, "/", p.expr1]
+        return {"type": "div", "1": p.expr0, "2": p.expr1}
 
     @_('expr "&" expr')
     def expr(self, p):
-        return [p.expr0, "&", p.expr1]
+        return {"type": "and", "1": p.expr0, "2": p.expr1}
 
     @_('expr "|" expr')
     def expr(self, p):
-        return [p.expr0, "|", p.expr1]
+        return {"type": "or", "1": p.expr0, "2": p.expr1}
 
     @_("expr PP")
     def expr(self, p):
-        return ["inc", p.expr]
+        return {"type": "inc", "tar": p.expr}
 
     @_('"(" expr ")"')
     def expr(self, p):
-        return [p.expr]
+        return {"type": "bracket", "tar": p.expr}
 
     @_('expr "+" "(" expr ")"')
     def expr(self, p):
-        return [p.expr0, "+", p.expr1]
+        return {"type": "add", "1": p.expr0, "2": p.expr1}
 
     @_('expr "-" "(" expr ")"')
     def expr(self, p):
-        return [p.expr0, "-", p.expr1]
+        return {"type": "sub", "1": p.expr0, "2": p.expr1}
 
     @_('expr "*" "(" expr ")"')
     def expr(self, p):
-        return [p.expr0, "*", p.expr1]
+        return {"type": "mul", "1": p.expr0, "2": p.expr1}
 
     @_('expr "/" "(" expr ")"')
     def expr(self, p):
-        return [p.expr0, "/", p.expr1]
+        return {"type": "div", "1": p.expr0, "2": p.expr1}
 
-    @_(' expr "(" expr ")"')
+    @_(' NAME "(" expr ")"')
     def expr(self, p):
-        return ["call", p.expr0, p.expr1]
+        return {"type": "call", "fnc": p.NAME, "params": p.expr}
+
+    @_('NAME "(" ")"')
+    def expr(self, p):
+        return {"type": "call", "fnc": p.NAME, "params": []}
 
     @_('IF "(" expr ")" "{" expr "}" ELSE "{" expr "}" ')
     def expr(self, p):
-        return ["if", p.expr0, p.expr1, "else", p.expr2]
+        return {"type": "if", "if": p.expr0, "then": p.expr1, "else": p.expr2}
 
     @_('FOR "(" expr ";" expr ";" expr ")" "{" expr "}"')
     def expr(self, p):
-        return ["for", p.expr0, p.expr1, p.expr2, p.expr3]
+        return {
+            "type": "for",
+            "cou": p.expr0,
+            "con": p.expr1,
+            "up": p.expr2,
+            "inner": p.expr3,
+        }
 
     @_('JFN NAME "(" expr ")" "{" expr "}"')
     def expr(self, p):
-        return ["jfn", p.expr0, p.expr1]
+        return {"jfn", p.expr0, p.expr1}
+
+    @_('JFN NAME "(" ")" "{" expr "}"')
+    def expr(self, p):
+        return {"type": "jfn", "name": p.NAME, "args": {}, "inner": p.expr}
 
     @_('VAR "=" expr')
     def expr(self, p):
-        return ["var", p.VAR, p.expr]
+        return {"type": "vardec", "tar": p.VAR, "eq": p.expr}
 
     @_('expr "," expr')
     def expr(self, p):
@@ -198,7 +212,7 @@ if __name__ == "__main__":
     env = {}
     while True:
         try:
-            text = input("basic > ")
+            text = input("jpl > ")
         except EOFError:
             break
         if text:
