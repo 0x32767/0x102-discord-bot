@@ -1,8 +1,8 @@
 from errors.lex_errors.iligal_character import IllegalCharacterError
 from sly import Lexer, Parser
-import traceback
-import pprint
+import contextlib
 import json
+import pprint
 
 
 def _():
@@ -212,20 +212,30 @@ class jplParser(Parser):
         return [p.VAR0, p.VAR1]
 
 
-import contextlib
+def organize(tokens: list[any], parser: jplParser):
+    functions = []
+    token_cache = []
+
+    nest = 0
+    for token in tokens:
+        token_cache.append(token)
+
+        if token.type == "}":
+            nest -= 1
+            if nest == 0:
+                functions.append(token_cache)
+                token_cache = []
+
+        elif token.type == "{":
+            nest += 1
+
+    pprint.pprint(functions)
 
 if __name__ == "__main__":
     lexer = jplLexer()
     parser = jplParser()
 
     if text := open("hWorld.jpl").read():
-        tree = parser.parse(lexer.tokenize(text))
-        print(tree)
+        tokens = lexer.tokenize(text)
 
-        # not all programs would a run function
-        with contextlib.suppress(KeyError):
-            if tree["fnc"] == "run":
-                print(tree["inner"])
-
-        with open("out.json", "w") as f:
-            json.dump(tree, f, indent=4)
+        organize(tokens, parser)

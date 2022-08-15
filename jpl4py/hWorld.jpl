@@ -2,6 +2,6 @@ jfn main() {
     print("hello world")
 }
 
-jfn _() {
-    print("another hello world")
+jfn testFn() {
+    print(1 == 1)
 }
