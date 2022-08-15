@@ -214,43 +214,46 @@ class jplParser(Parser):
     def expr(self, p):
         return [p.VAR0, p.VAR1]
 
+    @_("expr \n expr")
+    def expr(self, p):
+        return [p.expr0, p.expr1]
+
 
 def organize(tokens: list[any], parser: jplParser):
     functions = []
     token_cache = []
-
     nest = 0
+
     for token in tokens:
         token_cache.append(token)
 
-        if token.type == "}":
+        if token.type == "{":
+            nest += 1
+
+        elif token.type == "}":
             nest -= 1
+
             if nest == 0:
                 functions.append(token_cache)
                 token_cache = []
 
-        elif token.type == "{":
-            nest += 1
-
-    funcs = []
+    func = []
     for f in functions:
         if isinstance(tr := parser.parse(gen(f)), dict):
-            funcs.append(tr)
-
-    return funcs
+            func.append(tr)
+    return func
 
 
 def gen(function: list):
-    for t in function:
-        yield t
+    yield from function
 
 
 if __name__ == "__main__":
     lexer = jplLexer()
     parser = jplParser()
 
-    if text := open("hWorld.jpl").read():
+    if text := open(argv[1]).read():
         tokens = lexer.tokenize(text)
 
         with open(f"{argv[1]}.out.json", "w") as f:
-            json.dump(organize(tokens, parser), f)
+            json.dump(organize(tokens, parser), f, indent=2)
