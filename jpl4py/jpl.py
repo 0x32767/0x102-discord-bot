@@ -1,5 +1,6 @@
 from errors.lex_errors.iligal_character import IllegalCharacterError
 from sly import Lexer, Parser
+from sys import argv
 import contextlib
 import json
 import pprint
@@ -19,12 +20,10 @@ class jplLexer(Lexer):
         "FOR",
         "JFN",
         "EQEQ",
-        "NE",
         "LE",
         "GE",
         "GE",
         "PP",
-        "EQ",
         "NEQ",
         "VAR",
     }
@@ -112,6 +111,10 @@ class jplParser(Parser):
     @_("expr LE expr")
     def expr(self, p):
         return {"type": "LTEQ", "1": p.expr0, "2": p.expr1}
+
+    @_("expr NEQ expr")
+    def expr(self, p):
+        return {"type": "NEQ", "1": p.expr0, "2": p.expr1}
 
     @_('expr ">" expr')
     def expr(self, p):
@@ -249,4 +252,5 @@ if __name__ == "__main__":
     if text := open("hWorld.jpl").read():
         tokens = lexer.tokenize(text)
 
-        pprint.pprint(organize(tokens, parser))
+        with open(f"{argv[1]}.out.json", "w") as f:
+            json.dump(organize(tokens, parser), f)
