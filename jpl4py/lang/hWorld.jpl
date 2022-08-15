@@ -1,6 +1,8 @@
 jfn main() {
-    print("hello world")
-    print("hello world")
+    $d = "hi"
+    $s = "u"
+
+    print($d)
 }
 
 jfn testFn() {

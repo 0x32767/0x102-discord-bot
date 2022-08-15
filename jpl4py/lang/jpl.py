@@ -200,7 +200,7 @@ class jplParser(Parser):
 
     @_('JFN NAME "(" ")" "{" expr "}"')
     def expr(self, p):
-        return {"type": "jfn", "name": p.NAME, "args": {}, "inner": p.expr}
+        return {"type": "jfn", "name": p.NAME, "args": {}, "inner": [p.expr]}
 
     @_('VAR "=" expr')
     def expr(self, p):
@@ -239,8 +239,10 @@ def organize(tokens: list[any], parser: jplParser):
 
     func = []
     for f in functions:
+        #        pprint.pprint(f)
         if isinstance(tr := parser.parse(gen(f)), dict):
             func.append(tr)
+
     return func
 
 
@@ -254,6 +256,8 @@ if __name__ == "__main__":
 
     if text := open(argv[1]).read():
         tokens = lexer.tokenize(text)
+
+        #        pprint.pprint(organize(tokens, parser))
 
         with open(f"{argv[1]}.out.json", "w") as f:
             json.dump(organize(tokens, parser), f, indent=2)
