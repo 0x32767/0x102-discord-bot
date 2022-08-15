@@ -1,9 +1,6 @@
+from ast import parse
 from errors.lex_errors.iligal_character import IllegalCharacterError
 from sly import Lexer, Parser
-from sys import argv
-import contextlib
-import json
-import pprint
 
 
 def _():
@@ -86,125 +83,119 @@ class jplParser(Parser):
 
     @_("NAME")
     def expr(self, p):
-        return {"type": "name", "name": p.NAME}
+        return ("name", p.NAME)
 
     @_("VAR")
     def expr(self, p):
-        return {"type": "var", "name": p.VAR}
+        return ("var", p.VAR)
 
     @_("NUMBER")
     def expr(self, p):
-        return {"type": "num", "value": p.NUMBER}
+        return p.NUMBER
 
     @_("STRING")
     def expr(self, p):
-        return {"type": "str", "value": p.STRING}
+        return p.STRING
 
     @_("expr EQEQ expr")
     def expr(self, p):
-        return {"type": "==", "1": p.expr0, "2": p.expr1}
+        return ("==", p.expr0, p.expr1)
 
     @_("expr GE expr")
     def expr(self, p):
-        return {"type": "GEEQ", "1": p.expr0, "2": p.expr1}
+        return ("GEEQ", p.expr0, p.expr1)
 
     @_("expr LE expr")
     def expr(self, p):
-        return {"type": "LTEQ", "1": p.expr0, "2": p.expr1}
+        return ("LTEQ", p.expr0, p.expr1)
 
     @_("expr NEQ expr")
     def expr(self, p):
-        return {"type": "NEQ", "1": p.expr0, "2": p.expr1}
+        return ("NEQ", p.expr0, p.expr1)
 
     @_('expr ">" expr')
     def expr(self, p):
-        return {"type": "GT", "1": p.expr0, "2": p.expr1}
+        return ("GT", p.expr0, p.expr1)
 
     @_('expr "<" expr')
     def expr(self, p):
-        return {"type": "LT", "1": p.expr0, "2": p.expr1}
+        return ("LT", p.expr0, p.expr1)
 
     @_('expr "+" expr')
     def expr(self, p):
-        return {"type": "add", "1": p.expr0, "2": p.expr1}
+        return ("add", p.expr0, p.expr1)
 
     @_('expr "-" expr')
     def expr(self, p):
-        return {"type": "sub", "1": p.expr0, "2": p.expr1}
+        return ("sub", p.expr0, p.expr1)
 
     @_('expr "*" expr')
     def expr(self, p):
-        return {"type": "mul", "1": p.expr0, "2": p.expr1}
+        return ("mul", p.expr0, p.expr1)
 
     @_('expr "/" expr')
     def expr(self, p):
-        return {"type": "div", "1": p.expr0, "2": p.expr1}
+        return ("div", p.expr0, p.expr1)
 
     @_('expr "&" expr')
     def expr(self, p):
-        return {"type": "and", "1": p.expr0, "2": p.expr1}
+        return ("and", p.expr0, p.expr1)
 
     @_('expr "|" expr')
     def expr(self, p):
-        return {"type": "or", "1": p.expr0, "2": p.expr1}
+        return ("or", p.expr0, p.expr1)
 
     @_("expr PP")
     def expr(self, p):
-        return {"type": "inc", "tar": p.expr}
+        return ("inc", p.expr)
 
     @_('"(" expr ")"')
     def expr(self, p):
-        return {"type": "bracket", "tar": p.expr}
+        return ("bracket", p.expr)
 
     @_('expr "+" "(" expr ")"')
     def expr(self, p):
-        return {"type": "add", "1": p.expr0, "2": p.expr1}
+        return ("add", p.expr0, p.expr1)
 
     @_('expr "-" "(" expr ")"')
     def expr(self, p):
-        return {"type": "sub", "1": p.expr0, "2": p.expr1}
+        return ("sub", p.expr0, p.expr1)
 
     @_('expr "*" "(" expr ")"')
     def expr(self, p):
-        return {"type": "mul", "1": p.expr0, "2": p.expr1}
+        return ("mul", p.expr0, p.expr1)
 
     @_('expr "/" "(" expr ")"')
     def expr(self, p):
-        return {"type": "div", "1": p.expr0, "2": p.expr1}
+        return ("div", p.expr0, p.expr1)
 
     @_(' NAME "(" expr ")"')
     def expr(self, p):
-        return {"type": "call", "fnc": p.NAME, "params": p.expr}
+        return ("call", p.NAME, p.expr)
 
     @_('NAME "(" ")"')
     def expr(self, p):
-        return {"type": "call", "fnc": p.NAME, "params": []}
+        return ("call", p.NAME, [])
 
     @_('IF "(" expr ")" "{" expr "}" ELSE "{" expr "}" ')
     def expr(self, p):
-        return {"type": "if", "if": p.expr0, "then": p.expr1, "else": p.expr2}
+        return ("if", p.expr0, p.expr1, p.expr2)
 
     @_('FOR "(" expr ";" expr ";" expr ")" "{" expr "}"')
     def expr(self, p):
-        return {
-            "type": "for",
-            "cou": p.expr0,
-            "con": p.expr1,
-            "up": p.expr2,
-            "inner": p.expr3,
-        }
+        return ("for", p.expr0, p.expr1, p.expr2, p.expr3)
 
     @_('JFN NAME "(" expr ")" "{" expr "}"')
     def expr(self, p):
-        return {"jfn", p.expr0, p.expr1}
+        return ("jfn", p.expr0, p.expr1)
 
     @_('JFN NAME "(" ")" "{" expr "}"')
     def expr(self, p):
-        return {"type": "jfn", "name": p.NAME, "args": {}, "inner": [p.expr]}
+        return ("fn", p.NAME, [], p.expr)
 
     @_('VAR "=" expr')
     def expr(self, p):
-        return {"type": "vardec", "tar": p.VAR, "eq": p.expr}
+        return ("vardec", p.VAR, p.expr)
 
     @_('expr "," expr')
     def expr(self, p):
@@ -219,45 +210,10 @@ class jplParser(Parser):
         return [p.expr0, p.expr1]
 
 
-def organize(tokens: list[any], parser: jplParser):
-    functions = []
-    token_cache = []
-    nest = 0
-
-    for token in tokens:
-        token_cache.append(token)
-
-        if token.type == "{":
-            nest += 1
-
-        elif token.type == "}":
-            nest -= 1
-
-            if nest == 0:
-                functions.append(token_cache)
-                token_cache = []
-
-    func = []
-    for f in functions:
-        #        pprint.pprint(f)
-        if isinstance(tr := parser.parse(gen(f)), dict):
-            func.append(tr)
-
-    return func
-
-
-def gen(function: list):
-    yield from function
-
-
 if __name__ == "__main__":
     lexer = jplLexer()
     parser = jplParser()
 
-    if text := open(argv[1]).read():
-        tokens = lexer.tokenize(text)
-
-        #        pprint.pprint(organize(tokens, parser))
-
-        with open(f"{argv[1]}.out.json", "w") as f:
-            json.dump(organize(tokens, parser), f, indent=2)
+    while True:
+        tokens = lexer.tokenize(input("> "))
+        print(parser.parse(tokens))
