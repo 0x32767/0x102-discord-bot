@@ -229,7 +229,18 @@ def organize(tokens: list[any], parser: jplParser):
         elif token.type == "{":
             nest += 1
 
-    pprint.pprint(functions)
+    funcs = []
+    for f in functions:
+        if isinstance(tr := parser.parse(gen(f)), dict):
+            funcs.append(tr)
+
+    return funcs
+
+
+def gen(function: list):
+    for t in function:
+        yield t
+
 
 if __name__ == "__main__":
     lexer = jplLexer()
@@ -238,4 +249,4 @@ if __name__ == "__main__":
     if text := open("hWorld.jpl").read():
         tokens = lexer.tokenize(text)
 
-        organize(tokens, parser)
+        pprint.pprint(organize(tokens, parser))
