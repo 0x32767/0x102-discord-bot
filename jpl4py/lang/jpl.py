@@ -22,7 +22,6 @@ class jplLexer(Lexer):
         "GE",
         "PP",
         "NEQ",
-        "VAR",
     }
     ignore = "\t "
 
@@ -50,7 +49,6 @@ class jplLexer(Lexer):
     FOR = r"for"
     JFN = r"jfn"
     NAME = r"[a-zA-Z_][a-zA-Z0-9_]*"
-    VAR = r"\$[a-zA-Z_][a-zA-Z0-9_]*"
     STRING = r"\".*?\""
 
     EQEQ = r"=="
@@ -85,10 +83,6 @@ class jplParser(Parser):
     def expr(self, p):
         return ("name", p.NAME)
 
-    @_("VAR")
-    def expr(self, p):
-        return ("var", p.VAR)
-
     @_("NUMBER")
     def expr(self, p):
         return p.NUMBER
@@ -97,115 +91,61 @@ class jplParser(Parser):
     def expr(self, p):
         return p.STRING
 
-    @_("expr EQEQ expr")
+    @_(
+        "expr EQEQ expr",
+        "expr LE expr",
+        "expr GE expr",
+        "expr NEQ expr",
+        "expr '+' expr",
+        "expr '-' expr",
+        "expr '*' expr",
+        "expr '/' expr",
+        "expr '>' expr",
+        "expr '<' expr",
+    )
     def expr(self, p):
-        return ("==", p.expr0, p.expr1)
+        return [p[1], p.expr0, p.expr1]
 
-    @_("expr GE expr")
+    @_('expr "&" expr', 'expr "|" expr')
     def expr(self, p):
-        return ("GEEQ", p.expr0, p.expr1)
-
-    @_("expr LE expr")
-    def expr(self, p):
-        return ("LTEQ", p.expr0, p.expr1)
-
-    @_("expr NEQ expr")
-    def expr(self, p):
-        return ("NEQ", p.expr0, p.expr1)
-
-    @_('expr ">" expr')
-    def expr(self, p):
-        return ("GT", p.expr0, p.expr1)
-
-    @_('expr "<" expr')
-    def expr(self, p):
-        return ("LT", p.expr0, p.expr1)
-
-    @_('expr "+" expr')
-    def expr(self, p):
-        return ("add", p.expr0, p.expr1)
-
-    @_('expr "-" expr')
-    def expr(self, p):
-        return ("sub", p.expr0, p.expr1)
-
-    @_('expr "*" expr')
-    def expr(self, p):
-        return ("mul", p.expr0, p.expr1)
-
-    @_('expr "/" expr')
-    def expr(self, p):
-        return ("div", p.expr0, p.expr1)
-
-    @_('expr "&" expr')
-    def expr(self, p):
-        return ("and", p.expr0, p.expr1)
-
-    @_('expr "|" expr')
-    def expr(self, p):
-        return ("or", p.expr0, p.expr1)
+        return [p[1], p.expr0, p.expr1]
 
     @_("expr PP")
     def expr(self, p):
-        return ("inc", p.expr)
+        return ["inc", p.expr]
 
     @_('"(" expr ")"')
     def expr(self, p):
-        return ("bracket", p.expr)
+        return ["bracket", p.expr]
 
-    @_('expr "+" "(" expr ")"')
+    @_(' NAME "(" expr ")"', 'NAME "(" ")"')
     def expr(self, p):
-        return ("add", p.expr0, p.expr1)
-
-    @_('expr "-" "(" expr ")"')
-    def expr(self, p):
-        return ("sub", p.expr0, p.expr1)
-
-    @_('expr "*" "(" expr ")"')
-    def expr(self, p):
-        return ("mul", p.expr0, p.expr1)
-
-    @_('expr "/" "(" expr ")"')
-    def expr(self, p):
-        return ("div", p.expr0, p.expr1)
-
-    @_(' NAME "(" expr ")"')
-    def expr(self, p):
-        return ("call", p.NAME, p.expr)
-
-    @_('NAME "(" ")"')
-    def expr(self, p):
-        return ("call", p.NAME, [])
+        return ["call", p.NAME, p.expr or []]
 
     @_('IF "(" expr ")" "{" expr "}" ELSE "{" expr "}" ')
     def expr(self, p):
-        return ("if", p.expr0, p.expr1, p.expr2)
+        return ["if", p.expr0, p.expr1, p.expr2]
 
-    @_('FOR "(" expr ";" expr ";" expr ")" "{" expr "}"')
+    @_('FOR "(" var_dec ";" expr ";" expr ")" "{" expr "}"')
     def expr(self, p):
-        return ("for", p.expr0, p.expr1, p.expr2, p.expr3)
+        return ["for", p.var_dec, p.expr0, p.expr1, p.expr2]
 
-    @_('JFN NAME "(" expr ")" "{" expr "}"')
+    @_(
+        'JFN NAME "(" expr ")" "{" expr "}"',
+        'JFN NAME "(" ")" "{" expr "}"',
+    )
     def expr(self, p):
-        return ("jfn", p.expr0, p.expr1)
+        try:
+            return ["jfn", p.expr0, p.expr1]
 
-    @_('JFN NAME "(" ")" "{" expr "}"')
-    def expr(self, p):
-        return ("fn", p.NAME, [], p.expr)
+        except AttributeError:
+            return ["jfn", p.NAME, [], p.expr]
 
-    @_('VAR "=" expr')
-    def expr(self, p):
-        return ("vardec", p.VAR, p.expr)
+    @_('NAME "=" expr')
+    def var_dec(self, p):
+        return ["vardec", p.NAME, p.expr]
 
     @_('expr "," expr')
-    def expr(self, p):
-        return [p.expr0, p.expr1]
-
-    @_('VAR "," VAR')
-    def expr(self, p):
-        return [p.VAR0, p.VAR1]
-
-    @_("expr \n expr")
     def expr(self, p):
         return [p.expr0, p.expr1]
 
