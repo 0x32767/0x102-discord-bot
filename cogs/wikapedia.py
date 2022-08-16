@@ -48,14 +48,6 @@ class WikiCog(commands.Cog):
         """
         try:
             summary: str = wiki.summary(query, sentences=3)
-            await ctx.response.send_message(
-                f"""
-__**{query}**__
-
-```
-{summary}
-```
-            """
-            )
+            await ctx.response.send_message(f"""__**{query}**__\n```\n{summary}\n```""")
         except Exception as e:
             await ctx.response.send_message(f"error: {e}")
