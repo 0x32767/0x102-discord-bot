@@ -23,7 +23,7 @@ SOFTWARE.
 """
 
 
-from aiohttp import ClientSession
+from httpx import AsyncClient
 from discord.ext import commands
 import cogs._helpCommandSetup
 from cache import cacheGet
@@ -36,7 +36,7 @@ async def setup(bot: commands.Bot) -> None:
 
 class githubApiCog(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
-        self.cs: ClientSession = ClientSession()
+        self.cs: AsyncClient = AsyncClient()
         self.bot: commands.Bot = bot
 
     @cogs._helpCommandSetup.record()
@@ -101,3 +101,24 @@ class githubApiCog(commands.Cog):
         await ctx.response.send_message(embed=em)
 
         del data, req
+
+    @cogs._helpCommandSetup.record()
+    @app_commands.command(description="Gets some info about the latest bot update.")
+    async def getlatestupdate(self: "githubApiCog", ctx: Interaction) -> None:
+        req = await self.cs.get("https://api.github.com/repos/0x32767/0x102-discord-bot/commits/master/")
+        data = await req.json()
+
+        em: Embed = Embed(title=f"{self.bot.user.name}'s latest update", description="get the bot's latest updates")
+        em.add_field(name="Latest update date", value=data["commit"]["author"]["date"])
+        em.add_field(name="Latest update message", value=data["commit"]["message"])
+        em.add_field(name="Latest update url", value=data["html_url"])
+        em.add_field(name="Latest update author", value=data["commit"]["author"]["name"])
+        em.add_field(name="Lines of code added", value=data["stats"]["additions"])
+        em.add_field(name="Lines of code deleted", value=data["stats"]["deletions"])
+        em.add_field(name="Lines of code changed", value=data["stats"]["total"])
+        em.add_field(name="Files changed", value=len(data["files"]))
+        em.set_image(url=data["committer"]["avatar_url"])
+
+        await ctx.response.send_message(embed=em)
+
+        del req, data

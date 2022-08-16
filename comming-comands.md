@@ -13,5 +13,5 @@
 | #006 | `hack`       | `dumb`   | `get top durpers`                        | `/durp-top`                 | 🔃     |
 | #007 | `yomama`     | `dumb`   | `get yomama`                             | `/yomama`                   | 🔃     |
 | #008 | `say`        | `dump`   | `make the bot say something`             | `/say <text>`               | 🔃     |
-| #00a | `hs`         | `possof` | `be more communist`                      | `/communist`                | 🔃     |
-| #00b | `rr`         | `voice`  | `plays rickroll in random vc`            | `/rr <vc>`                  | ✅     |
+| #00a | `comi`       | `possof` | `be more communist`                      | `/communist`                | 🔃     |
+| #00b | `rr`         | `voice`  | `plays rickroll in random channel`       | `/rr`                       | ✅     |

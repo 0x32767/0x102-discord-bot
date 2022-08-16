@@ -50,9 +50,9 @@ Expected to be implemented: ==soon==
 This will look at the average time between messages sent by a user and see if they are over a threshold. This feature was under development but after discord made `MESSAGE_CONTENT` a privilege, the feature was put on hold.
 The algorithm would have worked by also checking the message content, to assure that the user is deliberately spamming. However, the announcement put the feature on hold.
 
-Status: **working now**
+Status: **paused**
 
-Expected to be implemented: ==week==
+Expected to be implemented: ==soon==
 
 ## Message logs
 
