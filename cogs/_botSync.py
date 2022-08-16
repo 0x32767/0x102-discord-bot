@@ -29,25 +29,26 @@ import asyncio
 import httpx
 
 """
- The botSync module
- ==================
+The botSync module
+==================
 
- ::context::
- The developer of the is bot is collaborating with the owner of a
- series of other discord bots 'Arty Studios' to create an easy to
- use collection of bots.
+::CONTEXT::
 
- ::use::
- This is to sync the bot`s database with a local one. This is to
- prevent accidental DDoS attacks, from frequent requests to the
- remote db.
- This also optimizes the bot`s performance.
+The developer of the is bot is collaborating with the owner of a
+series of other discord bots 'Arty Studios' to create an easy to
+use collection of bots.
 
- ::example::
- If a server were to update its settings, the bot would edit the
- local database and update a cache of servers who have changed
- their settings, this is again to optimize the bot`s performance.
- And that of other bots too.
+::use::
+This is to sync the bot`s database with a local one. This is to
+prevent accidental DDoS attacks, from frequent requests to the
+remote db.
+This also optimizes the bot`s performance.
+
+::example::
+If a server were to update its settings, the bot would edit the
+local database and update a cache of servers who have changed
+their settings, this is again to optimize the bot`s performance.
+And that of other bots too.
 """
 
 
@@ -69,11 +70,11 @@ class botSync:
             txt = await response.text()
             guilds: list[int] = loads(txt)
 
-
         async with httpx.AsyncClient() as client:
             tasks: list[asyncio.Task] = [asyncio.create_task(self.serverRequest(client, guild)) for guild in guilds]
 
         res: httpx.Response = await asyncio.gather(*tasks)
+        return res
 
     async def serverRequest(self: "botSync", session: httpx.AsyncClient, gUid: int) -> None:
         await session.get(f"{self.baseUrl}server/{gUid}")

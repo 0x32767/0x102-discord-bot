@@ -1,4 +1,3 @@
-from multiprocessing.spawn import import_main_path
 from discord import Interaction, Embed
 from aiosqlite import connect
 
