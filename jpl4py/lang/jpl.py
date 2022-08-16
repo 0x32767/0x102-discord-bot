@@ -1,6 +1,6 @@
-from ast import parse
 from errors.lex_errors.iligal_character import IllegalCharacterError
 from sly import Lexer, Parser
+from pprint import pprint
 
 
 def _():
@@ -16,6 +16,8 @@ class jplLexer(Lexer):
         "ELSE",
         "FOR",
         "JFN",
+        "CFN",
+        "CSTR",
         "EQEQ",
         "LE",
         "GE",
@@ -48,8 +50,10 @@ class jplLexer(Lexer):
     ELSE = r"else"
     FOR = r"for"
     JFN = r"jfn"
+    CFN = r"cfn"
     NAME = r"[a-zA-Z_][a-zA-Z0-9_]*"
     STRING = r"\".*?\""
+    CSTR = r"\`.*?\`"
 
     EQEQ = r"=="
     LE = r"\<\="
@@ -61,7 +65,7 @@ class jplLexer(Lexer):
         t.value = int(t.value)
         return t
 
-    @_(r"#.*")
+    @_(r"#.*", r"\\\*.*?\\\*", r"\\\*.*")
     def COMMENT(self, t):
         pass
 
@@ -122,16 +126,19 @@ class jplParser(Parser):
     def expr(self, p):
         return ["call", p.NAME, p.expr or []]
 
-    @_('IF "(" expr ")" "{" expr "}" ELSE "{" expr "}" ')
+    @_(
+        'IF "(" expr ")" "{" expr "}" ELSE "{" expr "}" ',
+        'IF "(" expr ")" "{" expr "}"',
+    )
     def expr(self, p):
-        return ["if", p.expr0, p.expr1, p.expr2]
+        return ["if", p.expr0, p.expr1, p.expr2 or []]
 
     @_('FOR "(" var_dec ";" expr ";" expr ")" "{" expr "}"')
     def expr(self, p):
         return ["for", p.var_dec, p.expr0, p.expr1, p.expr2]
 
     @_(
-        'JFN NAME "(" expr ")" "{" expr "}"',
+        'JFN NAME "(" names ")" "{" expr "}"',
         'JFN NAME "(" ")" "{" expr "}"',
     )
     def expr(self, p):
@@ -141,6 +148,17 @@ class jplParser(Parser):
         except AttributeError:
             return ["jfn", p.NAME, [], p.expr]
 
+    @_(
+        'CFN NAME "(" names ")" "-" ">" NAME "{" CSTR "}"',
+        'CFN NAME "(" ")" "-" ">" NAME "{" CSTR "}"',
+    )
+    def expr(self, p):
+        try:
+            return ["cfn", p.NAME0, p.names, p.NAME1, p.CSTR]
+
+        except AttributeError:
+            return ["cfn", p.NAME0, [], p.NAME1, p.CSTR]
+
     @_('NAME "=" expr')
     def var_dec(self, p):
         return ["vardec", p.NAME, p.expr]
@@ -149,6 +167,10 @@ class jplParser(Parser):
     def expr(self, p):
         return [p.expr0, p.expr1]
 
+    @_("NAME , NAME")
+    def names(self, p):
+        return [p.NAME0, p.NAME1]
+
 
 if __name__ == "__main__":
     lexer = jplLexer()
@@ -156,4 +178,4 @@ if __name__ == "__main__":
 
     while True:
         tokens = lexer.tokenize(input("> "))
-        print(parser.parse(tokens))
+        pprint(parser.parse(tokens))

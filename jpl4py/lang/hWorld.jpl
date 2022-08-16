@@ -1,10 +1,9 @@
 jfn main() {
-    $d = "hi"
-    $s = "u"
-
-    print($d)
+    print("hello world!")
 }
 
-jfn testFn() {
-    print(1 == 1)
-}
+cfn test(d) -> int {"
+int d = #d;
+int a = d + 1;
+return a;
+"}
