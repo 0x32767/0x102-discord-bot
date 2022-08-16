@@ -8,10 +8,10 @@ venv
 *.pyc
 *.pyo
 .vscode
-*.bat
 node_modules
 package-lock.json
 package.json
 *.o
 vars.ini
-pybind11
+*.save
+*.swp

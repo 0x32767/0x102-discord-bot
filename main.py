@@ -6,6 +6,7 @@ from discord.ext import commands
 from rich.progress import track
 from os import listdir
 import discord
+from cache import cacheSet, cacheGet
 
 
 intents: discord.Intents = discord.Intents.default()
