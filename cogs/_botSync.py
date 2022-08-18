@@ -48,11 +48,11 @@ class OptionsDropdown(Select):
 
     async def callback(self, ctx: Interaction) -> None:
         settings: dict[str, tuple[str, str]] = {
-            "allow_custom_commands": ("run_cc_enabled", "run_cc_disabled"),
             "allow_server_links": ("allow_links_enabled", "allow_links_disabled"),
+            "use_reputation": ("reputation_enabled", "reputation_disabled"),
+            "allow_custom_commands": ("run_cc_enabled", "run_cc_disabled"),
             "punish_profanity": ("auto_mod_enabled", "auto_mod_disabled"),
             "punish_spam": ("spam_mod_enabled", "spam_mod_disabled"),
-            "use_reputation": ("reputation_enabled", "reputation_disabled"),
         }
         payload: list[str] = []
 
