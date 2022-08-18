@@ -4,15 +4,16 @@ from configparser import ConfigParser
 from rich.console import Console
 from discord.ext import commands
 from rich.progress import track
+from httpx import AsyncClient
 from os import listdir
 import discord
-from cache import cacheSet, cacheGet
 
 
 intents: discord.Intents = discord.Intents.default()
 intents.members = True
 
 bot: commands.Bot = commands.Bot(command_prefix="~", intents=intents, application_id=937461852282167337)
+bot.setattr("httpx", AsyncClient())
 
 console: Console = Console()
 

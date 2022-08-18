@@ -24,7 +24,6 @@ SOFTWARE.
 
 from discord import Button, SelectOption, Embed, Interaction
 from discord.ui import View, Select
-from httpx import AsyncClient
 
 
 class BotSyncUi(View):
@@ -64,7 +63,6 @@ class OptionsDropdown(Select):
             else:
                 payload.append(settings[op.value][1])
 
-        async with AsyncClient() as client:
-            await client.post("...", json={"settings": payload})
+        await self.bot.httpx.post("...", json={"settings": payload})
 
         await ctx.response.send_message(embed=Embed(title="Settings updated", description="Your settings have been updated"))

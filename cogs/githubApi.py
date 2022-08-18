@@ -23,11 +23,10 @@ SOFTWARE.
 """
 
 
-from httpx import AsyncClient
+from discord import Interaction, app_commands, Object, Embed
 from discord.ext import commands
 import cogs._helpCommandSetup
 from cache import cacheGet
-from discord import Interaction, app_commands, Object, Embed
 
 
 async def setup(bot: commands.Bot) -> None:
@@ -36,7 +35,6 @@ async def setup(bot: commands.Bot) -> None:
 
 class githubApiCog(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
-        self.cs: AsyncClient = AsyncClient()
         self.bot: commands.Bot = bot
 
     @cogs._helpCommandSetup.record()
@@ -48,7 +46,7 @@ class githubApiCog(commands.Cog):
         :param username: The `username` is the name of the user
         :return:
         """
-        req = await self.cs.get(f"https://api.github.com/users/{username}")
+        req = await self.bot.httpx.get(f"https://api.github.com/users/{username}")
         data = await req.json()
 
         em: Embed = Embed(title=f"{username}", description=f"{data['bio']}")
@@ -90,7 +88,7 @@ class githubApiCog(commands.Cog):
         :param username: The `username` is the name of the user
         :return:
         """
-        req = await self.cs.get(f"https://api.github.com/users/{username}/repos")
+        req = await self.bot.httpx.get(f"https://api.github.com/users/{username}/repos")
         data = await req.json()
 
         em: Embed = Embed(title=f"{username}`s repos", description=f"{len(data)} repos")
@@ -105,7 +103,7 @@ class githubApiCog(commands.Cog):
     @cogs._helpCommandSetup.record()
     @app_commands.command(description="Gets some info about the latest bot update.")
     async def getlatestupdate(self: "githubApiCog", ctx: Interaction) -> None:
-        req = await self.cs.get("https://api.github.com/repos/0x32767/0x102-discord-bot/commits/master/")
+        req = await self.bot.httpx.get("https://api.github.com/repos/0x32767/0x102-discord-bot/commits/master/")
         data = await req.json()
 
         em: Embed = Embed(title=f"{self.bot.user.name}'s latest update", description="get the bot's latest updates")
