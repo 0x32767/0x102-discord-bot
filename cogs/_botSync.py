@@ -22,59 +22,49 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from configparser import ConfigParser
-from aiosqlite import connect
-from json import loads
-import asyncio
-import httpx
-
-"""
-The botSync module
-==================
-
-::CONTEXT::
-
-The developer of the is bot is collaborating with the owner of a
-series of other discord bots 'Arty Studios' to create an easy to
-use collection of bots.
-
-::use::
-This is to sync the bot`s database with a local one. This is to
-prevent accidental DDoS attacks, from frequent requests to the
-remote db.
-This also optimizes the bot`s performance.
-
-::example::
-If a server were to update its settings, the bot would edit the
-local database and update a cache of servers who have changed
-their settings, this is again to optimize the bot`s performance.
-And that of other bots too.
-"""
+from discord import Button, SelectOption, Embed, Interaction
+from discord.ui import View, Select
+from httpx import AsyncClient
 
 
-class botSync:
-    def __init__(self: "botSync", file: str) -> None:
-        self.conf: ConfigParser = ConfigParser()
-        self.conf.read("vars.ini")
-        self.file: str = file
+class BotSyncUi(View):
+    def __init__(self):
+        super().__init__()
+        self.add_item(OptionsDropdown())
 
-    async def getCloud(self: "botSync") -> str:
-        """
-        | This function will get the guilds with the changed settings (for
-        | optimization purposes) and will then iterate over all said guilds
-        | and edit them in a local database.
-        |
-        | This function should
-        """
-        async with self.session.get(f"{self.baseUrl}edited/") as response:
-            txt = await response.text()
-            guilds: list[int] = loads(txt)
 
-        async with httpx.AsyncClient() as client:
-            tasks: list[asyncio.Task] = [asyncio.create_task(self.serverRequest(client, guild)) for guild in guilds]
+class OptionsDropdown(Select):
+    def __init__(self):
+        super().__init__(
+            min_values=1,
+            min_values=6,
+            options=[
+                SelectOption(text="Punish spam automatically", value="punish_spam"),
+                SelectOption(text="Punish profanity automatically", value="punish_profanity"),
+                SelectOption(text="Allow custom commands", value="allow_custom_commands"),
+                SelectOption(text="Allow server links", value="allow_server_links"),
+                SelectOption(text="Use reputation", value="use_reputation"),
+            ],
+        )
 
-        res: httpx.Response = await asyncio.gather(*tasks)
-        return res
+    async def callback(self, ctx: Interaction) -> None:
+        settings: dict[str, tuple[str, str]] = {
+            "allow_custom_commands": ("run_cc_enabled", "run_cc_disabled"),
+            "allow_server_links": ("allow_links_enabled", "allow_links_disabled"),
+            "punish_profanity": ("auto_mod_enabled", "auto_mod_disabled"),
+            "punish_spam": ("spam_mod_enabled", "spam_mod_disabled"),
+            "use_reputation": ("reputation_enabled", "reputation_disabled"),
+        }
+        payload: list[str] = []
 
-    async def serverRequest(self: "botSync", session: httpx.AsyncClient, gUid: int) -> None:
-        await session.get(f"{self.baseUrl}server/{gUid}")
+        for op in self.options:
+            if op in self.value:
+                payload.append(settings[op.value][0])
+
+            else:
+                payload.append(settings[op.value][1])
+
+        async with AsyncClient() as client:
+            await client.post("...", json={"settings": payload})
+
+        await ctx.response.send_message(embed=Embed(title="Settings updated", description="Your settings have been updated"))
