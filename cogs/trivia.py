@@ -48,7 +48,7 @@ class TriviaCog(commands.Cog):
         | `self` which is the class.
         """
         req = await self.cs.get("https://opentdb.com/api.php?amount=1&type=multiple")
-        data: dict = req.json()
+        data: dict = await req.json()
 
         view: TriviaView = TriviaView(data["results"][0])
 

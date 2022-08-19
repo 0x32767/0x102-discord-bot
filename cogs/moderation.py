@@ -90,7 +90,6 @@ class Moderation(commands.Cog):
                     str(ctx.guild.name),
                     str(ctx.guild.owner.name),
                     str(ctx.guild.member_count),
-                    str(ctx.guild.region),
                 ],
             ):
                 embed.add_field(name=key, value=stat)
@@ -122,7 +121,8 @@ class Moderation(commands.Cog):
             async with aiosqlite.connect("discordbotdb.db") as db:
                 async with db.cursor() as curr:
                     await curr.execute(
-                        f"update whitelist set whitelisted = False where guild_id = {ctx.guild.id} and user_id = {member.id}"
+                        f"update whitelist set whitelisted = False"
+                        f"where guild_id = {ctx.guild.id} and user_id = {member.id}"
                     )
 
             await db.commit()
@@ -157,7 +157,8 @@ class Moderation(commands.Cog):
                 async with db.cursor() as curr:
                     for member in ctx.guild.members:
                         await curr.execute(
-                            f"select whitelisted from whitelist where guild_id = {ctx.guild.id} and user_id = {member.id}"
+                            f"select whitelisted from whitelist"
+                            f"where guild_id = {ctx.guild.id} and user_id = {member.id}"
                         )
 
                         whitelisted: tuple = await curr.fetchone()

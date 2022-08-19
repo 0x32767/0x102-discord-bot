@@ -119,10 +119,10 @@ class APICog(commands.Cog):
 
             view.add_item(next_btn)
 
-            uiEmbed: Embed = Embed(title="A complete catalogue")
-            uiEmbed.set_image(url=await get_cat())
+            ui_embed: Embed = Embed(title="A complete catalogue")
+            ui_embed.set_image(url=await get_cat())
 
-            await interaction.response.send_message(embed=uiEmbed, view=view)
+            await interaction.response.send_message(embed=ui_embed, view=view)
 
     @cogs._helpCommandSetup.record()
     @app_commands.command(description="Sends a meme.")

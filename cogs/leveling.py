@@ -84,11 +84,15 @@ class LevelingCog(commands.Cog):
     @cogs._helpCommandSetup.record()
     @app_commands.command(description="you can see your current level and xp")
     async def level(self: "LevelingCog", ctx: Interaction):
-        level: int = await self._getLevel(ctx.author)
-        xp: int = await self._getXP(ctx.author)
+        level: int = await self._getLevel(ctx.user)
+        xp: int = await self._getXP(ctx.user)
 
         await ctx.response.send_message(
-            embed=Embed(title=f"{ctx.author.name}'s Level", description="see how much xp and level you have", color=0x00FF00)
+            embed=Embed(
+                title=f"{ctx.user.name}'s Level",
+                description="see how much xp and level you have",
+                color=0x00FF00
+            )
             .add_field(name="Level", value=level, inline=True)
             .add_field(name="XP", value=xp, inline=True)
         )

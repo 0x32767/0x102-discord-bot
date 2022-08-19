@@ -87,10 +87,10 @@ class EncryptionDropdown(Select):
             "z",
         ]
 
-    async def callback(self: "EncryptionDropdown", ctx: Interaction) -> None:
+    async def callback(self: "EncryptionDropdown", ctx: Interaction, msg: str | None = None) -> None:
         match self.values[0]:
             case "caesar cipher":
-                msg = await self.createCeaserCipher()
+                msg = await self.create_ceaser_cipher()
 
             case "binary encode":
                 msg = await self.createBase2Encode()
@@ -103,7 +103,7 @@ class EncryptionDropdown(Select):
 
         await ctx.response.send_message(embed=Embed(title="Encrypted Message", description=msg), ephemeral=True)
 
-    async def createCeaserCipher(self: "EncryptionDropdown") -> str:
+    async def create_ceaser_cipher(self: "EncryptionDropdown") -> str:
         offset: int = randint(1, 25)
 
         """
@@ -120,7 +120,7 @@ class EncryptionDropdown(Select):
                 res += self.chars[self.chars.index(char) + offset]
 
             except ValueError:
-                # I have not included all of the ascii characters
+                # I have not included all the ascii characters
                 res += char
 
             except IndexError:
@@ -129,14 +129,14 @@ class EncryptionDropdown(Select):
 
         return res
 
-    async def createHexEncode(self: "EncryptionDropdown") -> str:
+    async def create_hex_encode(self: "EncryptionDropdown") -> str:
         """
         | Hex is a base 16, which is a base that is used to represent
         | numbers in a way that is easier to read.
         """
         return "".join(hex(ord(char)) for char in self.msg)
 
-    async def createBase2Encode(self: "EncryptionDropdown") -> str:
+    async def create_base2_encode(self: "EncryptionDropdown") -> str:
         """
         | Base 2 is one of the most hard-to-read bases (that is
         | commonly used) and that is why i have used it to encrypt
@@ -147,7 +147,7 @@ class EncryptionDropdown(Select):
         """
         return "".join(bin(ord(char)).zfill(8) for char in self.msg)
 
-    async def createBase32Encode(self: "EncryptionDropdown") -> str:
+    async def create_base32_encode(self: "EncryptionDropdown") -> str:
         """
         | Base64 is an actual base like binary (base2), octal (base
         | 8), hex (base 16)... Becaue all bases besides 2, and 10 are

@@ -22,27 +22,29 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from discord import Button, SelectOption, Embed, Interaction
+from discord import SelectOption, Embed, Interaction
 from discord.ui import View, Select
+from httpx import AsyncClient
 
 
 class BotSyncUi(View):
-    def __init__(self):
+    def __init__(self, httpx: AsyncClient):
         super().__init__()
-        self.add_item(OptionsDropdown())
+        self.add_item(OptionsDropdown(httpx))
 
 
 class OptionsDropdown(Select):
-    def __init__(self):
+    def __init__(self, httpx: AsyncClient):
+        self.httpx: AsyncClient = httpx
         super().__init__(
             min_values=1,
-            min_values=6,
+            max_values=6,
             options=[
-                SelectOption(text="Punish spam automatically", value="punish_spam"),
-                SelectOption(text="Punish profanity automatically", value="punish_profanity"),
-                SelectOption(text="Allow custom commands", value="allow_custom_commands"),
-                SelectOption(text="Allow server links", value="allow_server_links"),
-                SelectOption(text="Use reputation", value="use_reputation"),
+                SelectOption(label="Punish spam automatically", value="punish_spam"),
+                SelectOption(label="Punish profanity automatically", value="punish_profanity"),
+                SelectOption(label="Allow custom commands", value="allow_custom_commands"),
+                SelectOption(label="Allow server links", value="allow_server_links"),
+                SelectOption(label="Use reputation", value="use_reputation"),
             ],
         )
 
@@ -63,6 +65,11 @@ class OptionsDropdown(Select):
             else:
                 payload.append(settings[op.value][1])
 
-        await self.bot.httpx.post("...", json={"settings": payload})
+        await self.httpx.post("...", json={"settings": payload})
 
-        await ctx.response.send_message(embed=Embed(title="Settings updated", description="Your settings have been updated"))
+        await ctx.response.send_message(
+            embed=Embed(
+                title="Settings updated",
+                description="Your settings have been updated"
+            )
+        )

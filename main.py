@@ -15,7 +15,7 @@ intents: discord.Intents = discord.Intents.default()
 intents.members = True
 
 bot: commands.Bot = commands.Bot(command_prefix="~", intents=intents, application_id=937461852282167337)
-bot.setattr("httpx", AsyncClient())
+setattr(bot, "httpx", AsyncClient())
 
 console: Console = Console()
 

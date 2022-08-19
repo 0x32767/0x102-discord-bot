@@ -36,7 +36,7 @@ async def setup(bot: commands.Bot) -> None:
 class PoleCog(commands.Cog):
     def __init__(self: commands.Bot, bot: commands.Bot) -> None:
         self.bot: commands.Bot = bot
-        self.votes: commands.Bot = {}
+        self.votes: list[dict[str, dict[any]]] = []
         """
         :votes: format:
             {
@@ -63,14 +63,14 @@ class PoleCog(commands.Cog):
 
         # checks if there is still a non-closed pole in the channel
         if ctx.channel.id in self.votes and self.votes[ctx.channel.id]["closed"] is False:
-            await ctx.send("There is already a poll in this channel.")
+            await ctx.response.send_message("There is already a poll in this channel.")
             return
 
         self.votes[ctx.channel.id] = {
             "question": question,
             "options": {"yes": 0, "no": 0},
             "closed": False,
-            "author": ctx.author.id,
+            "author": ctx.user.id,
         }
 
         await ctx.response.send_message(
@@ -93,31 +93,37 @@ class PoleCog(commands.Cog):
         try:
             pole: dict = self.votes[ctx.channel.id]
         except KeyError:
-            return await ctx.send("There is no poll in this channel.", ephemeral=True)
+            return await ctx.response.send_message("There is no poll in this channel.", ephemeral=True)
 
         if pole["closed"] is True:
-            return await ctx.send("The poll is closed, you can not vote in a colsed pole.", ephemeral=True)
+            return await ctx.response.send_message(
+                "The poll is closed, you can not vote in a colsed pole.",
+                ephemeral=True
+            )
 
         pole["options"]["yes"] += 1 if vote else 0
         pole["options"]["no"] += 0 if vote else 1
 
-        await ctx.send("Your vote has been registered.", ephemeral=True)
+        await ctx.response.send_message("Your vote has been registered.", ephemeral=True)
 
     @cogs._helpCommandSetup.record()
     @app_commands.command(name="closepoll", description="Closes the poll.")
     @app_commands.describe(show="show the results of the poll")
     async def close_poll(self, ctx: Interaction, show: bool = False) -> None:
         """
-        :param ctx: The ctx param is passes by the discord.py libruary
+        :param: ctx
+         | The ctx param is passes by the discord.py libruary
+        :param: show
+         | If the message should be ephemeral or not
         :return:
         """
         try:
             pole: dict = self.votes[ctx.channel.id]
         except KeyError:
-            return await ctx.send("There is no poll in this channel.", ephemeral=True)
+            return await ctx.response.send_message("There is no poll in this channel.", ephemeral=True)
 
         if pole["closed"] is True:
-            return await ctx.send("The poll is already closed.", ephemeral=True)
+            return await ctx.response.send_message("The poll is already closed.", ephemeral=True)
 
         pole["closed"] = True
 
@@ -135,18 +141,21 @@ class PoleCog(commands.Cog):
     @app_commands.describe(public="do you want the poll to be public (can be seen by everyone)")
     async def show_poll(self, ctx: Interaction, public: bool = False) -> None:
         """
-        :param ctx: The ctx param is passes by the discord.py libruary
+        :param: ctx
+         | The ctx param is passes by the discord.py libruary
+        :param: public
+         | this is if the message should be ephemeral or not
         :return:
         """
         try:
             pole: dict = self.votes[ctx.channel.id]
         except KeyError:
-            return await ctx.send("There is no poll in this channel.", ephemeral=True)
+            return await ctx.response.send_message("There is no poll in this channel.", ephemeral=True)
 
         if pole["closed"] is True:
-            return await ctx.send("The poll is closed.", ephemeral=True)
+            return await ctx.response.send_message("The poll is closed.", ephemeral=True)
 
-        await ctx.send(
+        await ctx.response.send_message(
             embed=Embed(
                 title=pole["question"],
                 description=f'yes: {pole["options"]["yes"]}\nno: {pole["options"]["no"]}',

@@ -83,12 +83,12 @@ class EmbedInitializeError(Exception):
     These paramiters are accessed from the embed object created by the user.
 
     ::use::
-    The exception is raised when a keyError is thrown (python can not find the identifier), this can be caused if the keys
-    or values in the embed are missing or not of the expected type.
+    The exception is raised when a keyError is thrown (python can not find the identifier), this can be caused if the
+    keys or values in the embed are missing or not of the expected type.
 
     ::example::
     function test()
-     --               vvvvv (a title was not specified)
+     --               vvvv (a title was not specified)
        return newEmbed{description="..."}
     end
 

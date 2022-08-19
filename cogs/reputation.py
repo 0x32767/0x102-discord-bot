@@ -17,14 +17,14 @@ class ReputationCog(commands.Cog):
     @app_commands.command(description="see how much reputation you have")
     async def reputation(self: "ReputationCog", ctx: Interaction):
         async with connect("discordbotdb.db") as db:
-            async with db.execute("SELECT reputation FROM users WHERE id = ?", (ctx.author.id,)) as cursor:
+            async with db.execute("SELECT reputation FROM users WHERE id = ?", (ctx.user.id,)) as cursor:
                 res = await cursor.fetchone()
 
                 if res is None:
-                    await ctx.send("you have no reputation")
+                    await ctx.response.send_message("you have no reputation")
                     return
 
-                await ctx.send(f"you have {res[0]} reputation")
+                await ctx.response.send_message(f"you have {res[0]} reputation")
 
     @cogs._helpCommandSetup.record()
     @app_commands.command(description="give someone reputation")
@@ -37,8 +37,8 @@ class ReputationCog(commands.Cog):
                 res = await cursor.fetchone()
 
                 if res is None:
-                    await ctx.send("that user has no reputation")
+                    await ctx.response.send_message("that user has no reputation")
                     return
 
                 await db.execute("UPDATE users SET reputation = ? WHERE id = ?", (res[0] + amount, user.id))
-                await ctx.send(f"you have given {user.name} {amount} reputation, and they now have {res[0] + amount}")
+                await ctx.response.send_message(f"you have given {user.name} {amount} reputation, and they now have {res[0] + amount}")

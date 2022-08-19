@@ -30,17 +30,17 @@ from cache import cacheGet
 
 
 async def setup(bot: commands.Bot) -> None:
-    await bot.add_cog(githubApiCog(bot), guilds=[Object(id=cacheGet("id"))])
+    await bot.add_cog(GithubApiCog(bot), guilds=[Object(id=cacheGet("id"))])
 
 
-class githubApiCog(commands.Cog):
+class GithubApiCog(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
         self.bot: commands.Bot = bot
 
     @cogs._helpCommandSetup.record()
     @app_commands.command(description="Gets some info about a github user.")
     @app_commands.describe(username="Username of the user.")
-    async def getuser(self: "githubApiCog", ctx: Interaction, *, username: str) -> None:
+    async def getuser(self: "GithubApiCog", ctx: Interaction, *, username: str) -> None:
         """
         :param ctx: The `ctx` is passed by default when the command is executed
         :param username: The `username` is the name of the user
@@ -82,7 +82,7 @@ class githubApiCog(commands.Cog):
     @cogs._helpCommandSetup.record()
     @app_commands.command(description="Gets some info about a users github repos.")
     @app_commands.describe(username="Username of the user who`s repos you want to get.")
-    async def getrepos(self: "githubApiCog", ctx: Interaction, *, username: str) -> None:
+    async def getrepos(self: "GithubApiCog", ctx: Interaction, *, username: str) -> None:
         """
         :param ctx: The `ctx` is passed by default when the command is executed
         :param username: The `username` is the name of the user
@@ -102,7 +102,7 @@ class githubApiCog(commands.Cog):
 
     @cogs._helpCommandSetup.record()
     @app_commands.command(description="Gets some info about the latest bot update.")
-    async def getlatestupdate(self: "githubApiCog", ctx: Interaction) -> None:
+    async def getlatestupdate(self: "GithubApiCog", ctx: Interaction) -> None:
         req = await self.bot.httpx.get("https://api.github.com/repos/0x32767/0x102-discord-bot/commits/master/")
         data = await req.json()
 

@@ -22,7 +22,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import cogs._luaErrors as err
+import cogs._luaErrors as LuaErr
 from discord import Interaction, Embed
 from lupa import LuaRuntime
 import inspect
@@ -34,7 +34,7 @@ async def create_embed(embed) -> Embed or tuple[str, str]:
 
     # the discord api only lets embeds have up tp 25 fields.
     if len(embed["fields"]) >= 26:
-        return err.MaxEmbedFieldsExceeded(
+        return LuaErr.MaxEmbedFieldsExceeded(
             {
                 "message": f"the maximum amount of embeds has been reached got {len(embed['fields'])} >= 26",
                 "ErrorUrl": "https://github.com/0x32767/0x102-discord-bot/blob/master/cogs/_luaErrors.py#L1",
@@ -45,7 +45,7 @@ async def create_embed(embed) -> Embed or tuple[str, str]:
         em: Embed = Embed(title=embed["title"], description=embed["description"], color=embed["color"])
 
     except KeyError:
-        return err.EmbedInitializeError(
+        return LuaErr.EmbedInitializeError(
             {
                 "message": "the embed was not initialized correctly",
                 "ErrorUrl": "https://github.com/0x32767/0x102-discord-bot/blob/master/cogs/_luaErrors.py#L44",
@@ -57,7 +57,7 @@ async def create_embed(embed) -> Embed or tuple[str, str]:
             em.add_field(name=field["name"], value=field["value"], inline=field["inline"])
 
         except KeyError:
-            return err.FieldInitializeError(
+            return LuaErr.FieldInitializeError(
                 {
                     "message": "the embed was not initialized correctly, the following keys were not found: footer",
                     "ErrorUrl": "https://github.com/0x32767/0x102-discord-bot/blob/master/cogs/_luaErrors.py#L96",
@@ -68,7 +68,7 @@ async def create_embed(embed) -> Embed or tuple[str, str]:
         em.set_footer(text=embed["footer"])
 
     except KeyError:
-        return err.FieldInitializeError(
+        return LuaErr.FieldInitializeError(
             {
                 "message": "the embed was not initialized correctly, the following keys were not found: footer",
                 "ErrorUrl": "https://github.com/0x32767/0x102-discord-bot/blob/master/cogs/_luaErrors.py#L142",
@@ -79,15 +79,15 @@ async def create_embed(embed) -> Embed or tuple[str, str]:
 
 
 # this function will validate out embed and check for errors.
-async def check_embed(embed: Embed or any(inspect.getmembers(err)), ctx: Interaction) -> bool:
+async def check_embed(embed: Embed or any(inspect.getmembers(LuaErr)), ctx: Interaction) -> bool:
     # check if the embed inherits from the Embed class.
     if not issubclass(embed.__class__.__base__, Exception):
         return await ctx.response.send_message(embed=embed)
 
-    # I have added an embed attribute to the error classs so we can just send the embed.
-    for cls in inspect.getmembers(err):
-        if isinstance(embed, cls):
-            return await ctx.response.send_message(embed=cls.embed)
+    # I have added an embed attribute to the error class's so we can just send the embed.
+    for cls in inspect.getmembers(LuaErr):
+        if isinstance(type(embed), cls[1]):
+            return await ctx.response.send_message(embed=cls[1].embed)
 
 
 async def run(code: str, ctx: Interaction) -> None:
@@ -102,10 +102,10 @@ async def run(code: str, ctx: Interaction) -> None:
     # detremental to the server or bot.
     with open(".\\discord-lua-wrapper\\Interaction.lua", "r") as f:
         # iMaker is the function that creates the lua table. (it is abreviated to interactionMaker)
-        iMaker = lua.eval(f.read())
+        i_maker = lua.eval(f.read())
 
     func: callable = lua.eval(code)
-    match (res := func(iMaker(ctx)))["type"]:
+    match (res := func(i_maker(ctx)))["type"]:
         case "message":
             await ctx.response.send_message(res["object"]["content"])
 

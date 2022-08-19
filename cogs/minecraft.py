@@ -23,7 +23,7 @@ SOFTWARE.
 """
 
 
-from json import load as jsonLoads
+from json import load as json_loads
 from aiohttp import ClientSession
 from discord.ext import commands
 import cogs._helpCommandSetup
@@ -43,18 +43,17 @@ class MinecraftCog(commands.Cog):
     @cogs._helpCommandSetup.record()
     @app_commands.command(description="Gets some info about a minecraft block.")
     @app_commands.describe(id="The id of the block you want to learn about.")
-    async def mcidlookup(self: "MinecraftCog", ctx: Interaction, id: int) -> None:
+    async def mcidlookup(self: "MinecraftCog", ctx: Interaction, block_id: int) -> None:
         """
-        :param ctx: `ctx` param is passed by the discord.pt library when executed
-        :param id:  `id` param is of class integer that should correspond to a minecraft block id
-        :return:
+        ::param:: block_id
+        | block_id should be an integer, this is used to get the block id from a json file.
         """
         with open("assets/mcblocks.json") as f:
-            data: list[dict] = jsonLoads(f)
+            data: list[dict] = json_loads(f)
             del f
 
         for block in data:
-            if block["id"] != id:
+            if block["id"] != block_id:
                 continue
 
             em: Embed = Embed(
@@ -85,12 +84,15 @@ class MinecraftCog(commands.Cog):
     @app_commands.describe(name="Give information about a minecraft block.")
     async def mcnamelookup(self: "MinecraftCog", ctx: Interaction, *, name: str) -> None:
         """
-        :param ctx: The `ctx` is passed by default when the command is executed
-        :param name:  The name param is class string and is the display name for the minecraft item/block
-        :return:
+        :param: ctx
+         | The `ctx` is passed by default when the command is executed
+        :param: name
+         | The name param is class string and is the display name for the minecraft item/block
+        :return: None
+         | None
         """
         with open("assets/mcblocks.json") as f:
-            data: list[dict] = jsonLoads(f)
+            data: list[dict] = json_loads(f)
             del f
 
         for block in data:
@@ -116,12 +118,15 @@ class MinecraftCog(commands.Cog):
     @app_commands.describe(item="The name of the item e.g. `campfire`")
     async def mccraft(self: "MinecraftCog", ctx: Interaction, item: str) -> None:
         """
-        :param ctx: The `ctx` argument is passed by default when the command is executed
-        :param item: The `item` argument is the name of the item e.g "cooked_mutton"
-        :return:
+        :param: ctx
+         | The `ctx` argument is passed by default when the command is executed
+        :param: item
+         | The `item` argument is the name of the item e.g "cooked_mutton"
+        :return: None
+         | None
         """
-        with open("assets\mcrecipes.json") as f:
-            data: list[dict] = jsonLoads(f)
+        with open(r"assets\mcrecipes.json") as f:
+            data: dict[str, dict[str, ]] = json_loads(f)
             del f
 
         em: Embed = Embed(
@@ -139,14 +144,14 @@ class MinecraftCog(commands.Cog):
                 i += 1
 
         await ctx.response.send_message(embed=em)
-        del data, req
+        del data
 
     @cogs._helpCommandSetup.record()
     @app_commands.command(description="Gets some info about a minecraft entity drops.")
     @app_commands.describe(entity="The name of the item e.g. `campfire`")
     async def mcloot(self, ctx: Interaction, entity: str) -> None:
-        with open("assets\mcentityLoot.json") as f:
-            data: list[dict] = jsonLoads(f)
+        with open(r"assets\mcentityLoot.json") as f:
+            data: list[dict] = json_loads(f)
             del f
 
         for e in data:

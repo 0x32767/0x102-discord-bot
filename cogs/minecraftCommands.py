@@ -49,7 +49,7 @@ class MinecrtaftCog(commands.Cog):
         :return:
         """
         with open("assets/deathMessages.json", "r") as f:
-            data: dict[list[str]] = json.load(f)
+            data: dict[str, list[str]] = json.load(f)
 
         if player is None:
             await ctx.response.send_message(random.choice(data["self"]).replace("{player}", ctx.user.mention))

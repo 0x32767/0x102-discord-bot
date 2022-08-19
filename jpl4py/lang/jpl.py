@@ -20,6 +20,7 @@ class jplLexer(Lexer):
         "CSTR",
         "EQEQ",
         "LE",
+        "EQ",
         "GE",
         "GE",
         "PP",
@@ -28,7 +29,6 @@ class jplLexer(Lexer):
     ignore = "\t "
 
     literals = {
-        "=",
         "+",
         "-",
         "/",
@@ -59,6 +59,7 @@ class jplLexer(Lexer):
     LE = r"\<\="
     GE = r"\>\="
     PP = r"\+\+"
+    EQ = r"="
 
     @_(r"\d+")
     def NUMBER(self, t):
@@ -110,7 +111,10 @@ class jplParser(Parser):
     def expr(self, p):
         return [p[1], p.expr0, p.expr1]
 
-    @_('expr "&" expr', 'expr "|" expr')
+    @_(
+        'expr "&" expr',
+        'expr "|" expr',
+    )
     def expr(self, p):
         return [p[1], p.expr0, p.expr1]
 
@@ -159,7 +163,7 @@ class jplParser(Parser):
         except AttributeError:
             return ["cfn", p.NAME0, [], p.NAME1, p.CSTR]
 
-    @_('NAME "=" expr')
+    @_("NAME EQ expr")
     def var_dec(self, p):
         return ["vardec", p.NAME, p.expr]
 
@@ -178,4 +182,7 @@ if __name__ == "__main__":
 
     while True:
         tokens = lexer.tokenize(input("> "))
+        for t in tokens:
+            print(t)
+
         pprint(parser.parse(tokens))

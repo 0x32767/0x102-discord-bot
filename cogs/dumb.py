@@ -31,7 +31,7 @@ commands.
 """
 
 from discord import Interaction, app_commands, Object, Message, User, Embed
-from usefull.textDecorations import progressBar
+from usefull.textDecorations import progress_bar
 from hashlib import sha256, sha1, md5
 from discord.ext import commands
 import cogs._helpCommandSetup
@@ -55,7 +55,9 @@ class DumbCommandsCog(commands.Cog):
     @app_commands.describe(user="who's durp-score you want to see")
     async def durpscore(self: "DumbCommandsCog", ctx: Interaction, user: User) -> None | Message:
         if user:
-            await ctx.send(f"{user.mention} has a durp-score of `{user.id % 100}`")
+            return await ctx.response.send_message(f"{user.mention} has a durp-score of `{user.id % 100}`")
+
+        return None
 
     @cogs._helpCommandSetup.record()
     @app_commands.command(description="get a users discord token")
@@ -64,13 +66,14 @@ class DumbCommandsCog(commands.Cog):
         with open("D:\\programing\\0x102-discord-bot\\assets\\hackMessages.json", "r") as f:
             messages: dict[str, list[str]] = load(f)
 
-        dec: Generator[str] = progressBar(messages["updates"], messages["errors"])
+        dec: Generator[str] = progress_bar(messages["updates"], messages["errors"])
         msg: Message = await ctx.response.send_message()
 
-        for msg in dec:
-            await msg.edit(content=msg)
+        for msg_str in dec:
+            await msg.edit(content=msg_str)
             await asyncio.sleep(0.1)
-        msg.edit(content=f"{user.mention} has a token of `{await self._dummyHash(user)}`")
+
+        await msg.edit(content=f"{user.mention} has a token of `{await self._dummyHash(user)}`")
 
     @cogs._helpCommandSetup.record()
     @app_commands.command(description="click the link")
@@ -82,8 +85,8 @@ class DumbCommandsCog(commands.Cog):
 
     async def _getRickRoll(self: "DumbCommandsCog") -> Embed:
         with open("D:\\programing\\0x102-discord-bot\\assets\\rickRolls.json", "r") as f:
-            rickRolls: list[dict[str, str]] = load(f)
+            rick_rolls: list[dict[str, str]] = load(f)
 
-        rrInfo: dict[str, str] = random.choice(rickRolls)
+        rr_info: dict[str, str] = random.choice(rick_rolls)
 
-        return Embed(title=rrInfo["Excuse"], url=rrInfo["Link"])
+        return Embed(title=rr_info["Excuse"], url=rr_info["Link"])

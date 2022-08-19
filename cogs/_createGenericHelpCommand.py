@@ -23,10 +23,10 @@ SOFTWARE.
 """
 
 
-def createFile(filename: str, commands: list) -> None:
+async def create_file(filename: str, commands: list) -> None:
     with open(filename, "w") as f:
-        f.write(createDocs(commands))
+        f.write(await create_docs(commands))
 
 
-def createDocs(commands: list) -> str:
+async def create_docs(commands: list) -> str:
     return "".join(f"""## /{c["f"].name}\n\n> Usage:\n\n`{c["u"]}`\n\n{c["f"].description}\n""" for c in commands)
