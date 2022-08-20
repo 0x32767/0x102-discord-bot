@@ -23,12 +23,12 @@ SOFTWARE.
 """
 
 
-import cogs._helpCommandSetup
+from discord import Interaction, app_commands, Object, Member
+from cogs._help_command_setup import record
 from discord.ext import commands
 from cache import cacheGet
 import random
 import json
-from discord import Interaction, app_commands, Object, Member
 
 
 async def setup(bot: commands.Bot) -> None:
@@ -39,13 +39,15 @@ class MinecrtaftCog(commands.Cog):
     def __init__(self: "MinecrtaftCog", bot: commands.Bot) -> None:
         self.bot: commands.Bot = bot
 
-    @cogs._helpCommandSetup.record()
+    @record()
     @app_commands.command(description="Kill a user or yourself.")
     @app_commands.describe(player="The member you want to kill.")
     async def kill(self: "MinecrtaftCog", ctx: Interaction, player: Member = None) -> None:
         """
-        :param ctx: The ctx param is passes by the discord.py libruary
-        :param player: The player that is killed
+        :param: ctx
+         | The ctx param is passes by the discord.py libruary
+        :param: player
+         | The player that is killed
         :return:
         """
         with open("assets/deathMessages.json", "r") as f:

@@ -93,13 +93,13 @@ class EncryptionDropdown(Select):
                 msg = await self.create_ceaser_cipher()
 
             case "binary encode":
-                msg = await self.createBase2Encode()
+                msg = await self.create_base2_encode()
 
             case "hexadecimal encode":
-                msg = await self.createHexEncode()
+                msg = await self.create_hex_encode()
 
             case "base32 encode":
-                msg = await self.createBase32Encode()
+                msg = await self.create_base32_encode()
 
         await ctx.response.send_message(embed=Embed(title="Encrypted Message", description=msg), ephemeral=True)
 

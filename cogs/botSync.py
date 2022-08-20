@@ -1,7 +1,7 @@
-from discord import Interaction, app_commands, Object, Embed
+from discord import Interaction, app_commands, Object
 from cogs._botSync import BotSyncUi
 from discord.ext import commands
-import cogs._helpCommandSetup
+from cogs._help_command_setup import record
 from cache import cacheGet
 
 
@@ -13,7 +13,7 @@ class BotSyncCog(commands.Cog):
     def __init__(self: "BotSyncCog", bot: commands.Bot) -> None:
         self.bot: commands.Bot = bot
 
-    @cogs._helpCommandSetup.record()
+    @record()
     @app_commands.command(description="edit or update your server settings")
     async def settings(self: "BotSyncCog", ctx: Interaction):
         await ctx.response.send_message(BotSyncUi(self.bot.httpx))

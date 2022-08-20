@@ -1,11 +1,9 @@
-from cogs._createGenericHelpCommand import createFile
+from cogs._create_generic_help_command import create_file
 from cache import cacheSet, cacheGet
 from configparser import ConfigParser
 from rich.console import Console
 from discord.ext import commands
 from rich.progress import track
-from discord import Interaction
-from aiosqlite import connect
 from httpx import AsyncClient
 from os import listdir
 import discord
@@ -14,7 +12,12 @@ import discord
 intents: discord.Intents = discord.Intents.default()
 intents.members = True
 
-bot: commands.Bot = commands.Bot(command_prefix="~", intents=intents, application_id=937461852282167337)
+bot: commands.Bot = commands.Bot(
+    command_prefix="~",
+    intents=intents,
+    application_id=937461852282167337
+)
+
 setattr(bot, "httpx", AsyncClient())
 
 console: Console = Console()
@@ -61,13 +64,13 @@ async def on_ready():
 
     console.print(f"[green]Logged in as: [/green][bright_yellow][underline]{bot.user.name}[/underline][/bright_yellow]")
 
-    await createHelpCommand()
+    await create_help_command()
 
 
-async def createHelpCommand() -> None:
-    from cogs._helpCommandSetup import recorded_commands
+async def create_help_command() -> None:
+    from cogs._help_command_setup import recorded_commands
 
-    createFile(".\\docs\\generic-help-cmd.md", recorded_commands)
+    await create_file(".\\docs\\generic-help-cmd.md", recorded_commands)
 
 
 if __name__ == "__main__":

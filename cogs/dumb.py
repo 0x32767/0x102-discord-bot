@@ -32,9 +32,9 @@ commands.
 
 from discord import Interaction, app_commands, Object, Message, User, Embed
 from usefull.textDecorations import progress_bar
+from cogs._help_command_setup import record
 from hashlib import sha256, sha1, md5
 from discord.ext import commands
-import cogs._helpCommandSetup
 from typing import Generator
 from cache import cacheGet
 from json import load
@@ -50,7 +50,7 @@ class DumbCommandsCog(commands.Cog):
     def __init__(self: "DumbCommandsCog", bot: commands.Bot) -> None:
         self.bot: commands.Bot = bot
 
-    @cogs._helpCommandSetup.record()
+    @record()
     @app_commands.command(description="shows the durp-score of someone")
     @app_commands.describe(user="who's durp-score you want to see")
     async def durpscore(self: "DumbCommandsCog", ctx: Interaction, user: User) -> None | Message:
@@ -59,7 +59,7 @@ class DumbCommandsCog(commands.Cog):
 
         return None
 
-    @cogs._helpCommandSetup.record()
+    @record()
     @app_commands.command(description="get a users discord token")
     @app_commands.describe(user="who's token you want to see")
     async def hack(self: "DumbCommandsCog", ctx: Interaction, user: User) -> None:
@@ -73,17 +73,21 @@ class DumbCommandsCog(commands.Cog):
             await msg.edit(content=msg_str)
             await asyncio.sleep(0.1)
 
-        await msg.edit(content=f"{user.mention} has a token of `{await self._dummyHash(user)}`")
+        await msg.edit(content=f"{user.mention} has a token of `{await self._dummy_hash(user)}`")
 
-    @cogs._helpCommandSetup.record()
+    @record()
     @app_commands.command(description="click the link")
     async def rr(self: "DumbCommandsCog", ctx: Interaction) -> Embed:
-        return await ctx.response.send_message(embed=await self._getRickRoll())
+        return await ctx.response.send_message(embed=await self._get_rick_roll())
 
-    async def _dummyHash(self: "DumbCommandsCog", user: User) -> str:
-        return f'{sha256(user.id.to_bytes(8, "big")).hexdigest()}.{sha1(user.id.to_bytes(8, "big")).hexdigest()}.{md5(user.id.to_bytes(8, "big")).hexdigest()}'
+    @staticmethod
+    async def _dummy_hash(user: User) -> str:
+        return sha256(user.id.to_bytes(8, "big")).hexdigest() + "." +\
+               sha1(user.id.to_bytes(8, "big")).hexdigest() + "." +\
+               md5(user.id.to_bytes(8, "big")).hexdigest()
 
-    async def _getRickRoll(self: "DumbCommandsCog") -> Embed:
+    @staticmethod
+    async def _get_rick_roll() -> Embed:
         with open("D:\\programing\\0x102-discord-bot\\assets\\rickRolls.json", "r") as f:
             rick_rolls: list[dict[str, str]] = load(f)
 

@@ -24,8 +24,8 @@ SOFTWARE.
 
 
 from discord import Interaction, app_commands, Object, Embed
+from cogs._help_command_setup import record
 from discord.ext import commands
-import cogs._helpCommandSetup
 from cache import cacheGet
 
 
@@ -37,7 +37,7 @@ class GithubApiCog(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
         self.bot: commands.Bot = bot
 
-    @cogs._helpCommandSetup.record()
+    @record()
     @app_commands.command(description="Gets some info about a github user.")
     @app_commands.describe(username="Username of the user.")
     async def getuser(self: "GithubApiCog", ctx: Interaction, *, username: str) -> None:
@@ -79,7 +79,7 @@ class GithubApiCog(commands.Cog):
 
         del data, req
 
-    @cogs._helpCommandSetup.record()
+    @record()
     @app_commands.command(description="Gets some info about a users github repos.")
     @app_commands.describe(username="Username of the user who`s repos you want to get.")
     async def getrepos(self: "GithubApiCog", ctx: Interaction, *, username: str) -> None:
@@ -100,13 +100,13 @@ class GithubApiCog(commands.Cog):
 
         del data, req
 
-    @cogs._helpCommandSetup.record()
+    @record()
     @app_commands.command(description="Gets some info about the latest bot update.")
     async def getlatestupdate(self: "GithubApiCog", ctx: Interaction) -> None:
         req = await self.bot.httpx.get("https://api.github.com/repos/0x32767/0x102-discord-bot/commits/master/")
         data = await req.json()
 
-        em: Embed = Embed(title=f"{self.bot.user.name}'s latest update", description="get the bot's latest updates")
+        em: Embed = Embed(title=f"{self.bot.user.name}'s latest update", description="get the bots latest updates")
         em.add_field(name="Latest update date", value=data["commit"]["author"]["date"])
         em.add_field(name="Latest update message", value=data["commit"]["message"])
         em.add_field(name="Latest update url", value=data["html_url"])

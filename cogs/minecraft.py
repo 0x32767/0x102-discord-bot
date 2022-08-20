@@ -23,12 +23,12 @@ SOFTWARE.
 """
 
 
+from discord import Interaction, app_commands, Object, Embed
+from cogs._help_command_setup import record
 from json import load as json_loads
 from aiohttp import ClientSession
 from discord.ext import commands
-import cogs._helpCommandSetup
 from cache import cacheGet
-from discord import Interaction, app_commands, Object, Embed
 
 
 async def setup(bot: commands.Bot) -> None:
@@ -40,7 +40,7 @@ class MinecraftCog(commands.Cog):
         self.cs: ClientSession = ClientSession()
         self.bot: commands.Bot = bot
 
-    @cogs._helpCommandSetup.record()
+    @record()
     @app_commands.command(description="Gets some info about a minecraft block.")
     @app_commands.describe(id="The id of the block you want to learn about.")
     async def mcidlookup(self: "MinecraftCog", ctx: Interaction, block_id: int) -> None:
@@ -79,7 +79,7 @@ class MinecraftCog(commands.Cog):
 
         del data
 
-    @cogs._helpCommandSetup.record()
+    @record()
     @app_commands.command(description="Gets some info about a minecraft block.")
     @app_commands.describe(name="Give information about a minecraft block.")
     async def mcnamelookup(self: "MinecraftCog", ctx: Interaction, *, name: str) -> None:
@@ -113,7 +113,7 @@ class MinecraftCog(commands.Cog):
 
             return await ctx.response.send_message(embed=em)
 
-    @cogs._helpCommandSetup.record()
+    @record()
     @app_commands.command(description="Gets some info about a minecraft crafting recipe.")
     @app_commands.describe(item="The name of the item e.g. `campfire`")
     async def mccraft(self: "MinecraftCog", ctx: Interaction, item: str) -> None:
@@ -146,7 +146,7 @@ class MinecraftCog(commands.Cog):
         await ctx.response.send_message(embed=em)
         del data
 
-    @cogs._helpCommandSetup.record()
+    @record()
     @app_commands.command(description="Gets some info about a minecraft entity drops.")
     @app_commands.describe(entity="The name of the item e.g. `campfire`")
     async def mcloot(self, ctx: Interaction, entity: str) -> None:

@@ -25,7 +25,7 @@ SOFTWARE.
 
 from cogs._encryption import EncryptionView
 from discord.ext import commands
-import cogs._helpCommandSetup
+from cogs._help_command_setup import record
 from cache import cacheGet
 from discord import (
     Object,
@@ -42,7 +42,7 @@ class EncryptCog(commands.Cog):
     def __init__(self: "EncryptCog", bot: commands.Bot) -> None:
         self.bot: commands.Bot = bot
 
-    @cogs._helpCommandSetup.record()
+    @record()
     @app_commands.describe(msg="The message you want to encrypt.")
     @app_commands.command(description="Encrypts a message.")
     async def encrypt(self: "EncryptCog", ctx: Interaction, *, msg: str) -> None:

@@ -1,6 +1,6 @@
 from discord import Interaction, app_commands, Object, User
+from cogs._help_command_setup import record
 from discord.ext import commands
-import cogs._helpCommandSetup
 from aiosqlite import connect
 from cache import cacheGet
 
@@ -13,7 +13,7 @@ class ReputationCog(commands.Cog):
     def __init__(self: "ReputationCog", bot: commands.Bot) -> None:
         self.bot: commands.Bot = bot
 
-    @cogs._helpCommandSetup.record()
+    @record()
     @app_commands.command(description="see how much reputation you have")
     async def reputation(self: "ReputationCog", ctx: Interaction):
         async with connect("discordbotdb.db") as db:
@@ -26,7 +26,7 @@ class ReputationCog(commands.Cog):
 
                 await ctx.response.send_message(f"you have {res[0]} reputation")
 
-    @cogs._helpCommandSetup.record()
+    @record()
     @app_commands.command(description="give someone reputation")
     @app_commands.describe(user="Who you want to give reputation to")
     @app_commands.describe(amount="how much reputation you want to give")
@@ -41,4 +41,6 @@ class ReputationCog(commands.Cog):
                     return
 
                 await db.execute("UPDATE users SET reputation = ? WHERE id = ?", (res[0] + amount, user.id))
-                await ctx.response.send_message(f"you have given {user.name} {amount} reputation, and they now have {res[0] + amount}")
+                await ctx.response.send_message(
+                    f"you have given {user.name} {amount} reputation, and they now have {res[0] + amount}"
+                )

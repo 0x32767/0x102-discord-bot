@@ -1,10 +1,8 @@
-from discord import Interaction, app_commands, Object, Embed
+from discord import Interaction, app_commands, Object
+from cogs._help_command_setup import record
 from discord.ext import commands
-import cogs._helpCommandSetup
 from httpx import Response
-from pyquery import PyQuery
 from cache import cacheGet
-from lxml import etree
 
 
 async def setup(bot: commands.Bot) -> None:
@@ -15,7 +13,7 @@ class StackOverflowCog(commands.Cog):
     def __init__(self: "StackOverflowCog", bot: commands.Bot) -> None:
         self.bot: commands.Bot = bot
 
-    @cogs._helpCommandSetup.record()
+    @record()
     @app_commands.command(description="get a stack overflow answer")
     async def stackoverflow(self: "StackOverflowCog", ctx: Interaction, *, question: str) -> None:
         # TODO: so something with the question

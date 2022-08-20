@@ -23,10 +23,10 @@ SOFTWARE.
 """
 
 
-import cogs._helpCommandSetup
+from discord import Embed, Interaction, app_commands, Object
+from cogs._help_command_setup import record
 from discord.ext import commands
 from cache import cacheGet
-from discord import Embed, Interaction, app_commands, Object
 
 
 async def setup(bot: commands.Bot) -> None:
@@ -37,7 +37,7 @@ class HelpCommand(commands.Cog):
     def __init__(self: "HelpCommand", bot: commands.Bot) -> None:
         self.bot: commands.Bot = bot
 
-    @cogs._helpCommandSetup.record()
+    @record()
     @app_commands.command(description="gives the link to the help command")
     async def help(self: "HelpCommand", ctx: Interaction) -> None:
         await ctx.response.send_message(

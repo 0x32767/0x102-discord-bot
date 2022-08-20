@@ -23,8 +23,8 @@ SOFTWARE.
 """
 
 
+from cogs._help_command_setup import record
 from discord.ext import commands
-import cogs._helpCommandSetup
 from hashlib import sha256
 from cache import cacheGet
 from cogs._lua import run
@@ -46,7 +46,7 @@ class LuaCog(commands.Cog):
     def __init__(self: "LuaCog", bot: commands.Bot) -> None:
         self.bot = bot
 
-    @cogs._helpCommandSetup.record()
+    @record()
     @app_commands.command(description="Runs a Lua command.")
     @app_commands.describe(name="The name of the command you want to run.")
     async def runcommand(self: "LuaCog", ctx: Interaction, name: str = "echo") -> None:
@@ -59,7 +59,7 @@ class LuaCog(commands.Cog):
                 result = await curr.fetchone()
                 await run(result[0], ctx)
 
-    @cogs._helpCommandSetup.record()
+    @record()
     @app_commands.command(description="Lets you see the code of a command.")
     @app_commands.describe(name="The name of the command you want to inspect.")
     async def inspectcommand(self: "LuaCog", ctx: Interaction, name: str = "echo") -> None:
@@ -69,7 +69,7 @@ class LuaCog(commands.Cog):
                 result = await curr.fetchall()
                 return await ctx.response.send_message(f"```lua\n{result[0][0]}\n```")
 
-    @cogs._helpCommandSetup.record()
+    @record()
     @app_commands.command(description="Creates a new command.")
     @app_commands.describe(name="The name of the command you want to create.")
     async def newcommand(self: "LuaCog", ctx: Interaction, name: str) -> None:

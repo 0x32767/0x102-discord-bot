@@ -23,11 +23,11 @@ SOFTWARE.
 """
 
 
-import cogs._helpCommandSetup
+from discord import Interaction, app_commands, Object
+from cogs._help_command_setup import record
 from discord.ext import commands
 from cache import cacheGet
 import wikipedia as wiki
-from discord import Interaction, app_commands, Object
 
 
 async def setup(bot: commands.Bot) -> None:
@@ -38,7 +38,7 @@ class WikiCog(commands.Cog):
     def __init__(self: "WikiCog", bot: commands.Bot) -> None:
         self.bot: commands.Bot = bot
 
-    @cogs._helpCommandSetup.record()
+    @record()
     @app_commands.command(description="Searches Wikipedia for a given term.")
     @app_commands.describe(query="The query you want to search for.")
     async def wiki(self: "WikiCog", ctx: Interaction, *, query: str) -> None:

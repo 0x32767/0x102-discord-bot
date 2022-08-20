@@ -23,12 +23,12 @@ SOFTWARE.
 """
 
 
-from ._triviaView import TriviaView
+from discord import Embed, Interaction, app_commands, Object
+from cogs._help_command_setup import record
+from cogs._triviaView import TriviaView
 from aiohttp import ClientSession
 from discord.ext import commands
-import cogs._helpCommandSetup
 from cache import cacheGet
-from discord import Embed, Interaction, app_commands, Object
 
 
 async def setup(bot: commands.Bot) -> None:
@@ -40,7 +40,7 @@ class TriviaCog(commands.Cog):
         self.cs: ClientSession = ClientSession()
         self.bot: commands.Bot = bot
 
-    @cogs._helpCommandSetup.record()
+    @record()
     @app_commands.command(name="trivia", description="starts a trivia game")
     async def trivia(self: "TriviaCog", ctx: Interaction) -> None:
         """

@@ -23,9 +23,9 @@ SOFTWARE.
 """
 
 
-import cogs._helpCommandSetup
-from discord.ext import commands
 from discord import Interaction, app_commands, Object, Embed, Color
+from cogs._help_command_setup import record
+from discord.ext import commands
 from cache import cacheGet
 
 
@@ -51,7 +51,7 @@ class PoleCog(commands.Cog):
             }
         """
 
-    @cogs._helpCommandSetup.record()
+    @record()
     @app_commands.command(name="newpoll", description="Creates a new poll.")
     @app_commands.describe(question="The question you want to ask.")
     async def new_poll(self: "PoleCog", ctx: Interaction, *, question: str) -> None:
@@ -81,7 +81,7 @@ class PoleCog(commands.Cog):
             ).add_field(name="vote", value="`/vote yes` or `/vote no`")
         )
 
-    @cogs._helpCommandSetup.record()
+    @record()
     @app_commands.command(description="Votes for the poll.")
     @app_commands.describe(vote="true: yes, false: no")
     async def vote(self: "PoleCog", ctx: Interaction, vote: bool) -> None:
@@ -106,7 +106,7 @@ class PoleCog(commands.Cog):
 
         await ctx.response.send_message("Your vote has been registered.", ephemeral=True)
 
-    @cogs._helpCommandSetup.record()
+    @record()
     @app_commands.command(name="closepoll", description="Closes the poll.")
     @app_commands.describe(show="show the results of the poll")
     async def close_poll(self, ctx: Interaction, show: bool = False) -> None:
@@ -136,7 +136,7 @@ class PoleCog(commands.Cog):
             ephemeral=show,
         )
 
-    @cogs._helpCommandSetup.record()
+    @record()
     @app_commands.command(name="showpoll", description="Shows the results of the poll.")
     @app_commands.describe(public="do you want the poll to be public (can be seen by everyone)")
     async def show_poll(self, ctx: Interaction, public: bool = False) -> None:

@@ -24,9 +24,9 @@ SOFTWARE.
 
 
 from discord import Interaction, app_commands, Object, Embed, Message, User
+from cogs._help_command_setup import record
 from aiosqlite import connect, Connection
 from discord.ext import commands
-import cogs._helpCommandSetup
 from cache import cacheGet
 
 
@@ -46,46 +46,46 @@ class LevelingCog(commands.Cog):
 
         await self._update(message.author)
 
-    async def _incrementLevel(self: "LevelingCog", user: User) -> None:
+    async def _increment_level(self: "LevelingCog", user: User) -> None:
         async with self.con.cursor() as cur:
             await cur.execute("UPDATE leveling SET level = level + 1 WHERE id = ?", (user.id,))
             await self.con.commit()
 
-    async def _incrementXP(self: "LevelingCog", user: User) -> None:
+    async def _increment_xp(self: "LevelingCog", user: User) -> None:
         async with self.con.cursor() as cur:
             await cur.execute("UPDATE leveling SET xp = xp + 5 WHERE id = ?", (user.id,))
             await self.con.commit()
 
-    async def _getLevel(self: "LevelingCog", user: User) -> int:
+    async def _get_level(self: "LevelingCog", user: User) -> int:
         async with self.con.cursor() as cur:
             await cur.execute("SELECT level FROM leveling WHERE id = ?", (user.id,))
             return await cur.fetchone()[0]
 
-    async def _getXP(self: "LevelingCog", user: User) -> int:
+    async def _get_xp(self: "LevelingCog", user: User) -> int:
         async with self.con.cursor() as cur:
             await cur.execute("SELECT xp FROM leveling WHERE id = ?", (user.id,))
             return await cur.fetchone()[0]
 
-    async def _resetXP(self: "LevelingCog", user: User) -> None:
+    async def _reset_xp(self: "LevelingCog", user: User) -> None:
         async with self.con.cursor() as cur:
             await cur.execute("UPDATE leveling SET xp = 0 WHERE id = ?", (user.id,))
             await self.con.commit()
 
     async def _update(self: "LevelingCog", user: User) -> None:
-        level: int = await self._getLevel(user)
-        xp: int = await self._getXP(user)
+        level: int = await self._get_level(user)
+        xp: int = await self._get_xp(user)
 
         if xp == level * 5:
-            await self._incrementLevel(user)
-            await self._resetXP(user)
+            await self._increment_level(user)
+            await self._reset_xp(user)
 
-        await self._incrementXP(user)
+        await self._increment_xp(user)
 
-    @cogs._helpCommandSetup.record()
+    @record()
     @app_commands.command(description="you can see your current level and xp")
     async def level(self: "LevelingCog", ctx: Interaction):
-        level: int = await self._getLevel(ctx.user)
-        xp: int = await self._getXP(ctx.user)
+        level: int = await self._get_level(ctx.user)
+        xp: int = await self._get_xp(ctx.user)
 
         await ctx.response.send_message(
             embed=Embed(
@@ -97,17 +97,24 @@ class LevelingCog(commands.Cog):
             .add_field(name="XP", value=xp, inline=True)
         )
 
-    @cogs._helpCommandSetup.record()
+    @record()
     @app_commands.command(name="levelup", description="level up a user")
     @app_commands.describe(user="the user to level up")
     @app_commands.describe(amount="how many levels to level up the user")
     @app_commands.describe(reason="the reason for leveling up the user")
-    async def level_up(self: "LevelingCog", ctx: Interaction, user: User, amount: int = 1, *, reason: str = "no reason"):
+    async def level_up(
+            self: "LevelingCog",
+            ctx: Interaction,
+            user: User,
+            amount: int = 1,
+            *,
+            reason: str = "no reason"
+    ) -> Message:
         for _ in range(amount):
-            await self._incrementLevel(user)
+            await self._increment_level(user)
 
-        await ctx.response.send_message(
+        return await ctx.response.send_message(
             embed=Embed(title=f"{user.name} has leveled up", description=f"{reason}", color=0x00FF00).add_field(
-                name="Level", value=await self._getLevel(user), inline=True
+                name="Level", value=await self._get_level(user), inline=True
             )
         )

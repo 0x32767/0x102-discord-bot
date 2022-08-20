@@ -22,11 +22,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import cogs._helpCommandSetup
+from discord import Embed, Interaction, app_commands, Object
+from cogs._help_command_setup import record
 from discord.ext import commands
 from cache import cacheGet
 from typing import List
-from discord import Embed, Interaction, app_commands, Object
 
 
 async def setup(bot: commands.Bot) -> None:
@@ -65,7 +65,7 @@ class DecryptCog(commands.Cog):
             "z",
         ]
 
-    @cogs._helpCommandSetup.record()
+    @record()
     @app_commands.command(name="decrypt", description="This command will decrypt a message.")
     @app_commands.describe(message="The message you want the bot to decrypt.")
     async def decrypt(self: "DecryptCog", ctx: Interaction, *, message: str) -> None:
@@ -100,7 +100,8 @@ class DecryptCog(commands.Cog):
             self.chars[self.chars.index(char) - offset] if char in self.chars else char for char in message
         )
 
-    async def crack_hex_encode(self: "DecryptCog", message: str) -> str:
+    @staticmethod
+    async def crack_hex_encode(message: str) -> str:
         """
         | This function will return one string because the hex
         | is the ascii character of the string in hexadecimal.
