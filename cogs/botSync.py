@@ -16,4 +16,12 @@ class BotSyncCog(commands.Cog):
     @record()
     @app_commands.command(description="edit or update your server settings")
     async def settings(self: "BotSyncCog", ctx: Interaction):
+        """
+        ::param:: ctx
+         | type: Interaction
+         | The ctx parameter is passed by discord.py and does not need to be
+         | edited, normally people use `interaction` but I use ctx because
+         | it is faster to type, and I could not be bothered to change all
+         | the `ctx` s in my code to `interaction`.
+        """
         await ctx.response.send_message(BotSyncUi(self.bot.httpx))

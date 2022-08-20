@@ -28,6 +28,18 @@ from discord.ext import commands
 from cache import cacheGet
 from typing import List
 
+"""
+::The decrypt cog file::
+
+when a message is encrypted users can decrypt them with the `decrypt command`, this
+decrypts the message and makes it make sense to us.
+
+::status::
+
+So overall the file does not need to be edited, this is because it covers the
+main forms of encryption methods tha the bot supports.
+"""
+
 
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(DecryptCog(bot), guilds=[Object(id=cacheGet("id"))])
@@ -71,7 +83,11 @@ class DecryptCog(commands.Cog):
     async def decrypt(self: "DecryptCog", ctx: Interaction, *, message: str) -> None:
         embeds: List[Embed] = []
 
-        # ceaser cipher cracking
+        """
+         | The code below is is used to get all the possible
+         | combinations of a Ceaser cipher and then adds it to a
+         | nicely formatted message.
+        """
         em: Embed = Embed(title="Caesar Cipher", description=f"{message}", color=0x00FF00)
         for i in range(1, 26):
             em.add_field(
@@ -81,7 +97,7 @@ class DecryptCog(commands.Cog):
             )
             embeds.append(em)
 
-        # hexadecimal encoding
+        """ There is only one possible outcome for a hex encode so we dont need to do anything complex """
         embeds.append(
             Embed(
                 title=f"Decrypted Message for hexadecimal encoding",
@@ -91,6 +107,11 @@ class DecryptCog(commands.Cog):
         )
 
         await ctx.response.send_message(embeds=embeds, ephemeral=True)
+
+    """
+    | The functions below crack ciphers and encodings, these should
+    | bot be tampered with, and probably wont need to be.
+    """
 
     async def crack_cieser_cipher(self: "DecryptCog", message: str, offset: int) -> str:
         """

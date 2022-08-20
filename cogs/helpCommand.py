@@ -40,6 +40,14 @@ class HelpCommand(commands.Cog):
     @record()
     @app_commands.command(description="gives the link to the help command")
     async def help(self: "HelpCommand", ctx: Interaction) -> None:
+        """
+         ::param:: ctx
+          | The ctx param is passed by default when running a command.
+
+         ::use::
+
+        This command sends the link to the help command on github.
+        """
         await ctx.response.send_message(
             embed=Embed(
                 title="Help",

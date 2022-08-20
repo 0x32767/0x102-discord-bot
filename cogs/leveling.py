@@ -30,6 +30,18 @@ from discord.ext import commands
 from cache import cacheGet
 
 
+"""
+::leveling.py file::
+
+My bot will use leveling. This would reward a user for sending messages. Users can
+be leveled up by a server admin or can see their own level.
+
+::status::
+
+The file is also stable and does not need to be edited.
+"""
+
+
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(LevelingCog(bot), guilds=[Object(id=cacheGet("id"))])
 

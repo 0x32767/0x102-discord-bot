@@ -46,4 +46,25 @@ class EncryptCog(commands.Cog):
     @app_commands.describe(msg="The message you want to encrypt.")
     @app_commands.command(description="Encrypts a message.")
     async def encrypt(self: "EncryptCog", ctx: Interaction, *, msg: str) -> None:
+        """
+        ::param:: ctx
+         | type: Interaction
+         | This is passed by default by the discord.py bot and does not really need
+         | to be changed.
+         |
+        ::param:: msg
+         | type: str
+         | This is the message that the user wants to encrypt, there is an `*`
+         | before the msg so that discord.py knows to give all the words that the
+         | user types into the message parameter. If the `*` was not there it we
+         | would only get the first word.
+         |
+
+        +----------+--------------------+----------------------------+
+        |          | the actual message | what the bot would give us |
+        +----------+--------------------+----------------------------+
+        | with `*` | hello world        | "hello world"              |
+        | no '*'   | hello world        | "hello"                    |
+        +----------+--------------------+----------------------------+
+        """
         await ctx.response.send_message(view=EncryptionView(msg), ephemeral=True)

@@ -29,6 +29,18 @@ from discord.ext import commands
 from cache import cacheGet
 
 
+"""
+::githubApi.py file::
+
+This file interacts with the github api to get some info about a github user
+and display it to the user.
+
+::status::
+
+This file is also quite stable and will also not need to be edited.
+"""
+
+
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(GithubApiCog(bot), guilds=[Object(id=cacheGet("id"))])
 
@@ -42,9 +54,15 @@ class GithubApiCog(commands.Cog):
     @app_commands.describe(username="Username of the user.")
     async def getuser(self: "GithubApiCog", ctx: Interaction, *, username: str) -> None:
         """
-        :param ctx: The `ctx` is passed by default when the command is executed
-        :param username: The `username` is the name of the user
-        :return:
+        :param: ctx
+         | type: Interaction
+         | The `ctx` is passed by default when the command is executed
+         |
+        :param: username
+         | type: str
+         | The `username` is the name of the user
+        :return: None
+         | None
         """
         req = await self.bot.httpx.get(f"https://api.github.com/users/{username}")
         data = await req.json()

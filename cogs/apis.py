@@ -35,6 +35,7 @@ async def setup(bot: commands.Bot) -> None:
 
 
 class APICog(commands.Cog):
+    # TODO: make a more generic form for the ui's
     def __init__(self: "APICog", bot: commands.Bot) -> None:
         self.cs: ClientSession = ClientSession()
         self.bot: commands.Bot = bot

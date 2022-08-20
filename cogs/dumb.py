@@ -42,6 +42,23 @@ import asyncio
 import random
 
 
+"""
+::dump.py file::
+
+The dumb.py file is a file that has some DankMemer commands, these commands don't
+really add a lot to my bot but they are thing that seemed to make DankMemer more
+popular so maby it will work for my bot.
+
+::status::
+
+The dumb.py file has not changed much in the way of usefulness but will be updated
+every once in a while.
+
+::todos::
+"""
+# TODO: finish adding dank memer commands
+
+
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(DumbCommandsCog(bot), guilds=[Object(id=cacheGet("id"))])
 
@@ -57,6 +74,7 @@ class DumbCommandsCog(commands.Cog):
         if user:
             return await ctx.response.send_message(f"{user.mention} has a durp-score of `{user.id % 100}`")
 
+        # TODO: finish this command
         return None
 
     @record()

@@ -3,10 +3,6 @@ from sly import Lexer, Parser
 from pprint import pprint
 
 
-def _():
-    ...
-
-
 class jplLexer(Lexer):
     tokens = {
         "NAME",
