@@ -22,7 +22,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-import cogs._luaErrors as LuaErr
+import cogs.custom_commands._luaErrors as LuaErr
 from discord import Interaction, Embed
 from lupa import LuaRuntime
 import inspect

@@ -25,7 +25,7 @@ SOFTWARE.
 
 from discord import Embed, Interaction, app_commands, Object
 from cogs._help_command_setup import record
-from cogs._triviaView import TriviaView
+from cogs.ui._triviaView import TriviaView
 from aiohttp import ClientSession
 from discord.ext import commands
 from cache import cacheGet

@@ -24,7 +24,7 @@ SOFTWARE.
 
 
 from discord import Interaction, app_commands, Object
-from cogs._truthOrDare import TruthOrDareUi
+from cogs.ui._truthOrDare import TruthOrDareUi
 from cogs._help_command_setup import record
 from discord.ext import commands
 from cache import cacheGet

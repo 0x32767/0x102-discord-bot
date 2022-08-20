@@ -1,5 +1,5 @@
 from discord import Interaction, app_commands, Object
-from cogs._botSync import BotSyncUi
+from cogs.ui._botSync import BotSyncUi
 from discord.ext import commands
 from cogs._help_command_setup import record
 from cache import cacheGet

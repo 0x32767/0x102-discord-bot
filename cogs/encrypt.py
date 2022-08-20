@@ -23,7 +23,7 @@ SOFTWARE.
 """
 
 
-from cogs._encryption import EncryptionView
+from cogs.ui._encryption import EncryptionView
 from discord.ext import commands
 from cogs._help_command_setup import record
 from cache import cacheGet

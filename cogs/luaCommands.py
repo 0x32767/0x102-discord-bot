@@ -27,7 +27,7 @@ from cogs._help_command_setup import record
 from discord.ext import commands
 from hashlib import sha256
 from cache import cacheGet
-from cogs._lua import run
+from cogs.custom_commands._lua import run
 from random import random
 import aiosqlite
 from discord import (
