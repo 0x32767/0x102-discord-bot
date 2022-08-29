@@ -1,9 +1,0 @@
-jfn main() {
-    print("hello world!")
-}
-
-cfn test(d) -> int {"
-int d = #d;
-int a = d + 1;
-return a;
-"}

@@ -23,7 +23,7 @@ SOFTWARE.
 """
 
 
-from discord import Interaction, app_commands, Object
+from discord import Interaction, app_commands, Object, Embed
 from cogs._help_command_setup import record
 from discord.ext import commands
 from httpx import Response
@@ -41,7 +41,30 @@ class StackOverflowCog(commands.Cog):
     @record()
     @app_commands.command(description="get a stack overflow answer")
     async def stackoverflow(self: "StackOverflowCog", ctx: Interaction, *, question: str) -> None:
-        # TODO: so something with the question
         res: Response = self.bot.httpx.get(
             f"https://api.stackexchange.com/2.3/search?order=desc&sort=votes&intitle={question}&site=stackoverflow"
         )
+
+        ans: dict[
+            str,
+            list[str] | str | int | dict[
+                str,
+                int | str
+            ]
+        ] = res.json()["items"][0]
+
+        del res
+
+        em: Embed = Embed(
+            title=f"{ans['title']}",
+            description=f"is this what you are looking for, with \"{question}\""
+        )
+
+        em.add_field(
+            name="up votes",
+            value=f"{ans['score']}"
+        )
+
+        em.url = f"{ans['ink']}#{ans['accepted_answer_id']}"
+
+        await ctx.response.send_message(embed=em)
