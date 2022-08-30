@@ -52,7 +52,7 @@ class LevelingCog(commands.Cog):
         self.bot: commands.Bot = bot
 
     @commands.Cog.listener()
-    async def on_message(self: "LevelingCog", message: Message) -> None:
+    async def on_message_(self: "LevelingCog", message: Message) -> None:
         if message.author.bot:
             return
 
@@ -100,11 +100,7 @@ class LevelingCog(commands.Cog):
         xp: int = await self._get_xp(ctx.user)
 
         await ctx.response.send_message(
-            embed=Embed(
-                title=f"{ctx.user.name}'s Level",
-                description="see how much xp and level you have",
-                color=0x00FF00
-            )
+            embed=Embed(title=f"{ctx.user.name}'s Level", description="see how much xp and level you have", color=0x00FF00)
             .add_field(name="Level", value=level, inline=True)
             .add_field(name="XP", value=xp, inline=True)
         )
@@ -115,12 +111,7 @@ class LevelingCog(commands.Cog):
     @app_commands.describe(amount="how many levels to level up the user")
     @app_commands.describe(reason="the reason for leveling up the user")
     async def level_up(
-            self: "LevelingCog",
-            ctx: Interaction,
-            user: User,
-            amount: int = 1,
-            *,
-            reason: str = "no reason"
+        self: "LevelingCog", ctx: Interaction, user: User, amount: int = 1, *, reason: str = "no reason"
     ) -> Message:
         for _ in range(amount):
             await self._increment_level(user)

@@ -31,14 +31,10 @@ commands.
 """
 
 from discord import Interaction, app_commands, Object, Message, User, Embed
-from usefull.textDecorations import progress_bar
 from cogs._help_command_setup import record
-from hashlib import sha256, sha1, md5
 from discord.ext import commands
-from typing import Generator
 from cache import cacheGet
 from json import load
-import asyncio
 import random
 
 
@@ -78,31 +74,9 @@ class DumbCommandsCog(commands.Cog):
         return None
 
     @record()
-    @app_commands.command(description="get a users discord token")
-    @app_commands.describe(user="who's token you want to see")
-    async def hack(self: "DumbCommandsCog", ctx: Interaction, user: User) -> None:
-        with open("D:\\programing\\0x102-discord-bot\\assets\\hackMessages.json", "r") as f:
-            messages: dict[str, list[str]] = load(f)
-
-        dec: Generator[str] = progress_bar(messages["updates"], messages["errors"])
-        msg: Message = await ctx.response.send_message()
-
-        for msg_str in dec:
-            await msg.edit(content=msg_str)
-            await asyncio.sleep(0.1)
-
-        await msg.edit(content=f"{user.mention} has a token of `{await self._dummy_hash(user)}`")
-
-    @record()
     @app_commands.command(description="click the link")
     async def rr(self: "DumbCommandsCog", ctx: Interaction) -> Embed:
         return await ctx.response.send_message(embed=await self._get_rick_roll())
-
-    @staticmethod
-    async def _dummy_hash(user: User) -> str:
-        return sha256(user.id.to_bytes(8, "big")).hexdigest() + "." +\
-               sha1(user.id.to_bytes(8, "big")).hexdigest() + "." +\
-               md5(user.id.to_bytes(8, "big")).hexdigest()
 
     @staticmethod
     async def _get_rick_roll() -> Embed:

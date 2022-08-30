@@ -54,13 +54,6 @@ This command will decrypt a message.
 `/durpscore`
 
 shows the durp-score of someone
-## /hack
-
-> Usage:
-
-`/hack`
-
-get a users discord token
 ## /rr
 
 > Usage:
@@ -89,6 +82,13 @@ Gets some info about a github user.
 `/getrepos`
 
 Gets some info about a users github repos.
+## /getlatestupdate
+
+> Usage:
+
+`/getlatestupdate`
+
+Gets some info about the latest bot update.
 ## /help
 
 > Usage:
@@ -110,27 +110,6 @@ you can see your current level and xp
 `/levelup`
 
 level up a user
-## /runcommand
-
-> Usage:
-
-`/runcommand`
-
-Runs a Lua command.
-## /inspectcommand
-
-> Usage:
-
-`/inspectcommand`
-
-Lets you see the code of a command.
-## /newcommand
-
-> Usage:
-
-`/newcommand`
-
-Creates a new command.
 ## /mcidlookup
 
 > Usage:
@@ -243,13 +222,27 @@ Closes the poll.
 `/showpoll`
 
 Shows the results of the poll.
-## /report
+## /reputation
 
 > Usage:
 
-`/report <message>`
+`/reputation`
 
-Report a profanity message.
+see how much reputation you have
+## /give
+
+> Usage:
+
+`/give`
+
+give someone reputation
+## /stackoverflow
+
+> Usage:
+
+`/stackoverflow`
+
+get a stack overflow answer
 ## /trivia
 
 > Usage:

@@ -1,6 +1,6 @@
 from cogs._create_generic_help_command import create_file
-from cache import cacheSet, cacheGet
 from configparser import ConfigParser
+from cache import cacheSet, cacheGet
 from rich.console import Console
 from discord.ext import commands
 from rich.progress import track
@@ -10,13 +10,12 @@ import discord
 
 
 intents: discord.Intents = discord.Intents.default()
+intents.message_content = True
+intents.messages = True
 intents.members = True
 
-bot: commands.Bot = commands.Bot(
-    command_prefix="~",
-    intents=intents,
-    application_id=937461852282167337
-)
+bot = commands.Bot(command_prefix="-", intents=intents, application_id=937461852282167337)
+
 
 setattr(bot, "httpx", AsyncClient())
 
@@ -60,9 +59,9 @@ async def on_ready():
 
     console.print(f"\nSuccessfully loaded [bald][dark_orange3][{num_cogs}/{idl_cogs}][/dark_orange3][/bald] cogs")
 
-    #    await bot.tree.sync(guild=TEST_GUILD)
-
     console.print(f"[green]Logged in as: [/green][bright_yellow][underline]{bot.user.name}[/underline][/bright_yellow]")
+
+    await bot.tree.sync(guild=discord.Object(id=938541999961833574))
 
     await create_help_command()
 

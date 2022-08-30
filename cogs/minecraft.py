@@ -42,7 +42,7 @@ class MinecraftCog(commands.Cog):
 
     @record()
     @app_commands.command(description="Gets some info about a minecraft block.")
-    @app_commands.describe(id="The id of the block you want to learn about.")
+    @app_commands.describe(block_id="The id of the block you want to learn about.")
     async def mcidlookup(self: "MinecraftCog", ctx: Interaction, block_id: int) -> None:
         """
         ::param:: block_id
@@ -126,7 +126,12 @@ class MinecraftCog(commands.Cog):
          | None
         """
         with open(r"assets\mcrecipes.json") as f:
-            data: dict[str, dict[str, ]] = json_loads(f)
+            data: dict[
+                str,
+                dict[
+                    str,
+                ],
+            ] = json_loads(f)
             del f
 
         em: Embed = Embed(
