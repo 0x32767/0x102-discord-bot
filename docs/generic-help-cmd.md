@@ -236,6 +236,13 @@ see how much reputation you have
 `/give`
 
 give someone reputation
+## /creepout
+
+> Usage:
+
+`/creepout`
+
+scare someone
 ## /stackoverflow
 
 > Usage:

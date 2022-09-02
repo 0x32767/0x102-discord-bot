@@ -29,9 +29,9 @@ recorded_commands: list = []
 
 
 """
- ::NOTE::
- ========
- This is a setup function for the help command.
+::NOTE::
+========
+This is a setup function for the help command.
 """
 
 

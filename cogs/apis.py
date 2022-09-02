@@ -44,7 +44,7 @@ class APICog(commands.Cog):
     @app_commands.command(description="Sends a random picture of a fox.")
     async def fox(self: "APICog", interaction: Interaction) -> None:
         async with interaction.channel.typing():
-
+            # we explicitly delete the
             async def get_fox() -> str:
                 req = await self.cs.get("https://randomfox.ca/floof/")
                 data = await req.json()

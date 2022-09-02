@@ -33,7 +33,6 @@ TEST_GUILD: discord.Object = discord.Object(cacheGet("id"))
 
 @bot.event
 async def on_ready():
-    # console.clear()
     num_cogs: int = 0
     idl_cogs: int = 0
 
@@ -61,7 +60,7 @@ async def on_ready():
 
     console.print(f"[green]Logged in as: [/green][bright_yellow][underline]{bot.user.name}[/underline][/bright_yellow]")
 
-    await bot.tree.sync(guild=discord.Object(id=938541999961833574))
+    await bot.tree.sync(guild=TEST_GUILD)
 
     await create_help_command()
 
