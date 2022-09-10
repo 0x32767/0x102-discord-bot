@@ -1,10 +1,9 @@
 from cogs._create_generic_help_command import create_file
 from configparser import ConfigParser
 from cache import cacheSet, cacheGet
-from debug import Debuger
 from discord.ext import commands
-from rich.progress import track
 from httpx import AsyncClient
+from debug import Debugger
 from os import listdir
 import discord
 
@@ -14,11 +13,11 @@ intents.message_content = True
 intents.messages = True
 intents.members = True
 
-bot = commands.Bot(command_prefix="-", intents=intents, application_id=937461852282167337)
+bot = commands.Bot(command_prefix="%", intents=intents, application_id=937461852282167337)
 
 
 setattr(bot, "httpx", AsyncClient())
-setattr(bot, "console", Debuger())
+setattr(bot, "console", Debugger())
 
 
 conf: ConfigParser = ConfigParser()
@@ -37,16 +36,14 @@ async def on_ready():
 
     idl_cogs: int = 0
 
-    for cog in bot.console.rogress()(cogs, "[bald][bright_red]Loading cogs...[/bright_red][/bald]", len(cogs)):
+    for idx, cog in enumerate(bot.console.progress(cogs, "[bald][bright_red]Loading cogs...[/bright_red][/bald]", len(cogs))):
         if cog.endswith(".py") and not cog.startswith("_"):
             try:
                 await bot.load_extension(f"cogs.{cog[:-3]}")
-                bot.console.print(
-                    f"  [green]Successfully loaded: [/green][bright_yellow][underline]{cog}[/underline][/bright_yellow]"
-                )
+                bot.console.print_cog_loaded(idx, cog)
 
             except Exception as e:
-                bot.console.print(f"[red]Failed loading  cog: [/red][orange_red1]{cog}[/orange_red1] [{e}]")
+                bot.console.print_cog_load_error(cog, e)
 
             finally:
                 idl_cogs += 1

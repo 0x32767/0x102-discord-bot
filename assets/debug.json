@@ -1,0 +1,6 @@
+{
+    "cog_loaded": "  [green]Successfully loaded: \\[{arg0}\\][/green][bright_yellow][underline]{arg1}[/underline][/bright_yellow]",
+    "cog_load_error": "  [red]Failed loading  cog: [/red][orange_red1]{arg0}[/orange_red1] [{arg1}]",
+    "successfully_loaded": "\nSuccessfully loaded [bald][dark_orange3][{arg0}/{arg1}][/dark_orange3][/bald] arg2",
+    "login": "[green]Logged in as: [/green][bright_yellow][underline]{arg0}[/underline][/bright_yellow]"
+}
