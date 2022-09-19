@@ -28,13 +28,13 @@ from httpx import AsyncClient
 
 
 class BotSyncUi(View):
-    def __init__(self, httpx: AsyncClient):
+    def __init__(self: "BotSyncUi", httpx: AsyncClient):
         super().__init__()
         self.add_item(OptionsDropdown(httpx))
 
 
 class OptionsDropdown(Select):
-    def __init__(self, httpx: AsyncClient):
+    def __init__(self: "OptionsDropdown", httpx: AsyncClient):
         self.httpx: AsyncClient = httpx
         super().__init__(
             min_values=1,
@@ -67,9 +67,4 @@ class OptionsDropdown(Select):
 
         await self.httpx.post("...", json={"settings": payload})
 
-        await ctx.response.send_message(
-            embed=Embed(
-                title="Settings updated",
-                description="Your settings have been updated"
-            )
-        )
+        await ctx.response.send_message(embed=Embed(title="Settings updated", description="Your settings have been updated"))

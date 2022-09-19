@@ -26,11 +26,10 @@ Pull requests will be accepted by the author, these pull requests can range from
 - whitelisting
 - trivia questions
 - Wikipedia integration
-- pole
 - utils
 - general fun
 - Memes
-- running, making, editing custom commands
+- ticketing
 
 ## license
 

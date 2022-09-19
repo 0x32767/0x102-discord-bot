@@ -46,7 +46,7 @@ async def setup(bot: commands.Bot) -> None:
 
 
 class GithubApiCog(commands.Cog):
-    def __init__(self, bot: commands.Bot) -> None:
+    def __init__(self: "GithubApiCog", bot: commands.Bot) -> None:
         self.bot: commands.Bot = bot
 
     @record()
