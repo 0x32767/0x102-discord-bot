@@ -34,7 +34,7 @@ async def setup(bot: commands.Bot) -> None:
 
 
 class PoleCog(commands.Cog):
-    def __init__(self: commands.Bot, bot: commands.Bot) -> None:
+    def __init__(self: "PoleCog", bot: commands.Bot) -> None:
         self.bot: commands.Bot = bot
         self.votes: list[dict[str, dict[any]]] = []
         """
@@ -96,10 +96,7 @@ class PoleCog(commands.Cog):
             return await ctx.response.send_message("There is no poll in this channel.", ephemeral=True)
 
         if pole["closed"] is True:
-            return await ctx.response.send_message(
-                "The poll is closed, you can not vote in a colsed pole.",
-                ephemeral=True
-            )
+            return await ctx.response.send_message("The poll is closed, you can not vote in a colsed pole.", ephemeral=True)
 
         pole["options"]["yes"] += 1 if vote else 0
         pole["options"]["no"] += 0 if vote else 1
@@ -109,7 +106,7 @@ class PoleCog(commands.Cog):
     @record()
     @app_commands.command(name="closepoll", description="Closes the poll.")
     @app_commands.describe(show="show the results of the poll")
-    async def close_poll(self, ctx: Interaction, show: bool = False) -> None:
+    async def close_poll(self: "PoleCog", ctx: Interaction, show: bool = False) -> None:
         """
         :param: ctx
          | The ctx param is passes by the discord.py libruary
@@ -139,7 +136,7 @@ class PoleCog(commands.Cog):
     @record()
     @app_commands.command(name="showpoll", description="Shows the results of the poll.")
     @app_commands.describe(public="do you want the poll to be public (can be seen by everyone)")
-    async def show_poll(self, ctx: Interaction, public: bool = False) -> None:
+    async def show_poll(self: "PoleCog", ctx: Interaction, public: bool = False) -> None:
         """
         :param: ctx
          | The ctx param is passes by the discord.py libruary

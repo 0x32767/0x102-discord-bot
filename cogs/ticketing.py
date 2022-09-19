@@ -21,50 +21,23 @@ ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-"""
- | The poinmt of the cache is the to keep track of all the data in one place.
- | This dataincludes the guild id which is stored in the `constants.conf` file
- | but is accessed only once and is then stored min the cache.
-"""
 
-cache = {}
-
-
-def cacheGet(key: str) -> any:
-    """
-    :param key: The `key` is the key of the cache
-    :return:
-    """
-    return cache[key]
+from discord import Interaction, app_commands, Object
+from cogs.ui._ticketing import TicketingModalView
+from cogs._help_command_setup import record
+from discord.ext import commands
+from cache import cacheGet
 
 
-def cacheSet(key: str, value: any) -> None:
-    """
-    :param key: The `key` is the key of the cache
-    :param value: The `value` is the value of the cache
-    :return:
-    """
-    cache[key] = value
+async def setup(bot: commands.Bot) -> None:
+    await bot.add_cog(TicketingCoG(bot), guilds=[Object(id=cacheGet("id"))])
 
 
-def cacheFree(key: str) -> None:
-    """
-    :param key: The `key` is the key of the cache
-    :return:
-    """
-    del cache[key]
+class TicketingCoG(commands.Cog):
+    def __init__(self: "TicketingCoG", bot: commands.Bot) -> None:
+        self.bot = bot
 
-
-def cacheClear() -> None:
-    """
-    :return:
-    """
-    cache.clear()
-
-
-def cacheExist(key: str) -> bool:
-    """
-    :param key: The `key` is the key of the cache
-    :return:
-    """
-    return key in cache
+    @record()
+    @app_commands.command(description="create a new ticket")
+    async def newticket(self: "TicketingCoG", ctx: Interaction) -> None:
+        await ctx.response.send_message(view=TicketingModalView())

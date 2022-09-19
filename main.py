@@ -34,13 +34,13 @@ TEST_GUILD: discord.Object = discord.Object(cacheGet("id"))
 async def on_ready():
     cogs = listdir("./cogs")
 
-    idl_cogs: int = 0
+    idl_cogs: int = 1
 
     for idx, cog in enumerate(bot.console.progress(cogs, "[bald][bright_red]Loading cogs...[/bright_red][/bald]", len(cogs))):
         if cog.endswith(".py") and not cog.startswith("_"):
             try:
                 await bot.load_extension(f"cogs.{cog[:-3]}")
-                bot.console.print_cog_loaded(idx, cog)
+                bot.console.print_cog_loaded(str(idx).zfill(3), cog)
 
             except Exception as e:
                 bot.console.print_cog_load_error(cog, e)

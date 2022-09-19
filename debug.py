@@ -5,7 +5,7 @@ import json
 
 
 class DebuggerMeta(type):
-    def __new__(cls, name: str, bases: tuple[str], attrs: dict[str, any]):
+    def __new__(cls: "DebuggerMeta", name: str, bases: tuple[str], attrs: dict[str, any]):
         data: dict[str, str] = json.load(open("assets\\debug.json", "r"))
         """
         ::basics::
@@ -41,11 +41,11 @@ class DebuggerMeta(type):
         return type(name, bases, attrs)
 
     def print_ln(value: str, console: "Debugger"):
-        def inner(self, *args):
+        def inner(self: any, *args):
             st = value
             for idx, v in enumerate(args):
                 # we replace the argX with a value that was passed into the function
-                st = st.replace(f"{{arg{idx}}}", v)
+                st = st.replace(f"{{arg{idx}}}", str(v))
 
             console.print(st)
 
@@ -54,16 +54,16 @@ class DebuggerMeta(type):
 
 class Debugger(metaclass=DebuggerMeta):
     # The self.console is passed by the meta class
-    def print(self, message: str) -> None:
+    def print(self: "Debugger", message: str) -> None:
         self.console.print(message)
 
-    def close(self) -> None:
+    def close(self: "Debugger") -> None:
         self.console.clear()
 
-    def progress(self, iterable: Iterable, description: str, total: int):
+    def progress(self: "Debugger", iterable: Iterable, description: str, total: int):
         return track(iterable, console=self.console, description=description, total=total)
 
-    def __getattr__(self, __name: str):
+    def __getattr__(self: "Debugger", __name: str):
         if value := self.__dict__.get(__name):
             return value
 
