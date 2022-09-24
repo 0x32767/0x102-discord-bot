@@ -62,13 +62,7 @@ class Moderation(commands.Cog):
     @app_commands.command(description="Bans a member from the server.")
     @app_commands.describe(user="The user you want to ban.")
     @app_commands.describe(reason="Why you want to ban the user.")
-    async def ban(
-        self: "Moderation",
-        ctx: Interaction,
-        user: Member,
-        *,
-        reason: str = "you have been naughty",
-    ) -> None:
+    async def ban(self: "Moderation", ctx: Interaction, user: Member, *, reason: str = "you have been naughty") -> None:
         try:
             await user.ban(reason=reason)
             await ctx.response.send_message(f'successfully kicked {user.name} for "{reason}"')

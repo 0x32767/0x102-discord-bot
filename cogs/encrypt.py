@@ -23,15 +23,12 @@ SOFTWARE.
 """
 
 
-from cogs.ui._encryption import EncryptionView
+from cogs.ui._encryption import EncryptionView # type: ignore
+from cogs._help_command_setup import record # type: ignore
+from discord import Object, app_commands, Interaction
 from discord.ext import commands
-from cogs._help_command_setup import record
 from cache import cacheGet
-from discord import (
-    Object,
-    app_commands,
-    Interaction,
-)
+
 
 
 async def setup(bot: commands.Bot) -> None:

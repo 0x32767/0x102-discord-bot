@@ -26,11 +26,13 @@ SOFTWARE.
  | This dataincludes the guild id which is stored in the `constants.conf` file
  | but is accessed only once and is then stored min the cache.
 """
+from typing import TypeVar, Any
 
-cache = {}
+
+cache: dict[str, Any] = {}
 
 
-def cacheGet(key: str) -> any:
+def cacheGet(key: str) -> Any:
     """
     :param key: The `key` is the key of the cache
     :return:
@@ -38,7 +40,7 @@ def cacheGet(key: str) -> any:
     return cache[key]
 
 
-def cacheSet(key: str, value: any) -> None:
+def cacheSet(key: str, value: Any) -> None:
     """
     :param key: The `key` is the key of the cache
     :param value: The `value` is the value of the cache

@@ -30,8 +30,9 @@ Credit goes to GeoffreyWesthoff for the inspiration for most of the
 commands.
 """
 
+from typing import Union
 from discord import Interaction, app_commands, Object, Message, User, Embed
-from cogs._help_command_setup import record
+from cogs._help_command_setup import record # type: ignore
 from discord.ext import commands
 from cache import cacheGet
 from json import load
@@ -66,7 +67,7 @@ class DumbCommandsCog(commands.Cog):
     @record()
     @app_commands.command(description="shows the durp-score of someone")
     @app_commands.describe(user="who's durp-score you want to see")
-    async def durpscore(self: "DumbCommandsCog", ctx: Interaction, user: User) -> None | Message:
+    async def durpscore(self: "DumbCommandsCog", ctx: Interaction, user: User) -> None:
         if user:
             return await ctx.response.send_message(f"{user.mention} has a durp-score of `{user.id % 100}`")
 
@@ -75,7 +76,7 @@ class DumbCommandsCog(commands.Cog):
 
     @record()
     @app_commands.command(description="click the link")
-    async def rr(self: "DumbCommandsCog", ctx: Interaction) -> Embed:
+    async def rr(self: "DumbCommandsCog", ctx: Interaction) -> None:
         return await ctx.response.send_message(embed=await self._get_rick_roll())
 
     @staticmethod

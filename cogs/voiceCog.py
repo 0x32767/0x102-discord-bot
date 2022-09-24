@@ -23,36 +23,46 @@ SOFTWARE.
 """
 
 
-from discord import Interaction, app_commands, Object, VoiceChannel
-from cogs._help_command_setup import record
+from shutil import ExecError
+from typing import Union
+from discord import Interaction, app_commands, Object, VoiceChannel, User
+from cogs._help_command_setup import record # type: ignore
 from discord.ext import commands
 from cache import cacheGet
 
 
 async def setup(bot: commands.Bot) -> None:
-    await bot.add_cog(VoiceCog(bot), guilds=[Object(id=938541999961833574)])
+    await bot.add_cog(VoiceCog(bot), guilds=[Object(id=cacheGet("id"))])
 
 
 class VoiceCog(commands.Cog):
-    def __init__(self: "VoiceCog", bot: commands.Bot) -> None:
+    def __init__(self, bot: commands.Bot) -> None:
         self.bot: commands.Bot = bot
 
     @record()
     @app_commands.command(description="Joins the voice channel of the user.")
-    async def join(self: "VoiceCog", ctx: Interaction) -> None:
-        if ctx.user.voice:
-            channel: VoiceChannel = ctx.user.voice.channel
-            await channel.connect()
-            await ctx.response.send_message("connected successfully!!!")
+    async def join(self, ctx: Interaction) -> None:
+        if isinstance(ctx.user, User):
+            await ctx.response.send_message("sorry a bug/error occured in running this command")
+
+        elif ctx.user.voice:
+
+            channel = ctx.user.voice.channel
+
+            if not channel:
+                await channel.connect() # type: ignore
+                return
+
+            await ctx.response.send_message("you need to be in a vc for this command to work")
 
         else:
             await ctx.response.send_message("you need to be in a vc for this command to work")
 
     @record()
     @app_commands.command(description="leaves a voice channel")
-    async def leave(self: "VoiceCog", ctx: Interaction):
+    async def leave(self, ctx: Interaction):
         try:
-            await ctx.guild.voice_client.disconnect(force=True)
+            await ctx.guild.voice_client.disconnect(force=True) # type: ignore
             await ctx.response.send_message("left vc")
 
         except Exception as er:

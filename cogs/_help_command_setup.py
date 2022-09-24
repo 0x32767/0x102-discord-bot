@@ -23,9 +23,10 @@ SOFTWARE.
 """
 
 from discord.ext import commands
+from typing import Callable, Any
 
 
-recorded_commands: list = []
+recorded_commands: list[commands.Command] = []
 
 
 """
@@ -35,7 +36,7 @@ This is a setup function for the help command.
 """
 
 
-def record(usage: str = "/") -> callable:
+def record(usage: str = "/") -> Callable[[Any], Any]:
     def wrapper(func: commands.Command) -> commands.Command:
         if usage == "/":
             recorded_commands.append({"f": func, "u": f"/{func.name}"})

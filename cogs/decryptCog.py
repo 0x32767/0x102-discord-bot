@@ -23,7 +23,7 @@ SOFTWARE.
 """
 
 from discord import Embed, Interaction, app_commands, Object
-from cogs._help_command_setup import record
+from cogs._help_command_setup import record # type: ignore
 from discord.ext import commands
 from cache import cacheGet
 from typing import List
