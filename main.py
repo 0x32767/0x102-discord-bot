@@ -1,4 +1,4 @@
-from cogs._create_generic_help_command import create_file
+from cogs._create_generic_help_command import create_file # type: ignore
 from configparser import ConfigParser
 from cache import cacheSet, cacheGet
 from discord.ext import commands
@@ -58,7 +58,7 @@ async def on_ready():
 
 
 async def create_help_command() -> None:
-    from cogs._help_command_setup import recorded_commands
+    from cogs._help_command_setup import recorded_commands # type: ignore
 
     await create_file(".\\docs\\generic-help-cmd.md", recorded_commands)
 

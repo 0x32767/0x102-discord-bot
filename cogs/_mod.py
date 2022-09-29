@@ -24,19 +24,22 @@ SOFTWARE.
 
 
 from discord import Interaction, Embed
+from typing import Union
 from aiosqlite import connect
 
 
-async def is_admin(ctx: Interaction) -> Embed | None:
+async def is_admin(ctx: Interaction) -> Union[Embed, None]:
     async with connect("data.db") as db:
         async with db.cursor() as cur:
-            await cur.execute("SELECT admin FROM users WHERE userId = ? and guildId = ?", (ctx.user.id, ctx.guild.id))
+            await cur.execute("SELECT admin FROM users WHERE userId = ? and guildId = ?", (ctx.user.id, ctx.guild.id)) # type: ignore
 
-            if await cur.fetchone()[0] == 1:
+            if (await cur.fetchone())[0] in [True, 1]: # type: ignore
                 return await ctx.response.send_message(
                     embed=Embed(
-                        title=f"{ctx.command.name} requires admin",
+                        title=f"{ctx.command.name} requires admin", # type: ignore
                         description=f"{ctx.user.mention} you do not have admin permissions to use this command",
                         color=16711680,
                     )
                 )
+
+    return None

@@ -22,9 +22,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from random import randint
 from discord import Interaction, SelectOption, Embed
 from discord.ui import Select, View
+from random import randint
 
 
 class EncryptionView(View):
@@ -147,7 +147,7 @@ class EncryptionDropdown(Select):
         """
         return "".join(bin(ord(char)).zfill(8) for char in self.msg)
 
-    async def create_base32_encode(self: "EncryptionDropdown") -> str:
+    async def create_base32_encode(self) -> str:
         """
         | Base64 is an actual base like binary (base2), octal (base
         | 8), hex (base 16)... Becaue all bases besides 2, and 10 are
@@ -155,4 +155,4 @@ class EncryptionDropdown(Select):
         | I am assuming that 0x7E 127 is as far as anyone will try
         | to type.
         """
-        return "%".join(int(ord(char), base=32) for char in self.msg)
+        return "%".join(int(ord(char), base=32) for char in self.msg) # type: ignore

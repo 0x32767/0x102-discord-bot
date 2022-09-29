@@ -26,11 +26,7 @@ SOFTWARE.
 from random import choice as random_choice
 from discord.ui import View, Button
 from json import load
-from discord import (
-    Interaction,
-    Embed,
-    Color,
-)
+from discord import Interaction, Embed, Color
 
 
 class TruthButton(Button):
@@ -38,7 +34,7 @@ class TruthButton(Button):
         super().__init__(label="Truth")
         self.color = Color.green()
 
-    async def callback(self: "TruthOrDareUi", ctx: Interaction) -> None:
+    async def callback(self, ctx: Interaction) -> None:
         with open("./assets/truthDare.json") as f:
             data: dict[str, list[str]] = load(f)
 
@@ -56,7 +52,7 @@ class DareButton(Button):
         super().__init__(label="Dare")
         self.color = Color.red()
 
-    async def callback(self: "TruthOrDareUi", ctx: Interaction) -> None:
+    async def callback(self, ctx: Interaction) -> None:
         with open("./assets/truthDare.json") as f:
             data: dict[str, list[str]] = load(f)
 

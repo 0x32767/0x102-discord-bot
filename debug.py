@@ -1,11 +1,11 @@
+from typing import Iterable, Type, Any, Tuple, TypeVar
 from rich.console import Console
 from rich.progress import track
-from typing import Iterable
 import json
 
 
 class DebuggerMeta(type):
-    def __new__(cls: "DebuggerMeta", name: str, bases: tuple[str], attrs: dict[str, any]):
+    def __new__(cls: Type["DebuggerMeta"], name: str, bases: Tuple[Type[str]], attrs: dict[str, Any]):
         data: dict[str, str] = json.load(open("assets\\debug.json", "r"))
         """
         ::basics::
@@ -36,34 +36,38 @@ class DebuggerMeta(type):
         attrs["props"] = list(data.keys())
 
         for k, v in data.items():
-            attrs[f"print_{k}"] = cls.print_ln(v, attrs["console"])
+            attrs[f"print_{k}"] = DebuggerMeta.print_ln(v, attrs["console"])
 
         return type(name, bases, attrs)
 
-    def print_ln(value: str, console: "Debugger"):
-        def inner(self: any, *args):
+    @staticmethod
+    def print_ln(value: str, console: Type["Debugger"]):
+        def inner(self: "Debugger", *args):
             st = value
             for idx, v in enumerate(args):
                 # we replace the argX with a value that was passed into the function
                 st = st.replace(f"{{arg{idx}}}", str(v))
 
-            console.print(st)
+            console.print(self, st)
 
         return inner
 
 
 class Debugger(metaclass=DebuggerMeta):
+    def __init__(self) -> None:
+        self.debugger = Console()
+
     # The self.console is passed by the meta class
-    def print(self: "Debugger", message: str) -> None:
+    def print(self, message: str) -> None:
         self.console.print(message)
 
-    def close(self: "Debugger") -> None:
+    def close(self) -> None:
         self.console.clear()
 
-    def progress(self: "Debugger", iterable: Iterable, description: str, total: int):
+    def progress(self, iterable: Iterable, description: str, total: int):
         return track(iterable, console=self.console, description=description, total=total)
 
-    def __getattr__(self: "Debugger", __name: str):
+    def __getattr__(self, __name: str):
         if value := self.__dict__.get(__name):
             return value
 

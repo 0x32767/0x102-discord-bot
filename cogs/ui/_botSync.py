@@ -59,7 +59,7 @@ class OptionsDropdown(Select):
         payload: list[str] = []
 
         for op in self.options:
-            if op in self.value:
+            if op in self.value: # type: ignore
                 payload.append(settings[op.value][0])
 
             else:
