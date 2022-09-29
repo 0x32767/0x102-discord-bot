@@ -42,7 +42,7 @@ This file is also quite stable and will also not need to be edited.
 
 
 async def setup(bot: commands.Bot) -> None:
-    await bot.add_cog(GithubApiCog(bot), guilds=[Object(id=cacheGet("id"))])
+    await bot.add_cog(GithubApiCog(bot), guilds=[Object(id=938541999961833574)])
 
 
 class GithubApiCog(commands.Cog):

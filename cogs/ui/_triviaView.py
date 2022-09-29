@@ -25,10 +25,7 @@ SOFTWARE.
 from random import shuffle as shuffle_list
 from discord import Interaction
 from discord import SelectOption, Embed
-from discord.ui import (
-    View,
-    Select,
-)
+from discord.ui import View, Select
 
 
 class TriviaQuestionDropdown(Select):
@@ -47,7 +44,6 @@ class TriviaQuestionDropdown(Select):
         )
 
     def shuffle(self: "TriviaQuestionDropdown", arr: list[str]) -> list[str]:
-        self.pass_()
         shuffle_list(arr)
         return arr
 
@@ -68,9 +64,6 @@ class TriviaQuestionDropdown(Select):
                     color=0xFF0000,
                 )
             )
-
-    def pass_(self: "TriviaQuestionDropdown") -> None:
-        ...
 
 
 class TriviaView(View):
