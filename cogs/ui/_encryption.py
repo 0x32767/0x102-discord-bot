@@ -88,17 +88,16 @@ class EncryptionDropdown(Select):
         ]
 
     async def callback(self: "EncryptionDropdown", ctx: Interaction, msg: str | None = None) -> None:
-        match self.values[0]:
-            case "caesar cipher":
+        if self.values[0] = "caesar cipher":
                 msg = await self.create_ceaser_cipher()
 
-            case "binary encode":
+        elif self.values[0] = "binary encode":
                 msg = await self.create_base2_encode()
 
-            case "hexadecimal encode":
+        elif self.values[0] = "hexadecimal encode":
                 msg = await self.create_hex_encode()
 
-            case "base32 encode":
+        elif self.values[0] = "base32 encode":
                 msg = await self.create_base32_encode()
 
         await ctx.response.send_message(embed=Embed(title="Encrypted Message", description=msg), ephemeral=True)

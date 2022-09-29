@@ -1,0 +1,12 @@
+push 10
+dup
+push 1
+sub
+push 0
+sub
+dup
+push 1
+sub
+push 0
+sub
+print
