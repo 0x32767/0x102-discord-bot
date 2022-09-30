@@ -42,7 +42,7 @@ main forms of encryption methods tha the bot supports.
 
 
 async def setup(bot: commands.Bot) -> None:
-    await bot.add_cog(DecryptCog(bot), guilds=[Object(id=cacheGet("id"))])
+    await bot.add_cog(DecryptCog(bot), guilds=[Object(id=938541999961833574)])
 
 
 class DecryptCog(commands.Cog):

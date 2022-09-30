@@ -31,7 +31,7 @@ from cache import cacheGet
 
 
 async def setup(bot: commands.Bot) -> None:
-    await bot.add_cog(ReputationCog(bot), guilds=[Object(id=cacheGet("id"))])
+    await bot.add_cog(ReputationCog(bot), guilds=[Object(id=938541999961833574)])
 
 # TODO: make more advanced, give reputation, take away reputation, have a upvote and down vote system.
 

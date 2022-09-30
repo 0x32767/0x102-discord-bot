@@ -32,7 +32,7 @@ from cache import cacheGet
 
 
 async def setup(bot: commands.Bot) -> None:
-    await bot.add_cog(EncryptCog(bot), guilds=[Object(id=cacheGet("id"))])
+    await bot.add_cog(EncryptCog(bot), guilds=[Object(id=938541999961833574)])
 
 
 class EncryptCog(commands.Cog):
