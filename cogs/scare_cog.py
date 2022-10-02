@@ -23,10 +23,9 @@ SOFTWARE.
 """
 
 from discord import Interaction, app_commands, Object, Embed, Member, DMChannel, File
-from cogs._help_command_setup import record
-from discord.ext import commands
+from cogs._help_command_setup import record  # type: ignore
+from discord.ext import commands  # type: ignore
 from asyncio import sleep
-from cache import cacheGet
 
 
 async def setup(bot: commands.Bot) -> None:

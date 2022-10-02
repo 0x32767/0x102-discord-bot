@@ -24,10 +24,9 @@ SOFTWARE.
 
 
 from discord import Interaction, app_commands, Object, Embed
-from cogs._help_command_setup import record # type: ignore
-from discord.ext import commands
+from cogs._help_command_setup import record  # type: ignore
+from discord.ext import commands # type: ignore
 from httpx import Response
-from cache import cacheGet
 
 
 async def setup(bot: commands.Bot) -> None:
@@ -45,25 +44,13 @@ class StackOverflowCog(commands.Cog):
             f"https://api.stackexchange.com/2.3/search?order=desc&sort=votes&intitle={question}&site=stackoverflow"
         )
 
-        ans: dict[
-            str,
-            list[str] | str | int | dict[
-                str,
-                int | str
-            ]
-        ] = res.json()["items"][0]
+        ans: dict[str, list[str] | str | int | dict[str, int | str]] = res.json()["items"][0]
 
         del res
 
-        em: Embed = Embed(
-            title=f"{ans['title']}",
-            description=f"is this what you are looking for, with \"{question}\""
-        )
+        em: Embed = Embed(title=f"{ans['title']}", description=f'is this what you are looking for, with "{question}"')
 
-        em.add_field(
-            name="up votes",
-            value=f"{ans['score']}"
-        )
+        em.add_field(name="up votes", value=f"{ans['score']}")
 
         em.url = f"{ans['ink']}#{ans['accepted_answer_id']}"
 

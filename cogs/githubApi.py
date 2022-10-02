@@ -24,9 +24,8 @@ SOFTWARE.
 
 
 from discord import Interaction, app_commands, Object, Embed
-from cogs._help_command_setup import record
-from discord.ext import commands
-from cache import cacheGet
+from cogs._help_command_setup import record  # type: ignore
+from discord.ext import commands  # type: ignore
 
 
 """

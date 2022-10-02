@@ -6,13 +6,12 @@ However, cogs do come with a bit of boilerplate, which is duplicated code. A cog
 from discord import app_commands, Interaction, Object
 from cogs._help_command_setup import record
 from discord.ext import commands
-from cache import cacheGet
 
 
 async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(
         CogName(bot),
-        guilds=[Object(id=cacheGet("id"))]
+        guilds=[Object(id=938541999961833574)]
     )
 
 

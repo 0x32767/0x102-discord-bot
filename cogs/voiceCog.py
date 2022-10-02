@@ -23,16 +23,13 @@ SOFTWARE.
 """
 
 
-from shutil import ExecError
-from typing import Union
-from discord import Interaction, app_commands, Object, VoiceChannel, User
-from cogs._help_command_setup import record # type: ignore
-from discord.ext import commands
-from cache import cacheGet
+from discord import Interaction, app_commands, Object, User
+from cogs._help_command_setup import record  # type: ignore
+from discord.ext import commands  # type: ignore
 
 
 async def setup(bot: commands.Bot) -> None:
-    await bot.add_cog(VoiceCog(bot), guilds=[Object(id=cacheGet("id"))])
+    await bot.add_cog(VoiceCog(bot), guilds=[Object(id=938541999961833574)])
 
 
 class VoiceCog(commands.Cog):
@@ -50,7 +47,7 @@ class VoiceCog(commands.Cog):
             channel = ctx.user.voice.channel
 
             if not channel:
-                await channel.connect() # type: ignore
+                await channel.connect()  # type: ignore
                 return
 
             await ctx.response.send_message("you need to be in a vc for this command to work")
@@ -62,7 +59,7 @@ class VoiceCog(commands.Cog):
     @app_commands.command(description="leaves a voice channel")
     async def leave(self, ctx: Interaction):
         try:
-            await ctx.guild.voice_client.disconnect(force=True) # type: ignore
+            await ctx.guild.voice_client.disconnect(force=True)  # type: ignore
             await ctx.response.send_message("left vc")
 
         except Exception as er:

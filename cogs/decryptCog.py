@@ -23,9 +23,8 @@ SOFTWARE.
 """
 
 from discord import Embed, Interaction, app_commands, Object
-from cogs._help_command_setup import record # type: ignore
-from discord.ext import commands
-from cache import cacheGet
+from cogs._help_command_setup import record  # type: ignore
+from discord.ext import commands  # type: ignore
 from typing import List
 
 """
@@ -117,9 +116,7 @@ class DecryptCog(commands.Cog):
         """
         | This function is given an offset and will return the decrypted message.
         """
-        return "".join(
-            self.chars[self.chars.index(char) - offset] if char in self.chars else char for char in message
-        )
+        return "".join(self.chars[self.chars.index(char) - offset] if char in self.chars else char for char in message)
 
     @staticmethod
     async def crack_hex_encode(message: str) -> str:
@@ -128,4 +125,4 @@ class DecryptCog(commands.Cog):
         | is the ascii character of the string in hexadecimal.
         | this will reconvert the hex to ascii and return the string.
         """
-        return "".join(chr(int(message[i: i + 2], 16)) for i in range(0, len(message), 2) if message[i: i + 2] != "0x")
+        return "".join(chr(int(message[i : i + 2], 16)) for i in range(0, len(message), 2) if message[i : i + 2] != "0x")

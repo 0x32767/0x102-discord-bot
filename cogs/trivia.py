@@ -24,11 +24,10 @@ SOFTWARE.
 
 
 from discord import Embed, Interaction, app_commands, Object
-from cogs._help_command_setup import record
-from cogs.ui._triviaView import TriviaView
+from cogs._help_command_setup import record  # type: ignore
+from cogs.ui._triviaView import TriviaView  # type: ignore
 from aiohttp import ClientSession
-from discord.ext import commands
-from cache import cacheGet
+from discord.ext import commands  # type: ignore
 
 
 async def setup(bot: commands.Bot) -> None:

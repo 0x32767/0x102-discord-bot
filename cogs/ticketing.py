@@ -23,10 +23,9 @@ SOFTWARE.
 """
 
 from discord import Interaction, app_commands, Object
-from cogs.ui._ticketing import TicketingModalView
-from cogs._help_command_setup import record
-from discord.ext import commands
-from cache import cacheGet
+from cogs.ui._ticketing import TicketingModalView  # type: ignore
+from cogs._help_command_setup import record  # type: ignore
+from discord.ext import commands  # type: ignore
 
 
 async def setup(bot: commands.Bot) -> None:
