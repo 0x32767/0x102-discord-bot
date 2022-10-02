@@ -24,11 +24,10 @@ SOFTWARE.
 
 
 from discord import Interaction, app_commands, Object, Embed
-from cogs._help_command_setup import record
+from cogs._help_command_setup import record  # type: ignore
 from json import load as json_loads
 from aiohttp import ClientSession
-from discord.ext import commands
-from cache import cacheGet
+from discord.ext import commands  # type: ignore
 
 
 async def setup(bot: commands.Bot) -> None:
@@ -125,13 +124,8 @@ class MinecraftCog(commands.Cog):
         :return: None
          | None
         """
-        with open(r"assets\mcrecipes.json") as f:
-            data: dict[
-                str,
-                dict[
-                    str,
-                ],
-            ] = json_loads(f)
+        with open(r"assets\\mcrecipes.json") as f:
+            data = json_loads(f)
             del f
 
         em: Embed = Embed(

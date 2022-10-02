@@ -12,3 +12,4 @@ venv
 vars.ini
 *.save
 *.swp
+.mypy_cache

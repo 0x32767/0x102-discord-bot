@@ -1,7 +1,6 @@
-from cogs._create_generic_help_command import create_file # type: ignore
+from cogs._create_generic_help_command import create_file  # type: ignore
 from configparser import ConfigParser
-from cache import cacheSet, cacheGet
-from discord.ext import commands
+from discord.ext import commands  # type: ignore
 from httpx import AsyncClient
 from debug import Debugger
 from os import listdir
@@ -21,13 +20,9 @@ setattr(bot, "console", Debugger())
 
 
 conf: ConfigParser = ConfigParser()
-conf.read("constants.conf")
-cacheSet("id", conf["bot"]["serverId"])
-
-# we don't want to store the token in the code or in the constants.conf file
 conf.read("vars.ini")
 
-TEST_GUILD: discord.Object = discord.Object(cacheGet("id"))
+TEST_GUILD: discord.Object = discord.Object(id=938541999961833574)
 
 
 @bot.event
@@ -58,7 +53,7 @@ async def on_ready():
 
 
 async def create_help_command() -> None:
-    from cogs._help_command_setup import recorded_commands # type: ignore
+    from cogs._help_command_setup import recorded_commands  # type: ignore
 
     await create_file(".\\docs\\generic-help-cmd.md", recorded_commands)
 

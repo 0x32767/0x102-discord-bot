@@ -30,11 +30,9 @@ Credit goes to GeoffreyWesthoff for the inspiration for most of the
 commands.
 """
 
-from typing import Union
 from discord import Interaction, app_commands, Object, Message, User, Embed
-from cogs._help_command_setup import record # type: ignore
-from discord.ext import commands
-from cache import cacheGet
+from cogs._help_command_setup import record  # type: ignore
+from discord.ext import commands  # type: ignore
 from json import load
 import random
 

@@ -88,17 +88,17 @@ class EncryptionDropdown(Select):
         ]
 
     async def callback(self: "EncryptionDropdown", ctx: Interaction, msg: str | None = None) -> None:
-        if self.values[0] = "caesar cipher":
-                msg = await self.create_ceaser_cipher()
+        if self.values[0] == "caesar cipher":
+            msg = await self.create_ceaser_cipher()
 
-        elif self.values[0] = "binary encode":
-                msg = await self.create_base2_encode()
+        elif self.values[0] == "binary encode":
+            msg = await self.create_base2_encode()
 
-        elif self.values[0] = "hexadecimal encode":
-                msg = await self.create_hex_encode()
+        elif self.values[0] == "hexadecimal encode":
+            msg = await self.create_hex_encode()
 
-        elif self.values[0] = "base32 encode":
-                msg = await self.create_base32_encode()
+        elif self.values[0] == "base32 encode":
+            msg = await self.create_base32_encode()
 
         await ctx.response.send_message(embed=Embed(title="Encrypted Message", description=msg), ephemeral=True)
 
@@ -154,4 +154,4 @@ class EncryptionDropdown(Select):
         | I am assuming that 0x7E 127 is as far as anyone will try
         | to type.
         """
-        return "%".join(int(ord(char), base=32) for char in self.msg) # type: ignore
+        return "%".join(int(ord(char), base=32) for char in self.msg)  # type: ignore

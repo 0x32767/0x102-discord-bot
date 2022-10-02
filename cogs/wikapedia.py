@@ -24,14 +24,13 @@ SOFTWARE.
 
 
 from discord import Interaction, app_commands, Object
-from cogs._help_command_setup import record # type: ignore
-from discord.ext import commands
-from cache import cacheGet
-import wikipedia as wiki # type: ignore
+from cogs._help_command_setup import record  # type: ignore
+from discord.ext import commands  # type: ignore
+import wikipedia as wiki  # type: ignore
 
 
 async def setup(bot: commands.Bot) -> None:
-    await bot.add_cog(WikiCog(bot), guilds=[Object(id=cacheGet("id"))])
+    await bot.add_cog(WikiCog(bot), guilds=[Object(id=938541999961833574)])
 
 
 class WikiCog(commands.Cog):

@@ -53,7 +53,7 @@ class TriviaQuestionDropdown(Select):
                 embed=Embed(
                     title="Correct!",
                     description=f"{self.correct} is correct!",
-                    color=0x00FF00,
+                    color=0x00FF00, # Hex code for green
                 )
             )
         else:
@@ -61,7 +61,7 @@ class TriviaQuestionDropdown(Select):
                 embed=Embed(
                     title="Incorrect!",
                     description=f"The correct answer was {self.correct}",
-                    color=0xFF0000,
+                    color=0xFF0000, # Hex code for red
                 )
             )
 

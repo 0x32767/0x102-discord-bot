@@ -24,10 +24,9 @@ SOFTWARE.
 
 
 from discord import Interaction, app_commands, Object
-from cogs._help_command_setup import record
-from discord.ext import commands
+from cogs._help_command_setup import record  # type: ignore
+from discord.ext import commands  # type: ignore
 from datetime import datetime
-from cache import cacheGet
 from random import choice
 import discord
 import aiohttp
@@ -97,17 +96,6 @@ class UtilsCog(commands.Cog):
         now = datetime.now()
         dt_string: str = now.strftime("%d/%m/%Y %H:%M:%S")
         await ctx.response.send_message(f"date and time: {dt_string}")
-
-    @record()
-    @app_commands.command(name="poke", description="you can send a private message to another user")
-    @app_commands.describe(member="The user you want to msg.")
-    @app_commands.describe(msg="The message you want to send.")
-    async def poke(self: "UtilsCog", ctx: Interaction, member: discord.Member, *, msg: str):
-        try:
-            await member.send(f"`{ctx.user}` from `{ctx.channel.name}` says {msg}")
-            await ctx.response.send_message(f"sent {msg}")
-        except discord.ext.commands.errors.MemberNotFound:
-            await ctx.response.send_message(f"member {member} was not found")
 
     @record()
     @app_commands.command(name="sus", description="...")

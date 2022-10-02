@@ -23,21 +23,43 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from discord import Interaction, Object, Message, User, Embed
-from cogs._help_command_setup import record
-from discord.ext import commands
-from cache import cacheGet
-from json import load
-import random
+from json import load as load_json
+from discord.ext import commands  # type: ignore
+from typing import Dict, List
+from discord import Object
+from random import choice
 
 
 async def setup(bot: commands.Bot) -> None:
-    await bot.add_cog(
-        GenericCommandsCog(bot),
-        guilds=[Object(id=938541999961833574)]
-    )
+    await bot.add_cog(GenericCommandsCog(bot), guilds=[Object(id=938541999961833574)])
+
+
+def get_generics_aliases(name: str) -> list[str]:
+    with open(name, "r") as f:
+        d: dict[str, list[str]] = load_json(f)
+
+    return list(d)  # will only return the dict keys so {a: 0, b: 1,} as a list would be [a, b,]
 
 
 class GenericCommandsCog(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
         self.bot: commands.Bot = bot
+
+    @commands.command(aliases=[get_generics_aliases("D:\\programing\\0x102-discord-bot\\cogs\\generics\\notable.json")])
+    async def notable_generics(self, ctx: commands.Context) -> None:
+        with open("D:\\programing\\0x102-discord-bot\\cogs\\generics\\notable.json", "r") as f:
+            command_data: Dict[str, List[str]] = load_json(f)
+
+        # if the aliases is not a key in the dict
+        if not ctx.invoked_with in command_data:
+            return await ctx.send(f"don`t use {ctx.invoked_with}, did you make a typo?")
+
+        # will get the command aliases that was used and then find it in the dict,
+        # the dict will return alist of strings, one of these strings is chosen at
+        # random and then sent
+        await ctx.send(choice(command_data[ctx.invoked_with]))
+
+    @commands.command(aliases=[get_generics_aliases("D:\\programing\\0x102-discord-bot\\cogs\\generics\\notable.json")])
+    async def XXXXX_generics(self, ctx: commands.Context) -> None:
+        with open("D:\\programing\\0x102-discord-bot\\cogs\\generics\\notable.json", "r") as f:
+            ...

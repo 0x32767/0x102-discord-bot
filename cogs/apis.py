@@ -22,10 +22,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from discord.ext import commands
-from cache import cacheGet
-from cogs._help_command_setup import record  # type: ignore
 from discord import Embed, Interaction, app_commands, Object, ui
+from cogs._help_command_setup import record  # type: ignore
+from discord.ext import commands  # type: ignore
 
 
 async def setup(bot: commands.Bot) -> None:
@@ -40,7 +39,7 @@ class APICog(commands.Cog):
     @record()
     @app_commands.command(description="Sends a random picture of a fox.")
     async def fox(self: "APICog", interaction: Interaction) -> None:
-        async with interaction.channel.typing(): # type: ignore
+        async with interaction.channel.typing():  # type: ignore
             # we explicitly delete the
             async def get_fox() -> str:
                 req = await self.cs.get("https://randomfox.ca/floof/")
@@ -50,14 +49,14 @@ class APICog(commands.Cog):
                 return data["image"]
 
             async def btn_interaction(btn_interaction_p: Interaction):
-                embed: Embed = btn_interaction_p.message.embeds[0].set_image(url=await get_fox()) # type: ignore
+                embed: Embed = btn_interaction_p.message.embeds[0].set_image(url=await get_fox())  # type: ignore
                 await btn_interaction_p.response.edit_message(embed=embed)  # type: ignore
 
             next_btn: ui.Button = ui.Button(label="next")
 
             view: ui.View = ui.View()
 
-            next_btn.callback = btn_interaction # type: ignore
+            next_btn.callback = btn_interaction  # type: ignore
 
             view.add_item(next_btn)
 
@@ -69,7 +68,7 @@ class APICog(commands.Cog):
     @record()
     @app_commands.command(description="Sends a random image of a dog.")
     async def dog(self: "APICog", interaction: Interaction) -> None:
-        async with interaction.channel.typing(): # type: ignore
+        async with interaction.channel.typing():  # type: ignore
 
             async def get_dog() -> str:
                 req = await self.cs.get("https://dog.ceo/api/breeds/image/random")
@@ -85,7 +84,7 @@ class APICog(commands.Cog):
             next_btn: ui.Button = ui.Button(label="next")
 
             view: ui.View = ui.View()
-            next_btn.callback = btn_interaction # type: ignore
+            next_btn.callback = btn_interaction  # type: ignore
 
             view.add_item(next_btn)
 
@@ -97,7 +96,7 @@ class APICog(commands.Cog):
     @record()
     @app_commands.command(description="Sends a random image of a cat.")
     async def cat(self: "APICog", interaction: Interaction) -> None:
-        async with interaction.channel.typing(): # type: ignore
+        async with interaction.channel.typing():  # type: ignore
 
             async def get_cat() -> str:
                 req = await self.cs.get("https://aws.random.cat/meow")
@@ -113,7 +112,7 @@ class APICog(commands.Cog):
             next_btn: ui.Button = ui.Button(label="next")
 
             view: ui.View = ui.View()
-            next_btn.callback = btn_interaction # type: ignore
+            next_btn.callback = btn_interaction  # type: ignore
 
             view.add_item(next_btn)
 
@@ -125,7 +124,7 @@ class APICog(commands.Cog):
     @record()
     @app_commands.command(description="Sends a meme.")
     async def meme(self: "APICog", interaction: Interaction) -> None:
-        async with interaction.channel.typing(): # type: ignore
+        async with interaction.channel.typing():  # type: ignore
 
             async def get_meme():
                 req = await self.cs.get("https://meme-api.herokuapp.com/gimme")
@@ -141,7 +140,7 @@ class APICog(commands.Cog):
             next_btn: ui.Button = ui.Button(label="next")
 
             view: ui.View = ui.View()
-            next_btn.callback = btn_interaction # type: ignore
+            next_btn.callback = btn_interaction  # type: ignore
 
             view.add_item(next_btn)
 
@@ -153,7 +152,7 @@ class APICog(commands.Cog):
     @record()
     @app_commands.command(description="Sends a random fact about a cat.")
     async def catfact(self: "APICog", interaction: Interaction) -> None:
-        async with interaction.channel.typing(): # type: ignore
+        async with interaction.channel.typing():  # type: ignore
             req = await self.cs.get("https://catfact.ninja/fact")
             res = await req.json()
             em: Embed = Embed(
@@ -168,7 +167,7 @@ class APICog(commands.Cog):
     @record()
     @app_commands.command(description="Sends a random fact about a dog.")
     async def dogfact(self, interaction: Interaction) -> None:
-        async with interaction.channel.typing(): # type: ignore
+        async with interaction.channel.typing():  # type: ignore
             req = await self.cs.get("https://dog-api.kinduff.com/api/facts")
             res = await req.json()
 
