@@ -13,3 +13,4 @@ vars.ini
 *.save
 *.swp
 .mypy_cache
+*.sqlite

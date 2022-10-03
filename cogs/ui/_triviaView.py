@@ -61,7 +61,7 @@ class TriviaQuestionDropdown(Select):
                 embed=Embed(
                     title="Incorrect!",
                     description=f"The correct answer was {self.correct}",
-                    color=0xFF0000, # Hex code for red
+                    color=0xFF0000, # hex code for red
                 )
             )
 
@@ -72,7 +72,11 @@ class TriviaView(View):
         self.add_item(
             TriviaQuestionDropdown(
                 question=data["question"].replace("&quot;", '"'),
+                # the &quot; symbol is used to represent a " in html
+
                 questions=data["incorrect_answers"] + [data["correct_answer"]],
+                # the correct_answer is not included in the answers field bu default
+
                 correct=data["correct_answer"],
             )
         )
