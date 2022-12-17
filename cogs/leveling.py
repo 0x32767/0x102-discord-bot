@@ -50,7 +50,7 @@ class LevelingCog(commands.Cog):
         self.con: Connection = connect("D:\\programing\\0x102-discord-bot\\assets\\leveling.db")
         self.bot: commands.Bot = bot
 
-    @commands.Cog.listener()
+    @commands.Cog.listener()  # this is depricated for the time beeing
     async def on_message_(self: "LevelingCog", message: Message) -> None:
         if message.author.bot:
             return

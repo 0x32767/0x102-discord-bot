@@ -22,10 +22,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from discord.ext import commands
 from aiosqlite import connect as sql_conn
 from discord import Object, Message, User
 from asyncio import sleep as async_sleep
+from discord.ext import commands  # type: ignore
 from random import randint
 
 
@@ -43,7 +43,7 @@ class DecryptCog(commands.Cog):
         if not randint(0, 10_000):
             message.add_reaction("")
             async_sleep(0.5)
-            user = message.reactions[0].users[0] # the first person to react
+            user = message.reactions[0].users[0]  # the first person to react
 
             await message.channel.send(f"{user.mention} has found the easter egg")
             await self.reward_easter_egg(message.guild.id, user)
@@ -51,5 +51,9 @@ class DecryptCog(commands.Cog):
     async def reward_easter_egg(self, guild_id: int, user: User) -> None:
         async with sql_conn("") as conn:
             async with conn.currsor() as curr:
-                await curr.execute("SELECT * FROM mod_channels WHERE guild_id = ?;", (guild_id,))
-                (await curr.fetchone())
+                await curr.execute("SELECT mod_channel FROM mod_channels WHERE guild_id = ?;", (guild_id,))
+
+                # will get the mod channel and send the data on line 58
+                await self.bot.get_channel(id=await curr.fetchone()[0]).send(
+                    f"{user.display_name} has got the easter egg thing"
+                )
