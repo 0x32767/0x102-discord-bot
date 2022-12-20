@@ -7,10 +7,11 @@ venv
 *.db
 *.pyc
 *.pyo
-.vscode
 *.o
 vars.ini
 *.save
 *.swp
 .mypy_cache
 *.sqlite
+
+# .vscode Because I am on multiple PCs I want to export me settings too

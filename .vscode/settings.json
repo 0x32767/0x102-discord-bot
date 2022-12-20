@@ -1,0 +1,22 @@
+{
+    "files.associations": {
+        "*.ejs": "html",
+        "string_view": "cpp"
+    },
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/__pycache__": true,
+        "**/.idea": true,
+        "**/.mypy_cache":true
+    },
+    "git.ignoreLimitWarning": true,
+    "FSharp.suggestGitignore": false,
+    "editor.fontFamily": "fira code, Consolas, 'Courier New', monospace",
+    "editor.fontLigatures": true,
+    "editor.autoIndent": "advanced",
+}

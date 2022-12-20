@@ -28,6 +28,7 @@ from aiosqlite import connect
 from typing import Union
 
 
+# This will check if the command invoker has qualified permitions
 async def is_admin(ctx: Interaction) -> Union[True, False]:
     async with connect("data.db") as db:
         async with db.cursor() as cur:
