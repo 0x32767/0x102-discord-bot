@@ -41,5 +41,3 @@ async def is_admin(ctx: Interaction) -> Union[Embed, None]:
                         color=16711680,
                     )
                 )
-
-    return None

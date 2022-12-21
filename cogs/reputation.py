@@ -58,7 +58,7 @@ class ReputationCog(commands.Cog):
     @app_commands.describe(user="Who you want to give reputation to")
     @app_commands.describe(amount="how much reputation you want to give")
     @commands.has_permissions(administrator=True)
-    async def give(self: "ReputationCog", ctx: Interaction, user: User, amount: int):
+    async def give(self: "ReputationCog", ctx: Interaction, user: User, amount: int) -> None:
         async with connect("discordbotdb.db") as db:
             async with db.execute("SELECT reputation FROM users WHERE id = ?", (user.id,)) as cursor:
                 res = await cursor.fetchone()

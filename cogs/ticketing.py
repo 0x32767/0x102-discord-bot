@@ -32,11 +32,11 @@ async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(TicketingCoG(bot), guilds=[Object(id=938541999961833574)])
 
 
-class TicketingCoG(commands.Cog):
-    def __init__(self: "TicketingCoG", bot: commands.Bot) -> None:
+class TicketingCog(commands.Cog):
+    def __init__(self: "TicketingCog", bot: commands.Bot) -> None:
         self.bot = bot
 
     @record()
     @app_commands.command(description="create a new ticket")
-    async def newticket(self: "TicketingCoG", ctx: Interaction) -> None:
+    async def newticket(self: "TicketingCog", ctx: Interaction) -> None:
         await ctx.response.send_message(view=TicketingModalView())
