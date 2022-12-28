@@ -13,5 +13,5 @@ vars.ini
 *.swp
 .mypy_cache
 *.sqlite
-# p
-# .vscode Because I am on multiple PCs I want to export me settings too
+*.sqlite3
+.env

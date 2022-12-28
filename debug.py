@@ -68,7 +68,7 @@ class Debugger(metaclass=DebuggerMeta):
         return track(iterable, console=self.console, description=description, total=total)
 
     def __getattr__(self, __name: str):
-        if value := self.__dict__.get(__name):
+        if value := self.__dict__.get(__name, None):
             return value
 
         return lambda x: print(f"{self.__class__.__name__}.{__name} does not exist, did you mean {self.props}")

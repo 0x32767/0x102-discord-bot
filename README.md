@@ -16,11 +16,28 @@ The bot is being frequently updated, progress graph can be found here: https://g
 
 Pull requests will be accepted by the author, these pull requests can range from spreeing errors to refactoring the whole project (if you are crazy enough to :) ). Another feature of this bot is custom commands, these commands will need to be verified and can be submitted via the bot or a pull request to the repo (these will need to be approved of though).
 
+## Release
+
+There are several things that hold the bot back from being released, they mainly spring from the project not being funded or genorating any money. This stops making a website and getting a host for the bot. If the bot starts to genorate money or is funded, then hosting will be a prioraty.
+
+### payed or free
+
+I want 0x102 to be a free disocord bot, however with many hosts dropping their free teer, including:
+- Mongo DB
+- Heroku
+For those reasons the bot will require payment for more resource intensive features. (The following sentences are elaboration) Most services price their clients by how much hardwear is required to run the code or something similar. Because the bot is programed with this in min the bot is created to be as resource efficiant and fast as possible. This makes the bot cheep to keep online and fast. This means that as the bot gains popularity, the money created by the bot will go into renting better heardwear. If there is still large profit I will look at making some features of the bot free or cheeper.
+
+### Hopes of the future
+
+As the project becomes more popular I want to see if I can ccolaborate with other discord bots, dankmemer for example is the most popular discord bot which has its own economy system. I would want to try the get the Dankmemer team to create an api, because Dankmemer currently has no public api or api at all.
+
 ## features
+
+All of these features are implemented with slash commands.
 
 - API interaction
 - Fun message encryption
-- Help command (duh :))
+- Help command
 - leveling (deprecated for now)
 - moderation
 - whitelisting
@@ -30,9 +47,6 @@ Pull requests will be accepted by the author, these pull requests can range from
 - general fun
 - Memes
 - ticketing
-
-## license
-
-A large amount of commands in this bot are from other bots, there for the license of the bot is https://www.gnu.org/licenses/agpl-3.0.en.html. This is because the copy write owner (of the original repository from the bot I have taken some of the commands from) `GeoffreyWesthoff` (https://github.com/GeoffreyWesthoff/Dank-Memer#license) says so in his license section. Full credit goes to the original author(s). Files that contain the MIT license are 100% free to use (as they are from me). Licensing information will be available in all files in the cogs directory as this is were all of the commands are, no other code was used any were else in the bot. The verification of these files can be found by looking at previous commits to the repo.
-
-Also fro clarity, the license of the bot is the AGPLv3 license. And when the license refers to "this Software" it refers to the file.
+- economy
+- achivements
+- items
