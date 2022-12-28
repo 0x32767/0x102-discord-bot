@@ -1,3 +1,4 @@
+from nodes import Str
 from sly import Lexer, Parser
 
 
@@ -80,7 +81,7 @@ class DisParser(Parser):
         "NME '/' NME",
         "NME '*' NME",
     )
-    def prim(self, p):
+    def prim(self, p): # return binop
         return p[1], p[0], p[2]
 
     @_("EXT STR LSB args RSB")
@@ -104,17 +105,9 @@ class DisParser(Parser):
         lst += p[2]
         return tuple(lst)
 
-    @_("LET NME '=' prim")
+    @_("LET NME '=' prim", "LET NME '=' fncc")
     def var(self, p):
-        return "var", p.NME, p.prim
-
-    @_("NME '=' NME")
-    def vari(self, p):
-        return "vra", p.NME, p.NME
-
-    @_("NME '=' fncc")
-    def vari(self, p):
-        return "vra", p.NME, p.fnc
+        return "var", p.NME, p[-1]
 
     @_("'#' RCB NME LSB")
     def dec(self, p):
