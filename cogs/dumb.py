@@ -33,6 +33,7 @@ commands.
 from discord import Interaction, app_commands, Object, Message, User, Embed
 from cogs._help_command_setup import record  # type: ignore
 from discord.ext import commands  # type: ignore
+from typing import Optional
 from json import load
 import random
 
@@ -65,12 +66,12 @@ class DumbCommandsCog(commands.Cog):
     @record()
     @app_commands.command(description="shows the durp-score of someone")
     @app_commands.describe(user="who's durp-score you want to see")
-    async def durpscore(self: "DumbCommandsCog", ctx: Interaction, user: User) -> None:
+    async def durpscore(self: "DumbCommandsCog", ctx: Interaction, user: Optional[User]) -> None:
         if user:
             return await ctx.response.send_message(f"{user.mention} has a durp-score of `{user.id % 100}`")
 
-        # TODO: finish this command
-        return None
+        else:
+            return await ctx.response.send_message(f"You have a durp-score of `{user.id % 100}`")
 
     @record()
     @app_commands.command(description="click the link")

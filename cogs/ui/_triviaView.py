@@ -23,23 +23,23 @@ SOFTWARE.
 """
 
 from random import shuffle as shuffle_list
-from discord import Interaction
 from discord import SelectOption, Embed
 from discord.ui import View, Select
+from discord import Interaction
 
 
 class TriviaQuestionDropdown(Select):
     def __init__(
         self: "TriviaQuestionDropdown",
         question: str,
-        questions: list[str],
+        answers: list[str],
         correct: str,
     ) -> None:
         self.correct: str = correct
         super().__init__(
             max_values=1,
             min_values=1,
-            options=[SelectOption(label=f"{i}", value=f"{i}", description=i) for i in self.shuffle(questions)],
+            options=[SelectOption(label=f"{i}", value=f"{i}", description=i) for i in self.shuffle(answers)],
             placeholder=question,
         )
 
@@ -53,7 +53,7 @@ class TriviaQuestionDropdown(Select):
                 embed=Embed(
                     title="Correct!",
                     description=f"{self.correct} is correct!",
-                    color=0x00FF00, # Hex code for green
+                    color=0x00FF00,  # Hex code for green
                 )
             )
         else:
@@ -61,7 +61,7 @@ class TriviaQuestionDropdown(Select):
                 embed=Embed(
                     title="Incorrect!",
                     description=f"The correct answer was {self.correct}",
-                    color=0xFF0000, # Hex code for red
+                    color=0xFF0000,  # hex code for red
                 )
             )
 
@@ -72,7 +72,7 @@ class TriviaView(View):
         self.add_item(
             TriviaQuestionDropdown(
                 question=data["question"].replace("&quot;", '"'),
-                questions=data["incorrect_answers"] + [data["correct_answer"]],
+                answers=data["incorrect_answers"] + [data["correct_answer"]],
                 correct=data["correct_answer"],
             )
         )

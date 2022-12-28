@@ -7,10 +7,11 @@ venv
 *.db
 *.pyc
 *.pyo
-.vscode
 *.o
 vars.ini
 *.save
 *.swp
 .mypy_cache
+*.sqlite
+*.sqlite3
 .env

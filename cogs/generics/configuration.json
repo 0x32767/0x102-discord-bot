@@ -1,0 +1,7 @@
+{
+    "levels": {
+        "id": 0,
+        "name": "Levels",
+        "summery": "Toggle levels on and off, this can also be configured"
+    }
+}
