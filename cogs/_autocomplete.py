@@ -7,6 +7,16 @@ import discord
 async def configuration_autocomplete(
     interaction: discord.Interaction, current: str, namespace: app_commands.Namespace
 ) -> List[app_commands.Choice[str]]:
+    """returns a list of all autocomplete suggestions
+
+    Args:
+        interaction (discord.Interaction): This is passed by discord.py and is not used
+        current (str): What the user is typing
+        namespace (app_commands.Namespace): This is passed by discord.pt and is not used
+
+    Returns:
+        List[app_commands.Choice[str]]: A list of all autocomplete suggestions
+    """
     config_options: List[str] = []
     return [
         app_commands.Choice(

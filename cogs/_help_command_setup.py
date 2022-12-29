@@ -29,13 +29,6 @@ from typing import Callable, Any
 recorded_commands: list[commands.Command] = []
 
 
-"""
-::NOTE::
-========
-This is a setup function for the help command.
-"""
-
-
 def record(usage: str = "/") -> Callable[[Any], Any]:
     def wrapper(func: commands.Command) -> commands.Command:
         if usage == "/":

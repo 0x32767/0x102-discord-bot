@@ -29,16 +29,25 @@ from typing import Union
 
 
 # This will check if the command invoker has qualified permitions
-async def is_admin(ctx: Interaction) -> Union[True, False]:
+async def is_moderator(ctx: Interaction) -> Union[True, False]:
+    """Creates a database connection and returns a boolean corisponding to if the user is a moderator or not respectively.
+
+    Args:
+        ctx (Interaction): This is passes so that we can get the id of the user, server id and the response property,
+        this is so that we can respond to a user if they don't have the required privilages
+
+    Returns:
+        Union[True, False]: This is so that we can use the function inside of an if-statement and the command can return prematurly.
+    """
     async with connect("data.db") as db:
         async with db.cursor() as cur:
-            await cur.execute("SELECT admin FROM users WHERE userId = ? and guildId = ?", (ctx.user.id, ctx.guild.id))  # type: ignore
+            await cur.execute("SELECT moderator FROM users WHERE userId = ? and guildId = ?", (ctx.user.id, ctx.guild.id))  # type: ignore
 
             if (await cur.fetchone())[0] in [True, 1]:  # type: ignore
                 await ctx.response.send_message(
                     embed=Embed(
-                        title=f"{ctx.command.name} requires admin",  # type: ignore
-                        description=f"{ctx.user.mention} you do not have admin permissions to use this command",
+                        title=f"{ctx.command.name} requires moderator",  # type: ignore
+                        description=f"{ctx.user.mention} you do not have moderator permissions to use this command",
                         color=16711680,
                     )
                 )
