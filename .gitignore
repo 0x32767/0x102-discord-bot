@@ -15,3 +15,4 @@ vars.ini
 *.sqlite
 *.sqlite3
 .env
+web

@@ -1,9 +1,0 @@
-import _builtins.py
-
-@def Null as ref((int) 0);
-
-interface @type String {
-	ToInt: () => Int :: _str_int;
-	Split: (phrase: Either[String, Char, Int]) -> List[String] :: _str_split;
-	Slice: (phrase: Either[String, Char, Int]) -> String :: _str_slice;
-}

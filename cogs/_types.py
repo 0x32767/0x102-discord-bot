@@ -1,8 +1,9 @@
 from typing import NewType, Union, LiteralString, Tuple, Literal, Any
-from enum import IntEnum, auto
+from enum import StrEnum, auto
+
 
 # shards are for features
-class _Shard(IntEnum):
+class _Shard(StrEnum):
     @staticmethod
     def _generate_next_value_(name: str, start: int, count: int, last_values: list[Any]) -> Any:
         """

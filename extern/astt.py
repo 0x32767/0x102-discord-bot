@@ -23,7 +23,7 @@ class DisLexer(Lexer):
         "CAR",
         "EXT",
     }
-    literals = {"=", ";", ",", "+", "-", "/", "*", "#"}
+    literals = {"=", ";", ",", "+", "-", "/", "*", "#", "$"}
 
     ignore = " \n\t"
 
@@ -49,6 +49,7 @@ class DisParser(Parser):
     precedence = (("left", "+", "-", "/", "*"),)
     tokens = DisLexer.tokens
     start = "lines"
+    debugfile = "out"
 
     # primitives
     @_("")
@@ -81,7 +82,7 @@ class DisParser(Parser):
         "NME '/' NME",
         "NME '*' NME",
     )
-    def prim(self, p): # return binop
+    def prim(self, p):  # return binop
         return p[1], p[0], p[2]
 
     @_("EXT STR LSB args RSB")
@@ -100,18 +101,49 @@ class DisParser(Parser):
         "NME ',' NME",
     )
     def args(self, p):
-        lst = ["rgs"]
-        lst += p[0]
-        lst += p[2]
+        lst = ["args"]
+
+        # first argument
+        if p[0][0] == "args":
+            b = list(p[0])
+            b.pop(0)
+            lst += b
+
+        else:
+            lst.append(p[0])
+
+        # second argument
+        if p[2][0] == "args":
+            b = list(p[2])
+            b.pop(0)
+            lst += b
+
+        else:
+            lst.append(p[2])
+
         return tuple(lst)
 
     @_("LET NME '=' prim", "LET NME '=' fncc")
     def var(self, p):
         return "var", p.NME, p[-1]
 
-    @_("'#' RCB NME LSB")
-    def dec(self, p):
-        return "dec", p.NME
+    @_(
+        "NME '$' '=' '+' NME",
+        "NME '$' '=' '-' NME",
+        "NME '$' '=' '/' NME",
+        "NME '$' '=' '*' NME",
+    )
+    def vari(self, p):
+        return "vari", p.NME0, p[3], p.NME1
+
+    @_(
+        "NME '$' '=' '+' prim",
+        "NME '$' '=' '-' prim",
+        "NME '$' '=' '/' prim",
+        "NME '$' '=' '*' prim",
+    )
+    def vari(self, p):
+        return "vari", p.NME, p[3], p.prim
 
     @_("NME LOB RCB", "NME LOB prim RCB", "NME LOB args RCB")
     def fncc(self, p):
@@ -126,6 +158,10 @@ class DisParser(Parser):
     @_("FOR LOB fncc RCB LSB lines RSB", "FOR LOB fncc RCB LSB line RSB")
     def forr(self, p):
         return "ifs", p.fncc, p[5]
+
+    @_("FNC NME LOB RCB LSB RSB")
+    def fncd(self, p):
+        return "fnc", [], p.NME, ()
 
     @_(
         "FNC NME LOB RCB LSB line RSB",
@@ -143,7 +179,7 @@ class DisParser(Parser):
     def importt(self, p):
         return "imp", p.STR
 
-    @_("var", "fncc", "ifs", "forr", "importt", "fncd", "extref", "dec", "vari")
+    @_("var", "fncc", "ifs", "forr", "importt", "fncd", "extref", "vari")
     def stmt(self, p):
         return p[0]
 

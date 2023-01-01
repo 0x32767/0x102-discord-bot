@@ -14,16 +14,16 @@ class TicketingModal(Modal, title="New Ticket"):
     async def on_submit(self: "TicketingModal", ctx: Interaction) -> None:
         async with connect("") as conn:
             async with conn.cursor() as curr:
-                await curr.execute("SELECT * FROM mod_channels WHERE guild_id = ?;", (ctx.guild.id,)) # type: ignore
+                await curr.execute("SELECT * FROM mod_channels WHERE guild_id = ?;", (ctx.guild.id,))  # type: ignore
                 mod_channels = await curr.fetchone()
-                channel = utils.get(ctx.guild.channels, id=mod_channels[0]) # type: ignore
+                channel = utils.get(ctx.guild.channels, id=mod_channels[0])  # type: ignore
 
             await conn.close()
 
-        await channel.send(embed=Embed(title=self.summery.value, description=self.description.value)) # type: ignore
+        await channel.send(embed=Embed(title=self.summery.value, description=self.description.value))  # type: ignore
 
 
 class TicketingModalView(View):
     def __init__(self: "TicketingModalView") -> None:
         super().__init__()
-        self.add_item(TicketingModal()) # type: ignore
+        self.add_item(TicketingModal())  # type: ignore
