@@ -26,7 +26,7 @@ from discord.ext import commands  # type: ignore
 from typing import Callable, Any
 
 
-recorded_commands: list[commands.Command] = []
+recorded_commands: list[dict[str, str | commands.Command]] = []
 
 
 def record(usage: str = "/") -> Callable[[Any], Any]:

@@ -1,4 +1,4 @@
-from cogs._types import user_id, status, error, success, invalid, snowflakes
+from cogs._types import user_id, status, error, success, invalid, snowflakes, shard, guild_id
 from typing import Tuple, Iterable, Coroutine, Awaitable, Optional
 from aiosqlite import connect, Connection, Cursor, Row
 from debug import Debugger
@@ -200,3 +200,25 @@ async def get_all_items(snowflakes: snowflakes) -> Iterable[Row]:
                 (",".forat(snowflakes),),
             )
             return await curr.fetchall()[0]
+
+
+async def setting_off(setting: shard, gid: guild_id) -> status:
+    conn: Connection
+    curr: Cursor
+
+    with connect("./settings.sqlite3") as conn:
+        with conn.cursor() as curr:
+            curr.execute("UPDATE settings SET ? = 0 WHERE gid = ?", (setting, gid))
+
+        conn.commit()
+
+
+async def setting_on(setting: shard, gid: guild_id) -> status:
+    conn: Connection
+    curr: Cursor
+
+    with connect("./settings.sqlite3") as conn:
+        with conn.cursor() as curr:
+            curr.execute("UPDATE settings SET ? = 1 WHERE gid = ?", (setting, gid))
+
+        conn.commit()

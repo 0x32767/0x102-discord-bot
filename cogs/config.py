@@ -1,10 +1,9 @@
 from discord import Interaction, app_commands, Object, Embed
-from cogs._autocomplete import configuration_autocomplete
-from aiosqlite import connect, Connection, Row
 from cogs._help_command_setup import record
-from typing import List, Dict, Union
-from json import load as load_json
+from db.api import setting_off, setting_on
 from discord.ext import commands  # type: ignore
+from cogs._types import Shard
+from typing import List
 
 
 async def setup(bot: commands.Bot) -> None:
@@ -14,41 +13,49 @@ async def setup(bot: commands.Bot) -> None:
 # turns features of the bot on and off
 class ConfigCog(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
-
-        self.conn: Connection = connect("...")
-        self.onn.row_factory = Row
-        # so that when we query a table we can treet the result as a python dict
-
         self.bot: commands.Bot = bot
 
     @record()
-    @app_commands.command(description="change the bot's configuration settings")
-    async def seeconfig(self, ctx: Interaction) -> None:
-        em: Embed = Embed(title=f"Configuration settings for `{ctx.guild.name}`")
-
-        async with self.conn.cursor() as curr:
-            curr.execute("SELECT * FROM config WHERE server_id = ?", (ctx.guild.id,))
-
-            name: str
-            value: str
-            # if we convert the input to a dict then we can get the name of the columns and the values in the following format
-            # {"server_id": 1234567890, "name": "bobby der baum", ...}
-            async for name, value in dict(await curr.fetchone()).keys():
-                em.add_field(name=name, value=value, inline=True)
-
-        await ctx.response.send_message(embed=em)
+    @app_commands.command(description="Togle a setting off")
+    @app_commands.describe(setting="The setting you want to turn off")
+    async def togleoff(self, ctx: Interaction, setting: str) -> None:
+        await setting_on(setting, ctx.guild_id)
+        await ctx.response.send_message(
+            embed=Embed(
+                title=f"{setting.capitalize()} has been turned off",
+                color=0xDE1818,
+            )
+        )
 
     @record()
-    @app_commands.command(description="toggle settings on and off")
-    @app_commands.describe(setting="What you want to inspect")
-    @app_commands.choices(setting=configuration_autocomplete)
-    async def info(self, ctx: Interaction, setting: app_commands.Choice[int]) -> None:
-        em: Embed = Embed(title=setting.value, description=f"Learning about the {setting.value}")
+    @app_commands.command(description="")
+    async def togleon(self, ctx: Interaction, setting: str) -> None:
+        await setting_off(setting, ctx.guild_id)
+        await ctx.response.send_message(
+            embed=Embed(
+                title=f"{setting.capitalize()} has been turned on",
+                color=0x3DD932,
+            )
+        )
 
-        with open(".//generics//settings.json", "r") as f:
-            settings: Dict[str, Dict[str, Union[str, int]]] = load_json(f)
+    @togleoff.autocomplete("setting")
+    async def _settings_autocomplete(ctx: Interaction, current: str) -> List[app_commands.Choice[str]]:
+        return [
+            app_commands.Choice(
+                name=i.lower(),
+                value=i.lower(),
+            )
+            for i in Shard
+            if current.lower() in i.lower()
+        ]
 
-        for k, v in settings[setting.value].items():
-            em.add_field(name=k, value=v, inline=True)
-
-        await ctx.response.send_message(embed=em)
+    @togleon.autocomplete("setting")
+    async def _settings_autocomplete(ctx: Interaction, current: str) -> List[app_commands.Choice[str]]:
+        return [
+            app_commands.Choice(
+                name=i.lower(),
+                value=i.lower(),
+            )
+            for i in Shard
+            if current.lower() in i.lower()
+        ]

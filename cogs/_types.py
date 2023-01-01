@@ -1,9 +1,9 @@
-from typing import NewType, Union, LiteralString, Tuple, Literal, Any
+from typing import NewType, Union, Tuple, Any
 from enum import StrEnum, auto
 
 
 # shards are for features
-class _Shard(StrEnum):
+class Shard(StrEnum):
     @staticmethod
     def _generate_next_value_(name: str, start: int, count: int, last_values: list[Any]) -> Any:
         """
@@ -11,7 +11,7 @@ class _Shard(StrEnum):
         """
         return name.lower()
 
-    ACHIVEMENTS = auto()
+    ACHIEVEMENTS = auto()
     EASTER_EGGS = auto()
     LEVELING = auto()
     ITEMS = auto()
@@ -20,10 +20,10 @@ class _Shard(StrEnum):
 shard = NewType(
     "shard",
     Union[
-        Literal("achivements"),
-        Literal("easter-eggs"),
-        Literal("leveling"),
-        Literal("items"),
+        Shard.ACHIEVEMENTS,
+        Shard.EASTER_EGGS,
+        Shard.LEVELING,
+        Shard.ITEMS,
     ],
 )
 
@@ -31,17 +31,34 @@ shards = NewType("shards", Tuple[shard])
 
 
 # snowflakes are for items
+
+
+class Snowflake(StrEnum):
+    @staticmethod
+    def _generate_next_value_(name: str, start: int, count: int, last_values: list[Any]) -> Any:
+        """
+        :name str
+        """
+        return name.lower()
+
+    RARITY = auto()
+    RANK = auto()
+    NAME = auto()
+    ID = auto()
+
+
 snowflake = NewType(
     "shard",
     Union[
-        LiteralString("achivements"),
-        LiteralString("easter-eggs"),
-        LiteralString("leveling"),
-        LiteralString("items"),
+        Snowflake.RARITY,
+        Snowflake.NAME,
+        Snowflake.RANK,
+        Snowflake.ID,
     ],
 )
 
 snowflakes = NewType("snowflakes", Tuple[snowflake])
+
 
 # general
 
@@ -51,15 +68,15 @@ user_id = NewType("user_id", int)
 # statuses
 
 # it worked well
-success = NewType("success", 0)
+success = 0
 
 # invalid input
-invalid = NewType("invalid", 1)
+invalid = 1
 
 # function error
-error = NewType("error", 2)
+error = 2
 
-# a http like status which is eather a success, invalid or error
+# a http like status which is either a success, invalid or error
 status = NewType("status", Union[success, invalid, error])
 
-result = NewType("result", Tuple[status, LiteralString])
+result = NewType("result", Tuple[status, str])

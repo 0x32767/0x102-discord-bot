@@ -29,7 +29,7 @@ from typing import Union
 
 
 # This will check if the command invoker has qualified permitions
-async def is_moderator(ctx: Interaction) -> Union[True, False]:
+async def is_moderator(ctx: Interaction) -> bool:
     """Creates a database connection and returns a boolean corisponding to if the user is a moderator or not respectively.
 
     Args:

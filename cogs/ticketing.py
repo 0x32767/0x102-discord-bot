@@ -29,7 +29,7 @@ from discord.ext import commands  # type: ignore
 
 
 async def setup(bot: commands.Bot) -> None:
-    await bot.add_cog(TicketingCoG(bot), guilds=[Object(id=938541999961833574)])
+    await bot.add_cog(TicketingCog(bot), guilds=[Object(id=938541999961833574)])
 
 
 class TicketingCog(commands.Cog):
