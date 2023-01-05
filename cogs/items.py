@@ -1,7 +1,7 @@
 from discord import Interaction, app_commands, Object, Embed, Member
 from db.api import give_item, give_item, get_item, get_all_items
-from db.snowflakes import ItemSnowflakes as flks
 from cogs._help_command_setup import record
+from cogs._types import Snowflake as flk
 from discord.ext import commands
 from random import uniform
 
@@ -25,7 +25,7 @@ class ItemsCog(commands.Cog):
             await ctx.response.send_message("you found ||NOTHING||")
 
         # The for-else syntax can be fround apon byt is usefull for my case
-        for item in await get_all_items((flks.ID, flks.RARITY, flks.NAME, flks.IMG)):
+        for item in await get_all_items((flk.ID, flk.RARITY, flk.NAME, flk.IMG)):
             if uniform(0, 1) > item[1]:
                 # means the item was chosen
                 await give_item(item[0])  # item[0] is the id
@@ -34,7 +34,7 @@ class ItemsCog(commands.Cog):
                         title=(
                             f"You found an {str(item[2]).capitalize()}"
                             if str(item[2]).lower()[0] in "aeiou"
-                            else "You found a {str(item[2]).capitalize()}"
+                            else f"You found a {str(item[2]).capitalize()}"
                         ),
                     )
                     .add_field(name="rarity", value=f"{item[1]} % chance from digging")

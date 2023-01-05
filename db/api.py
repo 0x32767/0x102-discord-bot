@@ -1,10 +1,10 @@
 from cogs._types import user_id, status, error, success, invalid, snowflakes, shard, guild_id
-from typing import Tuple, Iterable, Coroutine, Awaitable, Optional
+from typing import Tuple, Iterable, Optional
 from aiosqlite import connect, Connection, Cursor, Row
 from debug import Debugger
 
 
-async def get_coins(uid: user_id) -> Coroutine[user_id, Awaitable[status]]:
+async def get_coins(uid: user_id) -> status:
     with connect("./bank.sqlite3") as conn:
         with conn.cursor() as curr:
             await curr.execute(
@@ -14,9 +14,7 @@ async def get_coins(uid: user_id) -> Coroutine[user_id, Awaitable[status]]:
             return await curr.selectone()[0]
 
 
-async def transfer_to_account(
-    uid: user_id, amount: int, dbgr: Debugger
-) -> Coroutine[user_id, int, Debugger, Awaitable[status]]:
+async def transfer_to_account(uid: user_id, amount: int, dbgr: Debugger) -> status:
     # the success, true if the transaction was successfull, false otherwise
     try:
         conn: Connection
@@ -37,9 +35,7 @@ async def transfer_to_account(
     return (success, "")
 
 
-async def remove_from_account(
-    uid: user_id, amount: int, dbgr: Debugger
-) -> Coroutine[user_id, int, Debugger, Awaitable[status]]:
+async def remove_from_account(uid: user_id, amount: int, dbgr: Debugger) -> status:
     # the success, true if the transaction was successfull, false otherwise
     # we also want to take the bot as a param so that we can access the debugger
     try:
@@ -64,9 +60,7 @@ async def remove_from_account(
     return success, ""
 
 
-async def transfer_between_acccounts(
-    from_: user_id, to: user_id, amount: int
-) -> Coroutine[user_id, user_id, int, Awaitable[status]]:
+async def transfer_between_acccounts(from_: user_id, to: user_id, amount: int) -> status:
     # we only need one gid because users can only transfer coins in one guild (server)
     # and not between them
     if res1 := await remove_from_account(from_, amount)[0]:
@@ -80,9 +74,7 @@ async def transfer_between_acccounts(
         return res1
 
 
-async def give_item(
-    uid: user_id, iid: int, amount: Optional[int] = 1
-) -> Coroutine[user_id, int, Optional[int], Awaitable[status]]:
+async def give_item(uid: user_id, iid: int, amount: Optional[int] = 1) -> status:
     """
     The records are structured in a db efficiant way where every item has its own
     table with the records as the owner and amount.
@@ -121,9 +113,7 @@ async def give_item(
         await conn.commit()
 
 
-async def remove_item(
-    uid: user_id, iid: int, amount: Optional[int] = 1
-) -> Coroutine[user_id, int, Optional[int], Awaitable[status]]:
+async def remove_item(uid: user_id, iid: int, amount: Optional[int] = 1) -> status:
     """
     The records are structured in a db efficiant way where every item has its own
     table with the records as the owner and amount.
@@ -172,9 +162,7 @@ async def remove_item(
         await conn.commit()
 
 
-async def get_item(
-    snowflakes: snowflakes, iid: int, get_iid: Optional[bool] = False
-) -> Coroutine[snowflakes, int, Optional[bool], Awaitable[Tuple[status, Tuple[int | str]]]]:
+async def get_item(snowflakes: snowflakes, iid: int, get_iid: Optional[bool] = False) -> Tuple[status, Tuple[int | str]]:
     with connect("./items.sqlite3") as conn:
         with conn.cursor() as curr:
             if not get_iid:  # if we want to get some data with snowflakes

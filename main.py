@@ -3,7 +3,7 @@ from configparser import ConfigParser
 from discord.ext import commands  # type: ignore
 from httpx import AsyncClient
 from debug import Debugger
-from os import listdir
+from glob import glob
 import discord
 
 
@@ -22,34 +22,16 @@ setattr(bot, "console", Debugger())
 conf: ConfigParser = ConfigParser()
 conf.read("vars.ini")
 
-TEST_GUILD: discord.Object = discord.Object(id=938541999961833574)
-
 
 @bot.event
 async def on_ready():
-    cogs = listdir("./cogs")
+    for file in glob("cogs/[!_]*.py"):
+        await bot.load_extension(file[:-3].replace("\\", "."))
+    # await bot.load_extension("cogs.config")
 
-    idl_cogs: int = 1
+    await bot.tree.sync(guild=discord.Object(id=938541999961833574))
 
-    for idx, cog in enumerate(bot.console.progress(cogs, "[bald][bright_red]Loading cogs...[/bright_red][/bald]", len(cogs))):
-        if cog.endswith(".py") and not cog.startswith("_"):
-            try:
-                await bot.load_extension(f"cogs.{cog[:-3]}")
-                bot.console.print_cog_loaded(str(idx).zfill(3), cog)
-
-            except Exception as e:
-                bot.console.print_cog_load_error(cog, e)
-
-            finally:
-                idl_cogs += 1
-
-    bot.console.print(f"\nSuccessfully loaded [bald][dark_orange3][{len(cogs)}/{idl_cogs}][/dark_orange3][/bald] cogs")
-
-    bot.console.print(f"[green]Logged in as: [/green][bright_yellow][underline]{bot.user.name}[/underline][/bright_yellow]")
-
-    await bot.tree.sync(guild=TEST_GUILD)
-
-    await create_help_command()
+    # await create_help_command()
 
 
 async def create_help_command() -> None:

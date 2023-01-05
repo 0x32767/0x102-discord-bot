@@ -44,6 +44,7 @@ class Snowflake(StrEnum):
     RARITY = auto()
     RANK = auto()
     NAME = auto()
+    IMG = auto()
     ID = auto()
 
 

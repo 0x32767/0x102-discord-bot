@@ -30,11 +30,11 @@ from random import randint
 
 
 async def setup(bot: commands.Bot) -> None:
-    await bot.add_cog(DecryptCog(bot), guilds=[Object(id=938541999961833574)])
+    await bot.add_cog(EasterEggsCog(bot), guilds=[Object(id=938541999961833574)])
 
 
-class DecryptCog(commands.Cog):
-    def __init__(self: "DecryptCog", bot: commands.Bot) -> None:
+class EasterEggsCog(commands.Cog):
+    def __init__(self: "EasterEggsCog", bot: commands.Bot) -> None:
         self.bot: commands.Bot = bot
 
     @commands.Cog.listener()

@@ -1,0 +1,10 @@
+(('fnc',
+  [],
+  'main',
+  (('cal',
+    'print',
+    ('args',
+     ('str',
+      '"Hello '
+      'world"'))),)),
+ '')

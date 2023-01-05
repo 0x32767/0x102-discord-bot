@@ -2,7 +2,6 @@ from db.api import transfer_to_account, transfer_between_acccounts, remove_from_
 from discord import Interaction, app_commands, Object, Embed, Member
 from cogs._types import guild_id, user_id, result
 from cogs._help_command_setup import record
-from cogs._checks import is_admin
 from discord.ext import commands
 from random import randint
 

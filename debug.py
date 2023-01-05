@@ -48,7 +48,7 @@ class DebuggerMeta(type):
                 # we replace the argX with a value that was passed into the function
                 st = st.replace(f"{{arg{idx}}}", str(v))
 
-            console.print(self, st)
+            console.print(st)
 
         return inner
 

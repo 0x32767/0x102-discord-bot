@@ -1,5 +1,7 @@
-from nodes import Str
 from sly import Lexer, Parser
+from pprint import pprint
+
+_ = None
 
 
 class DisLexer(Lexer):
@@ -49,12 +51,12 @@ class DisParser(Parser):
     precedence = (("left", "+", "-", "/", "*"),)
     tokens = DisLexer.tokens
     start = "lines"
-    debugfile = "out"
+    #    debugfile = "out"
 
     # primitives
     @_("")
     def stmt(self, p):
-        return p
+        return ""
 
     @_("STR")
     def prim(self, p):
@@ -148,7 +150,14 @@ class DisParser(Parser):
     @_("NME LOB RCB", "NME LOB prim RCB", "NME LOB args RCB")
     def fncc(self, p):
         if hasattr(p, "EXT"):
-            return "calx", p.NME, p[3]
+            if p[2][0] != "args":
+                return "calx", p.NME, p[3]
+
+            return "calx", p.NME, ("args", p[3])
+
+        if p[2][0] != "args":  # if there was only one argument to a function then we still want to wrap it in an args tuple
+            return "cal", p.NME, ("args", p[2])
+
         return "cal", p.NME, p[2]
 
     @_("IF LOB NME RCB LSB lines RSB", "IF LOB NME RCB LSB line RSB")
@@ -199,3 +208,18 @@ def mk_ast(code: str) -> tuple:
     par = DisParser()
     lex = DisLexer()
     return par.parse(lex.tokenize(code))
+
+
+if __name__ == "__main__":
+    with open("test.jbc", "w") as f:
+        pprint(
+            mk_ast(
+                """fnc main() [
+            print("Hello world");
+        ];;"""
+            ),
+            stream=f,
+            sort_dicts=False,
+            indent=1,
+            width=1,
+        )

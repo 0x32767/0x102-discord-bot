@@ -27,19 +27,8 @@ class ConfigCog(commands.Cog):
             )
         )
 
-    @record()
-    @app_commands.command(description="")
-    async def togleon(self, ctx: Interaction, setting: str) -> None:
-        await setting_off(setting, ctx.guild_id)
-        await ctx.response.send_message(
-            embed=Embed(
-                title=f"{setting.capitalize()} has been turned on",
-                color=0x3DD932,
-            )
-        )
-
     @togleoff.autocomplete("setting")
-    async def _settings_autocomplete(ctx: Interaction, current: str) -> List[app_commands.Choice[str]]:
+    async def _settings_autocomplete(self, ctx: Interaction, current: str) -> List[app_commands.Choice[str]]:
         return [
             app_commands.Choice(
                 name=i.lower(),
@@ -49,8 +38,20 @@ class ConfigCog(commands.Cog):
             if current.lower() in i.lower()
         ]
 
+    @record()
+    @app_commands.command(description="Togle a setting off")
+    @app_commands.describe(setting="The setting you want to turn off")
+    async def togleon(self, ctx: Interaction, setting: str) -> None:
+        await setting_on(setting, ctx.guild_id)
+        await ctx.response.send_message(
+            embed=Embed(
+                title=f"{setting.capitalize()} has been turned off",
+                color=0xDE1818,
+            )
+        )
+
     @togleon.autocomplete("setting")
-    async def _settings_autocomplete(ctx: Interaction, current: str) -> List[app_commands.Choice[str]]:
+    async def _settings_autocomplete(self, ctx: Interaction, current: str) -> List[app_commands.Choice[str]]:
         return [
             app_commands.Choice(
                 name=i.lower(),
