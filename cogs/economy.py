@@ -1,6 +1,6 @@
 from db.api import transfer_to_account, transfer_between_acccounts, remove_from_account
 from discord import Interaction, app_commands, Object, Embed, Member
-from cogs._types import guild_id, user_id, result
+from cogs._types import guild_id, user_id, t_result
 from cogs._help_command_setup import record
 from discord.ext import commands
 from random import randint
@@ -30,7 +30,7 @@ class EconomyCog(commands.Cog):
             )
             return
 
-        res: result = transfer_to_account(ctx.user.id, amount, self.bot.console)
+        res: t_result = transfer_to_account(ctx.user.id, amount, self.bot.console)
 
         if res[0] > 0:  # if it was a fail
             await ctx.response.send_message(
@@ -56,7 +56,7 @@ class EconomyCog(commands.Cog):
             await ctx.response.send_message("The input needs to be a number (can't have decimals in it)")
             return
 
-        res: result = transfer_between_acccounts(ctx.user.id, who.id, amount)
+        res: t_result = transfer_between_acccounts(ctx.user.id, who.id, amount)
 
         if res[0] == 0:
             await ctx.response.send_message(

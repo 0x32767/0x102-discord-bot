@@ -23,9 +23,10 @@ There are several things that hold the bot back from being released, they mainly
 ### payed or free
 
 I want 0x102 to be a free disocord bot, however with many hosts dropping their free teer, including:
+
 - Mongo DB
 - Heroku
-For those reasons the bot will require payment for more resource intensive features. (The following sentences are elaboration) Most services price their clients by how much hardwear is required to run the code or something similar. Because the bot is programed with this in min the bot is created to be as resource efficiant and fast as possible. This makes the bot cheep to keep online and fast. This means that as the bot gains popularity, the money created by the bot will go into renting better heardwear. If there is still large profit I will look at making some features of the bot free or cheeper.
+  For those reasons the bot will require payment for more resource intensive features. (The following sentences are elaboration) Most services price their clients by how much hardwear is required to run the code or something similar. Because the bot is programed with this in min the bot is created to be as resource efficiant and fast as possible. This makes the bot cheep to keep online and fast. This means that as the bot gains popularity, the money created by the bot will go into renting better heardwear. If there is still large profit I will look at making some features of the bot free or cheeper.
 
 ### Hopes of the future
 
@@ -33,20 +34,4 @@ As the project becomes more popular I want to see if I can ccolaborate with othe
 
 ## features
 
-All of these features are implemented with slash commands.
-
-- API interaction
-- Fun message encryption
-- Help command
-- leveling (deprecated for now)
-- moderation
-- whitelisting
-- trivia questions
-- Wikipedia integration
-- utils
-- general fun
-- Memes
-- ticketing
-- economy
-- achivements
-- items
+Due to limitations created by the discord api the maximum number of slash commands is 200 commands which may seem like a lot but due to how many commands the bot had I needed to strip most of the cogs away. Therefor the status of this bot has been moved from general purpose to economy.

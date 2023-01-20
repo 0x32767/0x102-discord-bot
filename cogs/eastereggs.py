@@ -22,11 +22,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
-from aiosqlite import connect as sql_conn
-from discord import Object, Message, User
+from discord import Object, Message, User, Member
 from asyncio import sleep as async_sleep
 from discord.ext import commands  # type: ignore
 from random import randint
+from db.api import get_dat
+from typing import Union
 
 
 async def setup(bot: commands.Bot) -> None:
@@ -39,21 +40,15 @@ class EasterEggsCog(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message: Message) -> None:
-        # a 1 in 10,000 change
-        if not randint(0, 10_000):
-            message.add_reaction("")
-            async_sleep(0.5)
-            user = message.reactions[0].users[0]  # the first person to react
+        if randint(0, await get_dat()):
+            return
 
-            await message.channel.send(f"{user.mention} has found the easter egg")
-            await self.reward_easter_egg(message.guild.id, user)
+        message.add_reaction("")
+        async_sleep(0.5)
+        user: Union[Member, User] = message.reactions[0].users[0]  # the first person to react
 
-    async def reward_easter_egg(self, guild_id: int, user: User) -> None:
-        async with sql_conn("") as conn:
-            async with conn.currsor() as curr:
-                await curr.execute("SELECT mod_channel FROM mod_channels WHERE guild_id = ?;", (guild_id,))
+        await message.channel.send(f"{user.mention} has found an easter egg")
+        await self.reward_easter_egg(message.guild.id, user)
 
-                # will get the mod channel and send the data on line 58
-                await self.bot.get_channel(id=await curr.fetchone()[0]).send(
-                    f"{user.display_name} has got the easter egg thing"
-                )
+    async def reward_easter_egg(self, user: User) -> None:
+        ...

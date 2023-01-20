@@ -22,10 +22,14 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
 
+from cogs.ui._choseReward import ChoseReward
 from random import shuffle as shuffle_list
 from discord import SelectOption, Embed
 from discord.ui import View, Select
 from discord import Interaction
+from typing import TypeVar
+
+T = TypeVar("T")
 
 
 class TriviaQuestionDropdown(Select):
@@ -43,7 +47,7 @@ class TriviaQuestionDropdown(Select):
             placeholder=question,
         )
 
-    def shuffle(self: "TriviaQuestionDropdown", arr: list[str]) -> list[str]:
+    def shuffle(self: "TriviaQuestionDropdown", arr: list[T]) -> list[T]:
         shuffle_list(arr)
         return arr
 
@@ -54,7 +58,11 @@ class TriviaQuestionDropdown(Select):
                     title="Correct!",
                     description=f"{self.correct} is correct!",
                     color=0x00FF00,  # Hex code for green
-                )
+                ).add_field(
+                    name="Chose what you want",
+                    value="Chose betweene a random item or some coins",
+                ),
+                view=ChoseReward(choices=["random_coins"]),
             )
         else:
             await ctx.response.send_message(
