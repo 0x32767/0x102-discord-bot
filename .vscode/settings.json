@@ -1,7 +1,16 @@
 {
     "files.associations": {
         "*.ejs": "html",
-        "string_view": "cpp"
+        "string_view": "cpp",
+        "iostream": "cpp",
+        "istream": "cpp",
+        "ostream": "cpp",
+        "ios": "cpp",
+        "xlocnum": "cpp",
+        "cmath": "cpp",
+        "cstdio": "cpp",
+        "cstdlib": "cpp",
+        "iosfwd": "cpp"
     },
     "files.exclude": {
         "**/.git": true,
